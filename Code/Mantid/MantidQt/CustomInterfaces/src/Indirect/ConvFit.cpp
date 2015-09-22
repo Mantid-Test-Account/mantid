@@ -1596,6 +1596,13 @@ void ConvFit::updatePlotOptions() {
 }
 
 /**
+ * Constructs the basename for ConvFit
+ * @param
+ * @return The baseName of ConvFitWorkspaces
+ */
+
+
+/**
  * Converts the user input for function into short hand for use in the workspace
  * naming
  * @param original - The original user input to the function
