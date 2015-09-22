@@ -588,5 +588,20 @@ void ConvolutionFitSequential::calculateEISF(
   }
 }
 
+/**
+ * Converts the user input for background into short hand for use in the
+ * workspace naming
+ * @param original - The original user input to the function
+ * @return The short hand of the users input
+ */
+std::string ConvolutionFitSequential::convertBackToShort(const std::string &original) {
+  std::string result = original.substr(0, 3);
+  auto pos = original.find(" ");
+  if (pos != std::string::npos) {
+    result += original.at(pos + 1);
+  }
+  return result;
+}
+
 } // namespace Algorithms
 } // namespace Mantid

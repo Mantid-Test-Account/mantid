@@ -264,9 +264,9 @@ void ConvFit::run() {
   cfs->setProperty("Minimizer",
                    minimizerString("$outputname_$wsindex").toStdString());
   cfs->setProperty("MaxIterations", maxIterations);
-  cfs->setProperty("OutputWorkspace", m_resultName);
-  cfs->setProperty("TableOutputWorkspace", m_tableName);
-  cfs->setProperty("GroupOutputWorkspace", m_groupName);
+  cfs->setProperty("OutputWorkspace", m_resultName.toStdString());
+  cfs->setProperty("TableOutputWorkspace", m_tableName.toStdString());
+  cfs->setProperty("GroupOutputWorkspace", m_groupName.toStdString());
 
   // Add to batch algorithm runner
   m_batchAlgoRunner->addAlgorithm(cfs);
@@ -299,9 +299,10 @@ void ConvFit::algorithmComplete(bool error) {
         Mantid::Kernel::ConfigService::Instance().getString(
             "defaultsave.directory"));
     // Check validity of save path
-    QString QresultWsName = QString::fromStdString(resultWs->getName());
-    QString fullPath = saveDir.append(QresultWsName).append(".nxs");
-    addSaveWorkspaceToQueue(QresultWsName, fullPath);
+    QString fullPath = saveDir.append(m_resultName).append(".nxs");
+	std::string testPath = fullPath.toStdString();
+    addSaveWorkspaceToQueue(m_resultName, fullPath);
+	m_batchAlgoRunner->executeBatchAsync();
   }
 
   std::string plot = m_uiForm.cbPlotType->currentText().toStdString();
@@ -1648,7 +1649,7 @@ QString ConvFit::convertFuncToShort(const QString &original) {
 QString ConvFit::convertBackToShort(const std::string &original) {
   QString result = QString::fromStdString(original.substr(0, 3));
   auto pos = original.find(" ");
-  if (pos != std::string::npos) {
+  if (pos != -1) {
     result += original.at(pos + 1);
   }
   return result;
