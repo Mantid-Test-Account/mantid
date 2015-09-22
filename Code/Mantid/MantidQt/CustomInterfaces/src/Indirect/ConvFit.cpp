@@ -245,11 +245,10 @@ void ConvFit::run() {
   // Get BaseName
   QString baseName = constructBaseName(specMin, specMax);
 
-  // Run ConvolutionFitSequential Algorithm
+  // Set up ConvolutionFitSequential Algorithm
   IAlgorithm_sptr cfs =
       AlgorithmManager::Instance().create("ConvolutionFitSequential");
   cfs->initialize();
-
   cfs->setProperty("InputWorkspace", m_cfInputWS->getName());
   cfs->setProperty("Function", function);
   cfs->setProperty("BackgroundType",
@@ -262,6 +261,11 @@ void ConvFit::run() {
   cfs->setProperty("Minimizer",
                    minimizerString("$outputname_$wsindex").toStdString());
   cfs->setProperty("MaxIterations", maxIterations);
+  cfs->setProperty("OutputWorkspace", (baseName.append("_Result")));
+  cfs->setProperty("TableOutputWorkspace", (baseName.append("_Parameters")));
+  cfs->setProperty("GroupOutputWorkspace", (baseName.append("_Workspaces")));
+
+  // Add to batch algorithm runner
   m_batchAlgoRunner->addAlgorithm(cfs);
   connect(m_batchAlgoRunner, SIGNAL(batchComplete(bool)), this,
           SLOT(algorithmComplete(bool)));
