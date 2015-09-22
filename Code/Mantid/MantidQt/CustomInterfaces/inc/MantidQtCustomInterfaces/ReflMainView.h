@@ -7,6 +7,10 @@
 #include "MantidQtCustomInterfaces/QReflTableModel.h"
 #include "MantidQtMantidWidgets/HintStrategy.h"
 
+#include <map>
+#include <set>
+#include <string>
+
 namespace MantidQt
 {
   namespace CustomInterfaces
@@ -15,7 +19,7 @@ namespace MantidQt
 
     ReflMainView is the base view class for the Reflectometry Interface. It contains no QT specific functionality as that should be handled by a subclass.
 
-    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory & NScD Oak Ridge National Laboratory
+    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory, NScD Oak Ridge National Laboratory & European Spallation Source
 
     This file is part of Mantid.
 
@@ -54,9 +58,15 @@ namespace MantidQt
       virtual void giveUserCritical(std::string prompt, std::string title) = 0;
       virtual void showAlgorithmDialog(const std::string& algorithm) = 0;
 
+      //Plotting
+      virtual void plotWorkspaces(const std::set<std::string>& workspaces) = 0;
+
       //Set the status of the progress bar
       virtual void setProgressRange(int min, int max) = 0;
       virtual void setProgress(int progress) = 0;
+
+      //Get status of the checkbox which dictates whether an ipython notebook is produced
+      virtual bool getEnableNotebook() = 0;
 
       //Settor methods
       virtual void setSelection(const std::set<int>& rows) = 0;

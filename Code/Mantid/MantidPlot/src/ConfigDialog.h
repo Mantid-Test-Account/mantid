@@ -32,6 +32,7 @@ Description          : Preferences dialog
 #include <QDialog>
 #include <QCheckBox>
 #include <map>
+#include "MantidQtAPI/MdSettings.h"
 
 class QLineEdit;
 class QGroupBox;
@@ -155,6 +156,13 @@ private:
   void populateProgramTree();
   void updateProgramTree();
 
+  // MD Plotting
+  void initMdPlottingPage();
+  void initMdPlottingGeneralTab();
+  void initMdPlottingVsiTab();
+  void updateMdPlottingSettings();
+  void setupMdPlottingConnections();
+
   QTreeWidgetItem* createCheckedTreeItem(QString name,bool checkBoxState);
   QStringList buildHiddenCategoryString(QTreeWidgetItem *parent = 0);
 
@@ -204,10 +212,19 @@ private:
   QTreeWidget *treeCategories;
   QTreeWidget *treePrograms;
 
+  //MDPlotting
+  QTabWidget* mdPlottingTabWidget;
+  QWidget *vsiPage, *mdPlottingGeneralPage;
+  QComboBox *vsiDefaultColorMap, *vsiInitialView, *mdPlottingGeneralColorMap;
+  QLabel *lblVsiDefaultColorMap, *lblVsiDefaultBackground, *lblGeneralDefaultColorMap, *lblBoxGeneralDefaultColorMap, *lblVsiLastSession, *lblVsiInitialView;
+  ColorButton *vsiDefaultBackground;
+  QGroupBox* mdPlottingGeneralFrame, *mdPlottingVsiFrameBottom;
+  QCheckBox* vsiLastSession;
+  MantidQt::API::MdSettings m_mdSettings;
 
   QPushButton* buttonAxesFont, *buttonNumbersFont, *buttonLegendFont, *buttonTitleFont, *fontsBtn;
   QCheckBox *boxSearchUpdates, *boxOrthogonal, *logBox, *plotLabelBox, *scaleErrorsBox;
-  QCheckBox *boxTitle, *boxFrame, *boxPlots3D, *boxPlots2D, *boxTables, *boxNotes, *boxFolders,*boxInstrWindow;
+  QCheckBox *boxTitle, *boxFrame, *boxDistribution, *boxPlots3D, *boxPlots2D, *boxTables, *boxNotes, *boxFolders,*boxInstrWindow;
   QCheckBox *boxSave, *boxBackbones, *boxShowLegend, *boxSmoothMesh;
   QCheckBox *boxAutoscaling, *boxShowProjection, *boxMatrices, *boxScaleFonts, *boxResize, *boxAspectRatio;
   QComboBox *boxMajTicks, *boxMinTicks, *boxStyle, *boxCurveStyle, *boxSeparator, *boxLanguage, *boxDecimalSeparator;
@@ -257,6 +274,10 @@ private:
   QLineEdit *pythonConfigDirLine;
 #endif
   QCheckBox *boxUpdateTableValues;
+
+  public slots:
+    void changeUsageGeneralMdColorMap();
+    void changeUsageLastSession();
 };
 
 #endif // CONFIGDIALOG_H

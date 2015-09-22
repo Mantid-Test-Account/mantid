@@ -9,8 +9,9 @@
 Description
 -----------
 
-Symmetrise takes an asymmetric :math:`S(Q,w)` - i.e. one in which the
-moduli of xmin & xmax are different. Typically xmax is > mod(xmin).
+Symmetrise takes a matrix workspace containing asymmetric data and makes
+it symmetrical around x=0 by reflecting a given section of the right hand
+side (positive) on the left hand side (negative).
 
 Two values, XMin and XMax, are chosen to specify the section of the positive
 side of the curve to be reflected onto the negative side, the sample curve
@@ -37,6 +38,8 @@ Usage
     sample_ws = CreateWorkspace(data_x, data_y)
     sample_ws = ScaleX(sample_ws, -1, "Add")  # centre the peak over 0
 
-    symm_ws = Symmetrise(Sample=sample_ws, XMin=0.05, XMax=8.0)
+    symm_ws = Symmetrise(InputWorkspace=sample_ws, XMin=0.05, XMax=8.0)
 
 .. categories::
+
+.. sourcelink::

@@ -2,8 +2,7 @@
 #define MANTID_CUSTOMINTERFACES_REFLMAINVIEWPRESENTER_H
 
 #include "MantidAPI/AnalysisDataService.h"
-#include "MantidAPI/ITableWorkspace.h"
-#include "MantidAPI/MatrixWorkspace.h"
+#include "MantidAPI/ITableWorkspace_fwd.h"
 #include "MantidKernel/System.h"
 #include "MantidQtCustomInterfaces/IReflPresenter.h"
 #include "MantidQtCustomInterfaces/IReflSearcher.h"
@@ -22,7 +21,7 @@ namespace MantidQt
 
     ReflMainViewPresenter is a presenter class for teh Reflectometry Interface. It handles any interface functionality and model manipulation.
 
-    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory & NScD Oak Ridge National Laboratory
+    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory, NScD Oak Ridge National Laboratory & European Spallation Source
 
     This file is part of Mantid.
 
@@ -50,8 +49,6 @@ namespace MantidQt
       virtual void notify(IReflPresenter::Flag flag);
       virtual const std::map<std::string,QVariant>& options() const;
       virtual void setOptions(const std::map<std::string,QVariant>& options);
-      //Public for the purposes of unit testing
-      static std::map<std::string,std::string> parseKeyValueString(const std::string& str);
     protected:
       //the workspace the model is currently representing
       Mantid::API::ITableWorkspace_sptr m_ws;
@@ -71,9 +68,13 @@ namespace MantidQt
       boost::shared_ptr<ReflTransferStrategy> m_transferStrategy;
 
       //process selected rows
-      virtual void process();
+      void process();
+      //process groups of rows
+      bool processGroups(std::map<int,std::set<int>> groups, std::set<int> rows);
       //Reduce a row
       void reduceRow(int rowNo);
+      //prepare a run or list of runs for processing
+      Mantid::API::Workspace_sptr prepareRunWorkspace(const std::string& run);
       //load a run into the ADS, or re-use one in the ADS if possible
       Mantid::API::Workspace_sptr loadRun(const std::string& run, const std::string& instrument);
       //get the run number of a TOF workspace
@@ -81,46 +82,53 @@ namespace MantidQt
       //get an unused group id
       int getUnusedGroup(std::set<int> ignoredRows = std::set<int>()) const;
       //make a transmission workspace
-      Mantid::API::MatrixWorkspace_sptr makeTransWS(const std::string& transString);
+      Mantid::API::Workspace_sptr makeTransWS(const std::string& transString);
+      //Validate rows
+      bool rowsValid(std::set<int> rows);
       //Validate a row
       void validateRow(int rowNo) const;
       //Autofill a row with sensible values
       void autofillRow(int rowNo);
       //calculates qmin and qmax
-      std::vector<double> calcQRange(Mantid::API::MatrixWorkspace_sptr ws, double theta);
+      std::vector<double> calcQRange(Mantid::API::Workspace_sptr ws, double theta);
       //get the number of rows in a group
       size_t numRowsInGroup(int groupId) const;
       //Stitch some rows
       void stitchRows(std::set<int> rows);
       //insert a row in the model before the given index
-      virtual void insertRow(int index);
+      void insertRow(int index);
       //add row(s) to the model
-      virtual void appendRow();
-      virtual void prependRow();
+      void appendRow();
+      void prependRow();
       //delete row(s) from the model
-      virtual void deleteRow();
+      void deleteRow();
+      //find a blank row
+      int getBlankRow();
       //clear selected row(s) in the model
-      virtual void clearSelected();
+      void clearSelected();
       //copy selected rows to clipboard
-      virtual void copySelected();
+      void copySelected();
       //copy selected rows to clipboard and then delete them
-      virtual void cutSelected();
+      void cutSelected();
       //paste clipboard into selected rows
-      virtual void pasteSelected();
+      void pasteSelected();
       //group selected rows together
-      virtual void groupRows();
+      void groupRows();
       //expand selection to group
-      virtual void expandSelection();
+      void expandSelection();
       //table io methods
-      virtual void newTable();
-      virtual void openTable();
-      virtual void saveTable();
-      virtual void saveTableAs();
-      virtual void importTable();
-      virtual void exportTable();
+      void newTable();
+      void openTable();
+      void saveTable();
+      void saveTableAs();
+      void importTable();
+      void exportTable();
       //searching
-      virtual void search();
-      virtual void transfer();
+      void search();
+      void transfer();
+      //plotting
+      void plotRow();
+      void plotGroup();
       //options
       void showOptionsDialog();
       void initOptions();
@@ -140,6 +148,8 @@ namespace MantidQt
       void handleClearEvent(Mantid::API::ClearADSNotification_ptr pNf);
       void handleRenameEvent(Mantid::API::WorkspaceRenameNotification_ptr pNf);
       void handleReplaceEvent(Mantid::API::WorkspaceAfterReplaceNotification_ptr pNf);
+
+      void saveNotebook(std::map<int,std::set<int>> groups, std::set<int> rows);
 
     public:
       static const int COL_RUNS         = 0;

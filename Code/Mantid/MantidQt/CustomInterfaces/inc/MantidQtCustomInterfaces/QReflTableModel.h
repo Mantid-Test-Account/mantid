@@ -1,7 +1,8 @@
 #ifndef MANTID_CUSTOMINTERFACES_QREFLTABLEMODEL_H_
 #define MANTID_CUSTOMINTERFACES_QREFLTABLEMODEL_H_
 
-#include "MantidAPI/ITableWorkspace.h"
+#include "MantidAPI/ITableWorkspace_fwd.h"
+#include "MantidQtCustomInterfaces/DllConfig.h"
 #include <QAbstractTableModel>
 #include <boost/shared_ptr.hpp>
 #include <map>
@@ -15,7 +16,7 @@ namespace MantidQt
 
     /** QReflTableModel : Provides a QAbstractTableModel for a Mantid ITableWorkspace.
 
-    Copyright &copy; 2014 ISIS Rutherford Appleton Laboratory & NScD Oak Ridge National Laboratory
+    Copyright &copy; 2014 ISIS Rutherford Appleton Laboratory, NScD Oak Ridge National Laboratory & European Spallation Source
 
     This file is part of Mantid.
 
@@ -35,7 +36,7 @@ namespace MantidQt
     File change history is stored at: <https://github.com/mantidproject/mantid>
     Code Documentation is available at: <http://doxygen.mantidproject.org>
     */
-    class QReflTableModel : public QAbstractTableModel
+    class MANTIDQT_CUSTOMINTERFACES_DLL QReflTableModel : public QAbstractTableModel
     {
       Q_OBJECT
     public:

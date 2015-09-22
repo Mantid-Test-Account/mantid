@@ -35,6 +35,7 @@ public:
   MOCK_METHOD2(giveUserWarning, void(std::string, std::string));
 
   MOCK_METHOD1(showAlgorithmDialog, void(const std::string&));
+  MOCK_METHOD1(plotWorkspaces, void(const std::set<std::string>&));
 
   //IO
   MOCK_CONST_METHOD0(getWorkspaceToOpen, std::string());
@@ -52,6 +53,7 @@ public:
   virtual void setOptionsHintStrategy(MantidQt::MantidWidgets::HintStrategy*) {};
   virtual void setProgressRange(int,int) {};
   virtual void setProgress(int) {};
+  virtual bool getEnableNotebook() {return false;};
   virtual void setTableList(const std::set<std::string>&) {};
   virtual void setInstrumentList(const std::vector<std::string>&, const std::string&) {};
   virtual std::string getProcessInstrument() const {return "FAKE";}

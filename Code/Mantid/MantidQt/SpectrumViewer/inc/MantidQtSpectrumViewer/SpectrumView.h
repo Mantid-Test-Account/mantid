@@ -5,7 +5,7 @@
 #include <QMdiSubWindow>
 #include <QtGui>
 
-#include "MantidAPI/MatrixWorkspace.h"
+#include "MantidAPI/MatrixWorkspace_fwd.h"
 #include "MantidQtAPI/WorkspaceObserver.h"
 #include "MantidQtSpectrumViewer/GraphDisplay.h"
 #include "MantidQtSpectrumViewer/SpectrumDataSource.h"
@@ -74,7 +74,6 @@ public:
 
 protected slots:
   void closeWindow();
-  void updateWorkspace();
 
 protected:
   virtual void resizeEvent(QResizeEvent * event);

@@ -1,3 +1,4 @@
+#pylint: disable=invalid-name
 from PyQt4 import QtGui, uic, QtCore
 import reduction_gui.widgets.util as util
 import math
@@ -117,8 +118,13 @@ class SANSInstrumentWidget(BaseWidget):
         # Q range
         self._summary.n_q_bins_edit.setText("100")
         self._summary.n_sub_pix_edit.setText("1")
+        self.connect(self._summary.log_binning_radio, QtCore.SIGNAL("clicked(bool)"), self._summary.align_check.setEnabled)
 
         self._summary.scale_edit.setText("1")
+
+        self._summary.n_wedges_edit.setText("2")
+        self._summary.wedge_angle_edit.setText("30")
+        self._summary.wedge_offset_edit.setText("0")
 
         self._summary.instr_name_label.hide()
         self._dark_clicked(self._summary.dark_current_check.isChecked())
@@ -145,7 +151,7 @@ class SANSInstrumentWidget(BaseWidget):
             self._summary.mask_side_none_radio.hide()
             self._summary.mask_side_front_radio.hide()
             self._summary.mask_side_back_radio.hide()
-            
+
         if not self._in_mantidplot:
             self._summary.dark_plot_button.hide()
             self._summary.scale_data_plot_button.hide()
@@ -341,6 +347,13 @@ class SANSInstrumentWidget(BaseWidget):
         self._summary.n_q_bins_edit.setText(str(state.n_q_bins))
         self._summary.n_sub_pix_edit.setText(str(state.n_sub_pix))
         self._summary.log_binning_radio.setChecked(state.log_binning)
+        self._summary.align_check.setEnabled(state.log_binning)
+        self._summary.align_check.setChecked(state.align_log_with_decades)
+        self._summary.error_weighting_check.setChecked(state.error_weighting)
+
+        self._summary.n_wedges_edit.setText(str(state.n_wedges))
+        self._summary.wedge_angle_edit.setText(str(state.wedge_angle))
+        self._summary.wedge_offset_edit.setText(str(state.wedge_offset))
 
         # Mask
         self._summary.mask_edit.setText(str(state.mask_file))
@@ -348,7 +361,7 @@ class SANSInstrumentWidget(BaseWidget):
         self._mask_checked(state.use_mask_file)
         self._masked_detectors = state.detector_ids
         self.mask_reload = True
-        
+
         if state.masked_side == 'Front':
             self._summary.mask_side_front_radio.setChecked(True)
         elif state.masked_side == 'Back':
@@ -414,6 +427,12 @@ class SANSInstrumentWidget(BaseWidget):
         m.n_q_bins = util._check_and_get_int_line_edit(self._summary.n_q_bins_edit)
         m.n_sub_pix = util._check_and_get_int_line_edit(self._summary.n_sub_pix_edit)
         m.log_binning = self._summary.log_binning_radio.isChecked()
+        m.align_log_with_decades = self._summary.align_check.isChecked()
+        m.error_weighting = self._summary.error_weighting_check.isChecked()
+
+        m.n_wedges = util._check_and_get_int_line_edit(self._summary.n_wedges_edit)
+        m.wedge_angle = util._check_and_get_float_line_edit(self._summary.wedge_angle_edit)
+        m.wedge_offset = util._check_and_get_float_line_edit(self._summary.wedge_offset_edit)
 
         # Detector side masking
         if self._summary.mask_side_front_radio.isChecked():
@@ -422,7 +441,7 @@ class SANSInstrumentWidget(BaseWidget):
             m.masked_side = 'Back'
         else:
             m.masked_side = None
-            
+
         # Mask detector IDs
         m.use_mask_file = self._summary.mask_check.isChecked()
         m.mask_file = unicode(self._summary.mask_edit.text())

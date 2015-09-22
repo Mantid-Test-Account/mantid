@@ -1,7 +1,10 @@
 #include "MantidQtCustomInterfaces/ReflMainViewPresenter.h"
 #include "MantidAPI/AlgorithmManager.h"
+#include "MantidAPI/CatalogManager.h"
 #include "MantidAPI/ITableWorkspace.h"
+#include "MantidAPI/MatrixWorkspace.h"
 #include "MantidAPI/TableRow.h"
+#include "MantidAPI/NotebookWriter.h"
 #include "MantidGeometry/Instrument/ParameterMap.h"
 #include "MantidKernel/Strings.h"
 #include "MantidKernel/TimeSeriesProperty.h"
@@ -12,17 +15,24 @@
 #include "MantidQtCustomInterfaces/ReflSearchModel.h"
 #include "MantidQtCustomInterfaces/QReflTableModel.h"
 #include "MantidQtCustomInterfaces/QtReflOptionsDialog.h"
+#include "MantidQtCustomInterfaces/ReflGenerateNotebook.h"
 #include "MantidQtMantidWidgets/AlgorithmHintStrategy.h"
+#include "MantidQtCustomInterfaces/ParseKeyValueString.h"
 
 #include <boost/regex.hpp>
 #include <boost/tokenizer.hpp>
+#include <fstream>
+#include <sstream>
 
 #include <QSettings>
+#include <QFileDialog>
+
 
 using namespace Mantid::API;
 using namespace Mantid::Geometry;
 using namespace Mantid::Kernel;
 using namespace MantidQt::MantidWidgets;
+
 
 namespace
 {
@@ -127,6 +137,7 @@ namespace MantidQt
       instruments.push_back("SURF");
       instruments.push_back("CRISP");
       instruments.push_back("POLREF");
+      instruments.push_back("OFFSPEC");
 
       //If the user's configured default instrument is in this list, set it as the default, otherwise use INTER
       const std::string defaultInst = Mantid::Kernel::ConfigService::Instance().getString("default.instrument");
@@ -216,50 +227,6 @@ namespace MantidQt
     }
 
     /**
-    Parses a string in the format `a = 1,b=2, c = "1,2,3,4", d = 5.0, e='a,b,c'` into a map of key/value pairs
-    @param str The input string
-    @throws std::runtime_error on an invalid input string
-    */
-    std::map<std::string,std::string> ReflMainViewPresenter::parseKeyValueString(const std::string& str)
-    {
-      //Tokenise, using '\' as an escape character, ',' as a delimiter and " and ' as quote characters
-      boost::tokenizer<boost::escaped_list_separator<char> > tok(str, boost::escaped_list_separator<char>("\\", ",", "\"'"));
-
-      std::map<std::string,std::string> kvp;
-
-      for(auto it = tok.begin(); it != tok.end(); ++it)
-      {
-        std::vector<std::string> valVec;
-        boost::split(valVec, *it, boost::is_any_of("="));
-
-        if(valVec.size() > 1)
-        {
-          //We split on all '='s. The first delimits the key, the rest are assumed to be part of the value
-          std::string key = valVec[0];
-          //Drop the key from the values vector
-          valVec.erase(valVec.begin());
-          //Join the remaining sections,
-          std::string value = boost::algorithm::join(valVec, "=");
-
-          //Remove any unwanted whitespace
-          boost::trim(key);
-          boost::trim(value);
-
-          if(key.empty() || value.empty())
-            throw std::runtime_error("Invalid key value pair, '" + *it + "'");
-
-
-          kvp[key] = value;
-        }
-        else
-        {
-          throw std::runtime_error("Invalid key value pair, '" + *it + "'");
-        }
-      }
-      return kvp;
-    }
-
-    /**
     Process selected rows
     */
     void ReflMainViewPresenter::process()
@@ -307,22 +274,53 @@ namespace MantidQt
         }
       }
 
-      //Validate the rows
-      for(auto it = rows.begin(); it != rows.end(); ++it)
-      {
-        try
-        {
-          validateRow(*it);
-          autofillRow(*it);
-        }
-        catch(std::exception& ex)
-        {
-          const std::string rowNo = Mantid::Kernel::Strings::toString<int>(*it + 1);
-          m_view->giveUserCritical("Error found in row " + rowNo + ":\n" + ex.what(), "Error");
-          return;
-        }
+      if(!rowsValid(rows)) {
+        return;
       }
 
+      if(!processGroups(groups, rows)) {
+        return;
+      }
+
+      // If "Output Notebook" checkbox is checked then create an ipython notebook
+      if(m_view->getEnableNotebook()) {
+        saveNotebook(groups, rows);
+      }
+    }
+
+    /**
+    Display a dialog to choose save location for notebook, then save the notebook there
+    @param groups : groups of rows to stitch
+    @param rows : rows selected for processing
+    */
+    void ReflMainViewPresenter::saveNotebook(std::map<int,std::set<int>> groups, std::set<int> rows)
+    {
+      std::unique_ptr<ReflGenerateNotebook> notebook(new ReflGenerateNotebook(
+        m_wsName, m_model, m_view->getProcessInstrument(), COL_RUNS, COL_TRANSMISSION, COL_OPTIONS, COL_ANGLE,
+        COL_QMIN, COL_QMAX, COL_DQQ, COL_SCALE, COL_GROUP));
+      QString qfilename = QFileDialog::getSaveFileName(0, "Save notebook file", QDir::currentPath(),
+                                                       "IPython Notebook files (*.ipynb);;All files (*.*)",
+                                                       new QString("IPython Notebook files (*.ipynb)"));
+      std::string filename = qfilename.toStdString();
+      if (filename == "") {
+        return;
+      }
+      std::string generatedNotebook = notebook->generateNotebook(groups, rows);
+
+      std::ofstream file(filename.c_str(), std::ofstream::trunc);
+      file << generatedNotebook;
+      file.flush();
+      file.close();
+    }
+
+    /**
+    Process stitch groups
+    @param rows : rows in the model
+    @param groups : groups of rows to stitch
+    @returns true if successful, otherwise false
+    */
+    bool ReflMainViewPresenter::processGroups(std::map<int,std::set<int>> groups, std::set<int> rows)
+    {
       int progress = 0;
       //Each group and each row within count as a progress step.
       const int maxProgress = (int)(rows.size() + groups.size());
@@ -347,7 +345,7 @@ namespace MantidQt
             const std::string message = "Error encountered while processing row " + rowNo + ":\n";
             m_view->giveUserCritical(message + ex.what(), "Error");
             m_view->setProgress(0);
-            return;
+            return false;
           }
         }
 
@@ -362,9 +360,38 @@ namespace MantidQt
           const std::string message = "Error encountered while stitching group " + groupNo + ":\n";
           m_view->giveUserCritical(message + ex.what(), "Error");
           m_view->setProgress(0);
-          return;
+          return false;
         }
       }
+      return true;
+    }
+
+    /**
+    Validate rows.
+    @param rows : Rows in the model to validate
+    @returns true if all rows are valid and false otherwise
+    */
+    bool ReflMainViewPresenter::rowsValid(std::set<int> rows)
+    {
+      for(auto it = rows.begin(); it != rows.end(); ++it)
+      {
+        try
+        {
+          validateRow(*it);
+          autofillRow(*it);
+        }
+        catch(std::exception& ex)
+        {
+          //Allow two theta to be blank
+          if(ex.what() == std::string("Value for two theta could not be found in log."))
+            continue;
+
+          const std::string rowNo = Mantid::Kernel::Strings::toString<int>(*it + 1);
+          m_view->giveUserCritical("Error found in row " + rowNo + ":\n" + ex.what(), "Error");
+          return false;
+        }
+      }
+      return true;
     }
 
     /**
@@ -394,7 +421,16 @@ namespace MantidQt
         throw std::runtime_error("Invalid row");
 
       const std::string runStr = m_model->data(m_model->index(rowNo, COL_RUNS)).toString().toStdString();
-      MatrixWorkspace_sptr run = boost::dynamic_pointer_cast<MatrixWorkspace>(loadRun(runStr, m_view->getProcessInstrument()));
+      auto runWS = prepareRunWorkspace(runStr);
+      auto runMWS = boost::dynamic_pointer_cast<MatrixWorkspace>(runWS);
+      auto runWSG = boost::dynamic_pointer_cast<WorkspaceGroup>(runWS);
+
+      //If we've got a workspace group, use the first workspace in it
+      if(!runMWS && runWSG)
+        runMWS = boost::dynamic_pointer_cast<MatrixWorkspace>(runWSG->getItem(0));
+
+      if(!runMWS)
+        throw std::runtime_error("Could not convert " + runWS->name() + " to a MatrixWorkspace.");
 
       //Fetch two theta from the log if needed
       if(m_model->data(m_model->index(rowNo, COL_ANGLE)).toString().isEmpty())
@@ -404,7 +440,7 @@ namespace MantidQt
         //First try TwoTheta
         try
         {
-          logData = run->mutableRun().getLogData("Theta");
+          logData = runMWS->mutableRun().getLogData("Theta");
         }
         catch(std::exception&)
         {
@@ -434,9 +470,12 @@ namespace MantidQt
       if(m_model->data(m_model->index(rowNo, COL_DQQ)).toString().isEmpty())
       {
         IAlgorithm_sptr calcResAlg = AlgorithmManager::Instance().create("CalculateResolution");
-        calcResAlg->setProperty("Workspace", run);
+        calcResAlg->setProperty("Workspace", runMWS);
         calcResAlg->setProperty("TwoTheta", m_model->data(m_model->index(rowNo, COL_ANGLE)).toString().toStdString());
         calcResAlg->execute();
+
+        if(!calcResAlg->isExecuted())
+          throw std::runtime_error("CalculateResolution failed. Please manually enter a value in the dQ/Q column.");
 
         //Update the model
         double dqqVal = calcResAlg->getProperty("Resolution");
@@ -498,6 +537,74 @@ namespace MantidQt
     }
 
     /**
+    Takes a user specified run, or list of runs, and returns a pointer to the desired TOF workspace
+    @param runStr : The run or list of runs (separated by '+')
+    @throws std::runtime_error if the workspace could not be prepared
+    @returns a shared pointer to the workspace
+    */
+    Workspace_sptr ReflMainViewPresenter::prepareRunWorkspace(const std::string& runStr)
+    {
+      const std::string instrument = m_view->getProcessInstrument();
+
+      std::vector<std::string> runs;
+      boost::split(runs, runStr, boost::is_any_of("+"));
+
+      if(runs.empty())
+        throw std::runtime_error("No runs given");
+
+      //Remove leading/trailing whitespace from each run
+      for(auto runIt = runs.begin(); runIt != runs.end(); ++runIt)
+        boost::trim(*runIt);
+
+      //If we're only given one run, just return that
+      if(runs.size() == 1)
+        return loadRun(runs[0], instrument);
+
+      const std::string outputName = "TOF_" + boost::algorithm::join(runs, "_");
+
+      //Check if we've already prepared it
+      if(AnalysisDataService::Instance().doesExist(outputName))
+        return AnalysisDataService::Instance().retrieveWS<Workspace>(outputName);
+
+
+      /* Ideally, this should be executed as a child algorithm to keep the ADS tidy, but
+       * that doesn't preserve history nicely, so we'll just take care of tidying up in
+       * the event of failure.
+       */
+      IAlgorithm_sptr algPlus = AlgorithmManager::Instance().create("Plus");
+      algPlus->initialize();
+      algPlus->setProperty("LHSWorkspace", loadRun(runs[0], instrument)->name());
+      algPlus->setProperty("OutputWorkspace", outputName);
+
+      //Drop the first run from the runs list
+      runs.erase(runs.begin());
+
+      try
+      {
+        //Iterate through all the remaining runs, adding them to the first run
+        for(auto runIt = runs.begin(); runIt != runs.end(); ++runIt)
+        {
+          algPlus->setProperty("RHSWorkspace", loadRun(*runIt, instrument)->name());
+          algPlus->execute();
+
+          //After the first execution we replace the LHS with the previous output
+          algPlus->setProperty("LHSWorkspace", outputName);
+        }
+      }
+      catch(...)
+      {
+        //If we're unable to create the full workspace, discard the partial version
+        AnalysisDataService::Instance().remove(outputName);
+
+        //We've tidied up, now re-throw.
+        throw;
+      }
+
+      return AnalysisDataService::Instance().retrieveWS<Workspace>(outputName);
+    }
+
+
+    /**
     Loads a run from disk or fetches it from the AnalysisDataService
     @param run : The name of the run
     @param instrument : The instrument the run belongs to
@@ -515,7 +622,7 @@ namespace MantidQt
       {
         std::string wsName;
 
-        //Look "TOF_<run_number>" in the ADS
+        //Look for "TOF_<run_number>" in the ADS
         wsName = "TOF_" + run;
         if(AnalysisDataService::Instance().doesExist(wsName))
           return AnalysisDataService::Instance().retrieveWS<Workspace>(wsName);
@@ -547,21 +654,21 @@ namespace MantidQt
     */
     void ReflMainViewPresenter::reduceRow(int rowNo)
     {
-      const std::string      run = m_model->data(m_model->index(rowNo, COL_RUNS)).toString().toStdString();
+      const std::string   runStr = m_model->data(m_model->index(rowNo, COL_RUNS)).toString().toStdString();
       const std::string transStr = m_model->data(m_model->index(rowNo, COL_TRANSMISSION)).toString().toStdString();
       const std::string  options = m_model->data(m_model->index(rowNo, COL_OPTIONS)).toString().toStdString();
 
       double theta = 0;
 
-      const bool thetaGiven = !m_model->data(m_model->index(rowNo, COL_ANGLE)).toString().isEmpty();
+      bool thetaGiven = !m_model->data(m_model->index(rowNo, COL_ANGLE)).toString().isEmpty();
 
       if(thetaGiven)
         theta = m_model->data(m_model->index(rowNo, COL_ANGLE)).toDouble();
 
-      Workspace_sptr runWS = loadRun(run, m_view->getProcessInstrument());
+      auto runWS = prepareRunWorkspace(runStr);
       const std::string runNo = getRunNumber(runWS);
 
-      MatrixWorkspace_sptr transWS;
+      Workspace_sptr transWS;
       if(!transStr.empty())
         transWS = makeTransWS(transStr);
 
@@ -572,7 +679,9 @@ namespace MantidQt
         algReflOne->setProperty("FirstTransmissionRun", transWS->name());
       algReflOne->setProperty("OutputWorkspace", "IvsQ_" + runNo);
       algReflOne->setProperty("OutputWorkspaceWaveLength", "IvsLam_" + runNo);
-      algReflOne->setProperty("ThetaIn", theta);
+
+      if(thetaGiven)
+        algReflOne->setProperty("ThetaIn", theta);
 
       //Parse and set any user-specified options
       auto optionsMap = parseKeyValueString(options);
@@ -610,7 +719,7 @@ namespace MantidQt
       //Reduction has completed. Put Qmin and Qmax into the table if needed, for stitching.
       if(m_model->data(m_model->index(rowNo, COL_QMIN)).toString().isEmpty() || m_model->data(m_model->index(rowNo, COL_QMAX)).toString().isEmpty())
       {
-        MatrixWorkspace_sptr ws = AnalysisDataService::Instance().retrieveWS<MatrixWorkspace>("IvsQ_" + runNo);
+        Workspace_sptr ws = AnalysisDataService::Instance().retrieveWS<Workspace>("IvsQ_" + runNo);
         std::vector<double> qrange = calcQRange(ws, theta);
 
         if(m_model->data(m_model->index(rowNo, COL_QMIN)).toString().isEmpty())
@@ -621,6 +730,29 @@ namespace MantidQt
 
         m_tableDirty = true;
       }
+
+      //We need to make sure that qmin and qmax are respected, so we rebin to
+      //those limits here.
+      IAlgorithm_sptr algCrop = AlgorithmManager::Instance().create("Rebin");
+      algCrop->initialize();
+      algCrop->setProperty("InputWorkspace", "IvsQ_" + runNo);
+      algCrop->setProperty("OutputWorkspace", "IvsQ_" + runNo);
+      const double qmin = m_model->data(m_model->index(rowNo, COL_QMIN)).toDouble();
+      const double qmax = m_model->data(m_model->index(rowNo, COL_QMAX)).toDouble();
+      const double dqq = m_model->data(m_model->index(rowNo, COL_DQQ)).toDouble();
+      std::vector<double> params;
+      params.push_back(qmin);
+      params.push_back(-dqq);
+      params.push_back(qmax);
+      algCrop->setProperty("Params", params);
+      algCrop->execute();
+
+      if(!algCrop->isExecuted())
+        throw std::runtime_error("Failed to run Rebin algorithm");
+
+      //Also fill in theta if needed
+      if(m_model->data(m_model->index(rowNo, COL_ANGLE)).toString().isEmpty() && thetaGiven)
+        m_model->setData(m_model->index(rowNo, COL_ANGLE), theta);
     }
 
     /**
@@ -628,12 +760,22 @@ namespace MantidQt
     @param ws : The workspace to fetch the instrument values from
     @param theta : The value of two theta to use in calculations
     */
-    std::vector<double> ReflMainViewPresenter::calcQRange(MatrixWorkspace_sptr ws, double theta)
+    std::vector<double> ReflMainViewPresenter::calcQRange(Workspace_sptr ws, double theta)
     {
+      auto mws = boost::dynamic_pointer_cast<MatrixWorkspace>(ws);
+      auto wsg = boost::dynamic_pointer_cast<WorkspaceGroup>(ws);
+
+      //If we've got a workspace group, use the first workspace in it
+      if(!mws && wsg)
+        mws = boost::dynamic_pointer_cast<MatrixWorkspace>(wsg->getItem(0));
+
+      if(!mws)
+        throw std::runtime_error("Could not convert " + ws->name() + " to a MatrixWorkspace.");
+
       double lmin, lmax;
       try
       {
-        const Instrument_const_sptr instrument = ws->getInstrument();
+        const Instrument_const_sptr instrument = mws->getInstrument();
         lmin = instrument->getNumberParameter("LambdaMin")[0];
         lmax = instrument->getNumberParameter("LambdaMax")[0];
       }
@@ -682,7 +824,7 @@ namespace MantidQt
         const double         qmin = m_model->data(m_model->index(*rowIt, COL_QMIN)).toDouble();
         const double         qmax = m_model->data(m_model->index(*rowIt, COL_QMAX)).toDouble();
 
-        Workspace_sptr runWS = loadRun(runStr);
+        Workspace_sptr runWS = prepareRunWorkspace(runStr);
         if(runWS)
         {
           const std::string runNo = getRunNumber(runWS);
@@ -711,6 +853,11 @@ namespace MantidQt
 
       std::string outputWSName = "IvsQ_" + boost::algorithm::join(runs, "_");
 
+      //If the previous stitch result is in the ADS already, we'll need to remove it.
+      //If it's a group, we'll get an error for trying to group into a used group name
+      if(AnalysisDataService::Instance().doesExist(outputWSName))
+        AnalysisDataService::Instance().remove(outputWSName);
+
       IAlgorithm_sptr algStitch = AlgorithmManager::Instance().create("Stitch1DMany");
       algStitch->initialize();
       algStitch->setProperty("InputWorkspaces", workspaceNames);
@@ -729,7 +876,7 @@ namespace MantidQt
     Create a transmission workspace
     @param transString : the numbers of the transmission runs to use
     */
-    MatrixWorkspace_sptr ReflMainViewPresenter::makeTransWS(const std::string& transString)
+    Workspace_sptr ReflMainViewPresenter::makeTransWS(const std::string& transString)
     {
       const size_t maxTransWS = 2;
 
@@ -750,7 +897,7 @@ namespace MantidQt
       //If the transmission workspace is already in the ADS, re-use it
       std::string lastName = "TRANS_" + boost::algorithm::join(transVec, "_");
       if(AnalysisDataService::Instance().doesExist(lastName))
-        return AnalysisDataService::Instance().retrieveWS<MatrixWorkspace>(lastName);
+        return AnalysisDataService::Instance().retrieveWS<Workspace>(lastName);
 
       //We have the runs, so we can create a TransWS
       IAlgorithm_sptr algCreateTrans = AlgorithmManager::Instance().create("CreateTransmissionWorkspaceAuto");
@@ -773,7 +920,7 @@ namespace MantidQt
       if(!algCreateTrans->isExecuted())
         throw std::runtime_error("CreateTransmissionWorkspaceAuto failed to execute");
 
-      return AnalysisDataService::Instance().retrieveWS<MatrixWorkspace>(wsName);
+      return AnalysisDataService::Instance().retrieveWS<Workspace>(wsName);
     }
 
     /**
@@ -815,6 +962,38 @@ namespace MantidQt
       else
         insertRow(*rows.begin());
       m_tableDirty = true;
+    }
+
+    /**
+    Get the index of the first blank row, or if none exists, returns -1.
+    */
+    int ReflMainViewPresenter::getBlankRow()
+    {
+      //Go through every column of every row (except for the scale column) and check if it's blank.
+      //If there's a blank row, return it.
+      const int rowCount = m_model->rowCount();
+      for(int i = 0; i < rowCount; ++i)
+      {
+        bool isBlank = true;
+        for(int j = COL_RUNS; j <= COL_OPTIONS; ++j)
+        {
+          //Don't bother checking the scale or group column, it'll always have a value.
+          if(j == COL_SCALE || j == COL_GROUP)
+            continue;
+
+          if(!m_model->data(m_model->index(i, j)).toString().isEmpty())
+          {
+            isBlank = false;
+            break;
+          }
+        }
+
+        if(isBlank)
+          return i;
+      }
+
+      //There are no blank rows
+      return -1;
     }
 
     /**
@@ -872,6 +1051,8 @@ namespace MantidQt
       case IReflPresenter::TransferFlag:        transfer();          break;
       case IReflPresenter::ImportTableFlag:     importTable();       break;
       case IReflPresenter::ExportTableFlag:     exportTable();       break;
+      case IReflPresenter::PlotRowFlag:         plotRow();           break;
+      case IReflPresenter::PlotGroupFlag:       plotGroup();         break;
       }
       //Not having a 'default' case is deliberate. gcc issues a warning if there's a flag we aren't handling.
     }
@@ -883,7 +1064,9 @@ namespace MantidQt
     {
       if(!m_wsName.empty())
       {
-        AnalysisDataService::Instance().addOrReplace(m_wsName,boost::shared_ptr<ITableWorkspace>(m_ws->clone()));
+        AnalysisDataService::Instance().addOrReplace(
+            m_wsName,
+            boost::shared_ptr<ITableWorkspace>(m_ws->clone().release()));
         m_tableDirty = false;
       }
       else
@@ -946,7 +1129,8 @@ namespace MantidQt
       ITableWorkspace_sptr origTable = AnalysisDataService::Instance().retrieveWS<ITableWorkspace>(toOpen);
 
       //We create a clone of the table for live editing. The original is not updated unless we explicitly save.
-      ITableWorkspace_sptr newTable = boost::shared_ptr<ITableWorkspace>(origTable->clone());
+      ITableWorkspace_sptr newTable =
+          boost::shared_ptr<ITableWorkspace>(origTable->clone().release());
       try
       {
         validateModel(newTable);
@@ -1169,6 +1353,11 @@ namespace MantidQt
       if(searchString.empty())
         return;
 
+      //This is breaking the abstraction provided by IReflSearcher, but provides a nice usability win
+      //If we're not logged into a catalog, prompt the user to do so
+      if(CatalogManager::Instance().getActiveSessions().empty())
+        m_view->showAlgorithmDialog("CatalogLogin");
+
       try
       {
         auto results = m_searcher->search(searchString, searchInstr);
@@ -1205,13 +1394,94 @@ namespace MantidQt
         if(groups.count(row["group"]) == 0)
           groups[row["group"]] = getUnusedGroup();
 
-        const int rowIndex = m_model->rowCount();
-        m_model->insertRow(rowIndex);
+        //Overwrite the first blank row we find, otherwise, append a new row to the end.
+        int rowIndex = getBlankRow();
+        if(rowIndex == -1)
+        {
+          rowIndex = m_model->rowCount();
+          insertRow(rowIndex);
+        }
+
         m_model->setData(m_model->index(rowIndex, COL_RUNS), QString::fromStdString(row["runs"]));
         m_model->setData(m_model->index(rowIndex, COL_ANGLE), QString::fromStdString(row["theta"]));
         m_model->setData(m_model->index(rowIndex, COL_SCALE), 1.0);
         m_model->setData(m_model->index(rowIndex, COL_GROUP), groups[row["group"]]);
       }
+    }
+
+    /** Plots any currently selected rows */
+    void ReflMainViewPresenter::plotRow()
+    {
+      auto selectedRows = m_view->getSelectedRows();
+
+      if(selectedRows.empty())
+        return;
+
+      std::set<std::string> workspaces, notFound;
+      for(auto row = selectedRows.begin(); row != selectedRows.end(); ++row)
+      {
+        const std::string wsName = "IvsQ_" + getRunNumber(prepareRunWorkspace(m_model->data(m_model->index(*row, COL_RUNS)).toString().toStdString()));
+        if(AnalysisDataService::Instance().doesExist(wsName))
+          workspaces.insert(wsName);
+        else
+          notFound.insert(wsName);
+      }
+
+      if(!notFound.empty())
+        m_view->giveUserWarning(
+            "The following workspaces were not plotted because they were not found:\n"
+            + boost::algorithm::join(notFound, "\n") +
+            "\n\nPlease check that the rows you are trying to plot have been fully processed.",
+            "Error plotting rows.");
+
+      m_view->plotWorkspaces(workspaces);
+    }
+
+    /** Plots any currently selected groups */
+    void ReflMainViewPresenter::plotGroup()
+    {
+      auto selectedRows = m_view->getSelectedRows();
+
+      if(selectedRows.empty())
+        return;
+
+      std::set<int> selectedGroups;
+      for(auto row = selectedRows.begin(); row != selectedRows.end(); ++row)
+        selectedGroups.insert(m_model->data(m_model->index(*row, COL_GROUP)).toInt());
+
+      //Now, get the names of the stitched workspace, one per group
+      std::map<int,std::vector<std::string>> runsByGroup;
+      const int numRows = m_model->rowCount();
+      for(int row = 0; row < numRows; ++row)
+      {
+        int group = m_model->data(m_model->index(row, COL_GROUP)).toInt();
+
+        //Skip groups we don't care about
+        if(selectedGroups.find(group) == selectedGroups.end())
+          continue;
+
+        //Add this to the list of runs
+        runsByGroup[group].push_back(getRunNumber(prepareRunWorkspace(m_model->data(m_model->index(row, COL_RUNS)).toString().toStdString())));
+      }
+
+      std::set<std::string> workspaces, notFound;
+      for(auto runsMap = runsByGroup.begin(); runsMap != runsByGroup.end(); ++runsMap)
+      {
+        const std::string wsName = "IvsQ_" + boost::algorithm::join(runsMap->second, "_");
+        if(AnalysisDataService::Instance().doesExist(wsName))
+          workspaces.insert(wsName);
+        else
+          notFound.insert(wsName);
+      }
+
+      if(!notFound.empty())
+        m_view->giveUserWarning(
+            "The following workspaces were not plotted because they were not found:\n"
+            + boost::algorithm::join(notFound, "\n") +
+            "\n\nPlease check that the groups you are trying to plot have been fully processed.",
+            "Error plotting groups.");
+
+      m_view->plotWorkspaces(workspaces);
     }
 
     /** Shows the Refl Options dialog */

@@ -2,14 +2,15 @@
 #define MANTIDDOCK_H
 
 #include "MantidAPI/ExperimentInfo.h"
-#include "MantidAPI/IMDEventWorkspace.h"
+#include "MantidAPI/IMDEventWorkspace_fwd.h"
 #include "MantidAPI/IMDWorkspace.h"
-#include "MantidAPI/IPeaksWorkspace.h"
-#include "MantidAPI/ITableWorkspace.h"
-#include "MantidAPI/MatrixWorkspace.h"
-#include "MantidAPI/WorkspaceGroup.h"
+#include "MantidAPI/IPeaksWorkspace_fwd.h"
+#include "MantidAPI/ITableWorkspace_fwd.h"
+#include "MantidAPI/MatrixWorkspace_fwd.h"
 
 #include "MantidQtMantidWidgets/AlgorithmSelectorWidget.h"
+
+#include "Mantid/MantidWSIndexDialog.h"
 
 #include <QActionGroup>
 #include <QAtomicInt>
@@ -57,7 +58,7 @@ public:
 
 public slots:
   void clickedWorkspace(QTreeWidgetItem*, int);
-  void saveWorkspaces();
+  void saveWorkspaceGroup();
   void deleteWorkspaces();
   void renameWorkspace();
   void populateChildData(QTreeWidgetItem* item);
@@ -73,12 +74,11 @@ protected slots:
   void workspaceSelected();
 
 private slots:
+  void handleShowSaveAlgorithm();
   void treeSelectionChanged();
   void groupingButtonClick();
   void plotSpectra();
-  void plotSpectraDistribution();
   void plotSpectraErr();
-  void plotSpectraDistributionErr();
   void drawColorFillPlot();
   void showDetectorTable();
   void convertToMatrixWorkspace();
@@ -90,6 +90,7 @@ private slots:
   void filterWorkspaceTree(const QString &text);
 
 private:
+  void addSaveMenuOption(QString algorithmString, QString menuEntryName = "");
   void setTreeUpdating(const bool state);
   inline bool isTreeUpdating() const { return m_treeUpdating; }
   void populateTopLevel(const std::map<std::string,Mantid::API::Workspace_sptr> & topLevelItems, const QStringList & expanded);
@@ -120,7 +121,7 @@ private:
 
   QPushButton *m_loadButton;
   QPushButton *m_saveButton;
-  QMenu *m_loadMenu, *m_saveToProgram, *m_sortMenu;
+  QMenu *m_loadMenu, *m_saveToProgram, *m_sortMenu, *m_saveMenu;
   QPushButton *m_deleteButton;
   QPushButton *m_groupButton;
   QPushButton *m_sortButton;
@@ -130,7 +131,7 @@ private:
   QFileDialog *m_saveFolderDialog;
 
   //Context-menu actions
-  QAction *m_showData, *m_showInst, *m_plotSpec, *m_plotSpecErr, *m_plotSpecDistr,
+  QAction *m_showData, *m_showInst, *m_plotSpec, *m_plotSpecErr,
   *m_showDetectors, *m_showBoxData, *m_showVatesGui,
   *m_showSpectrumViewer,
   *m_showSliceViewer,
@@ -165,7 +166,7 @@ public:
   void mouseDoubleClickEvent(QMouseEvent *e);
 
   QStringList getSelectedWorkspaceNames() const;
-  QMultiMap<QString,std::set<int> > chooseSpectrumFromSelected() const;
+  MantidWSIndexDialog::UserInput chooseSpectrumFromSelected(bool showWaterfallOpt = true) const;
   void setSortScheme(MantidItemSortScheme);
   void setSortOrder(Qt::SortOrder);
   MantidItemSortScheme getSortScheme() const;

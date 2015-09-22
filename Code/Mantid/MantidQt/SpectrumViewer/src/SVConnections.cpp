@@ -3,6 +3,7 @@
 
 #include <QDesktopServices>
 
+#include "MantidQtAPI/HelpWindow.h"
 #include "MantidQtAPI/MantidColorMap.h"
 
 #include "MantidQtSpectrumViewer/SVConnections.h"
@@ -313,6 +314,7 @@ bool SVConnections::eventFilter(QObject *object, QEvent *event)
     double lastY = m_spectrumDisplay->getPointedAtY();
 
     QKeyEvent *keyEvent = dynamic_cast<QKeyEvent *>(event);
+    if(!keyEvent) return false;
     int key = keyEvent->key();
     switch (key)
     {
@@ -729,7 +731,7 @@ void SVConnections::showColorScale( std::vector<QRgb> & positiveColorTable,
  */
 void SVConnections::openOnlineHelp()
 {
-  QDesktopServices::openUrl(QUrl("http://www.mantidproject.org/MantidPlot:_ImageViewer"));
+  MantidQt::API::HelpWindow::showCustomInterface(NULL, QString("SpectrumViewer"));
 }
 
 } // namespace SpectrumView

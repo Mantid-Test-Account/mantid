@@ -4,7 +4,7 @@
 #include <string>
 
 #include "MantidQtCustomInterfaces/IReflPresenter.h"
-#include "MantidAPI/ITableWorkspace.h"
+#include "MantidAPI/ITableWorkspace_fwd.h"
 
 namespace MantidQt
 {
@@ -14,7 +14,7 @@ namespace MantidQt
 
     IReflSearcher is an interface for search implementations used by IReflPresenter implementations.
 
-    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory & NScD Oak Ridge National Laboratory
+    Copyright &copy; 2011-14 ISIS Rutherford Appleton Laboratory, NScD Oak Ridge National Laboratory & European Spallation Source
 
     This file is part of Mantid.
 

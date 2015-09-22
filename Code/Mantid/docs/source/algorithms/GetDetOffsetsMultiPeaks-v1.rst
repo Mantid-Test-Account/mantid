@@ -64,15 +64,42 @@ A peak will not be used if
 Generate fit window
 ###################
 
--  Required parameter: maxWidth. If it is not given, i.e., less or equal
-   to zero, then there won't be any window defined;
--  Definition of fit window for peaks indexed from 0 to N-1
+There are two approach to generate fit window.  One is via property 'FitWindowMaxWidth';
+and the other is 'FitwindowTableWorkspace'.
+
+If neither of these 2 properties are correctly specified, then then there won't be any window defined.
+
+Uniform fit window
+==================
+
+By specifying a postive float, maxWidth, for 'FitWindowMaxWidth',
+it is the definition of fit window for peaks indexed from 0 to N-1:
 
    -  Peak 0: window = :math:`\min((X0_0-dmin), maxWidth)`, :math:`\min((X0_1-X0_0)/2,maxWidth)`
    -  Peak :math:`i (0 < i < N-1)`: window = :math:`\min((X0_i-X0_{i-1})/2, maxWidth)`, :math:`\min((X0_1-X0_0)/2, maxWidth)`
    -  Peak :math:`N-1`: window = :math:`\min((X0_i-X0_{i-1})/2, maxWidth)`, :math:`\min((dmax-X0_i), maxWidth)`
 
 where :math:`X0_i` is the centre of i-th peak.
+
+Fit window for individual peak
+==============================
+
+FitwindowTableWorkspace contains the fit window for each individual peak in the workspace
+to find.
+It contains :math:`1+2\times N` columns, where N is the number of peaks positions specified in 'DReference'.
+
+- Column 0: spectrum number :math:`spNum`.  If :math:`spNum < 0`, then it is a 'universal' spectrum;
+- Column :math:`2i+1`: left boundary of peak :math:`i` defined in 'DReference' of spectrum :math:`iws`;
+- Column :math:`2i+2`: right boundary of peak :math:`i` defined in 'DReference' of spectrum :math:`iws`;
+
+Default fit windows
++++++++++++++++++++
+
+In the fit window table workspace, if there is a row, whose 'spectrum number' is a negative number,
+then the fit windows defined in this row is treated as the default fit windows.
+It means that for any spectrum that has no fit windows defined in the tableworkspace,
+the default fit windows will be applied to it.
+
 
 Quality of Fitting
 ------------------
@@ -96,13 +123,13 @@ much fewer events received, i.e., poorer signal.
 :math:`\chi^2` of the offset fitting function
 #############################################
 
-The goodness of fit, :math:`\chi^2_{iws}`, of the offset fitting
+The goodness of fit, :math:`\chi^2_{spNum}`, of the offset fitting
 function
 
 .. math:: \sum_{p} |X_{0, p} - (1+offset)X_{0, p}|\cdot H^2_{p}
 
 is an important measure of fitting quality on each spectrum (indexed as
-iws).
+spNum).
 
 Deviation of highest peaks
 ##########################
@@ -134,7 +161,7 @@ has not been implemented yet.
 On the other hand, since GetDetOffsetsMultiPeaks always operates on an
 EventWorkspace with thousands or several ten thousands of spectra, it is
 very hard to tell the quality of fitting by looking at
-:math:`\chi^2_{iws}` of all spectra. Hence, Here are two other
+:math:`\chi^2_{spNum}` of all spectra. Hence, Here are two other
 parameters are defined for comparison of results.
 
     :math:`g_1 = \frac{\sum_{s}D_{s}^2}{N_{nm}}`
@@ -182,11 +209,12 @@ Here are the cases that a spectra (i.e., a detector) will be masked in the outpu
 -  A dead detector, i.e., the corresponding spectrum has counts less than :math:`10^{-3}` in defined d-range.  It isnoted as "dead det";
 
 -  A spectrum that does not have peak within specified d-range.  It is noted as "no peaks". Here is the criteria for this case.
-  * Algorithm FindPeaks fails to find any peak;
-  * No peak found has height larger than specified 'MinimumPeakHeight';
-  * No peak found has observed height larger than specified 'MinimumPeakHeightObs';
-  * No peak found has resolution within specified range;
-  * No peak found whose calculated offset is smaller than the user-defined maximum offset.
+
+ - Algorithm FindPeaks fails to find any peak;
+ - No peak found has height larger than specified 'MinimumPeakHeight';
+ - No peak found has observed height larger than specified 'MinimumPeakHeightObs';
+ - No peak found has resolution within specified range;
+ - No peak found whose calculated offset is smaller than the user-defined maximum offset.
 
 Usage
 -----
@@ -237,4 +265,8 @@ Output
 
   os.remove( calFilePath )
 
+.. seealso :: Algorithm :ref:`algm-EstimateResolutionDiffraction`
+
 .. categories::
+
+.. sourcelink::

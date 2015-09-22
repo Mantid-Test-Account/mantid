@@ -1,7 +1,7 @@
 #ifndef MANTID_CUSTOMINTERFACES_REFLSEARCHMODEL_H_
 #define MANTID_CUSTOMINTERFACES_REFLSEARCHMODEL_H_
 
-#include "MantidAPI/ITableWorkspace.h"
+#include "MantidAPI/ITableWorkspace_fwd.h"
 #include <QAbstractTableModel>
 #include <boost/shared_ptr.hpp>
 #include <map>
@@ -14,7 +14,7 @@ namespace MantidQt
 
     /** ReflSearchModel : Provides a QAbstractTableModel for a Mantid ITableWorkspace of Reflectometry search results.
 
-    Copyright &copy; 2014 ISIS Rutherford Appleton Laboratory & NScD Oak Ridge National Laboratory
+    Copyright &copy; 2014 ISIS Rutherford Appleton Laboratory, NScD Oak Ridge National Laboratory & European Spallation Source
 
     This file is part of Mantid.
 
