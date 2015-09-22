@@ -62,7 +62,7 @@ private:
   QString minimizerString(QString outputName) const;
   QStringList getFunctionParameters(QString);
   void updatePlotOptions();
-  QString ConvFit::constructBaseName();
+  QString ConvFit::constructBaseName(const std::string &, const std::string &);
   QString convertFuncToShort(const QString &);
   QString convertBackToShort(const std::string &original);
 
@@ -77,6 +77,10 @@ private:
   QString m_singleFitOutputName;
   QStringList m_fitStrings;
   QString m_previousFit;
+
+  QString m_resultName;
+  QString m_tableName;
+  QString m_groupName;
 };
 } // namespace IDA
 } // namespace CustomInterfaces

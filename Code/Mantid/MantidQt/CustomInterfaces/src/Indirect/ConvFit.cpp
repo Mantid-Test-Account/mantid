@@ -244,6 +244,9 @@ void ConvFit::run() {
 
   // Get BaseName
   QString baseName = constructBaseName(specMin, specMax);
+  m_resultName = baseName.append("_Result");
+  m_tableName = baseName.append("_Parameters");
+  m_groupName = baseName.append("_Workspaces");
 
   // Set up ConvolutionFitSequential Algorithm
   IAlgorithm_sptr cfs =
@@ -261,9 +264,9 @@ void ConvFit::run() {
   cfs->setProperty("Minimizer",
                    minimizerString("$outputname_$wsindex").toStdString());
   cfs->setProperty("MaxIterations", maxIterations);
-  cfs->setProperty("OutputWorkspace", (baseName.append("_Result")));
-  cfs->setProperty("TableOutputWorkspace", (baseName.append("_Parameters")));
-  cfs->setProperty("GroupOutputWorkspace", (baseName.append("_Workspaces")));
+  cfs->setProperty("OutputWorkspace", m_resultName);
+  cfs->setProperty("TableOutputWorkspace", m_tableName);
+  cfs->setProperty("GroupOutputWorkspace", m_groupName);
 
   // Add to batch algorithm runner
   m_batchAlgoRunner->addAlgorithm(cfs);
@@ -284,9 +287,9 @@ void ConvFit::algorithmComplete(bool error) {
   if (error)
     return;
 
-  std::string resultName = m_baseName.toStdString() + "_Result";
   MatrixWorkspace_sptr resultWs =
-      AnalysisDataService::Instance().retrieveWS<MatrixWorkspace>(resultName);
+      AnalysisDataService::Instance().retrieveWS<MatrixWorkspace>(
+          m_resultName.toStdString());
 
   const bool save = m_uiForm.ckSave->isChecked();
 
@@ -329,9 +332,9 @@ void ConvFit::algorithmComplete(bool error) {
 
     if (temp != 0.0) {
       // Obtain WorkspaceGroup from ADS
-      std::string groupName = m_baseName.toStdString() + "_Workspaces";
       WorkspaceGroup_sptr groupWs =
-          AnalysisDataService::Instance().retrieveWS<WorkspaceGroup>(groupName);
+          AnalysisDataService::Instance().retrieveWS<WorkspaceGroup>(
+              m_groupName.toStdString());
 
       auto addSample = AlgorithmManager::Instance().create("AddSampleLog");
       addSample->setProperty("Workspace", resultWs);
