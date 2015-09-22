@@ -23,6 +23,8 @@ Workflow
 Usage
 -----
 
+.. include:: ../usagedata-note.txt
+
 **Example - Running IndirectResolution.**
 
 .. testcode:: ExIndirectResolutionSimple
@@ -46,3 +48,5 @@ Output:
     Number of bins: 175
 
 .. categories::
+
+.. sourcelink::

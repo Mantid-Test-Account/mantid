@@ -9,7 +9,6 @@ set ( SRC_FILES
 	src/BooleanBinaryOperationMD.cpp
 	src/BoxControllerSettingsAlgorithm.cpp
 	src/CalculateCoverageDGS.cpp
-	src/CalculateReflectometryQBase.cpp
 	src/CentroidPeaksMD.cpp
 	src/CentroidPeaksMD2.cpp
 	src/CloneMDWorkspace.cpp
@@ -98,10 +97,10 @@ set ( SRC_FILES
 	src/Quantification/ResolutionConvolvedCrossSection.cpp
 	src/Quantification/SimulateResolutionConvolvedModel.cpp
 	src/QueryMDWorkspace.cpp
-	src/ReflectometryTransform.cpp
 	src/ReflectometryTransformKiKf.cpp
 	src/ReflectometryTransformP.cpp
 	src/ReflectometryTransformQxQz.cpp
+	src/ReplicateMD.cpp
 	src/SaveIsawQvector.cpp
 	src/SaveMD.cpp
 	src/SaveMD2.cpp
@@ -112,6 +111,7 @@ set ( SRC_FILES
 	src/SmoothMD.cpp
 	src/ThresholdMD.cpp
 	src/TransformMD.cpp
+	src/TransposeMD.cpp
 	src/UnaryOperationMD.cpp
 	src/UnitsConversionHelper.cpp
 	src/UserFunctionMD.cpp
@@ -131,7 +131,6 @@ set ( INC_FILES
 	inc/MantidMDAlgorithms/BooleanBinaryOperationMD.h
 	inc/MantidMDAlgorithms/BoxControllerSettingsAlgorithm.h
 	inc/MantidMDAlgorithms/CalculateCoverageDGS.h
-	inc/MantidMDAlgorithms/CalculateReflectometryQBase.h
 	inc/MantidMDAlgorithms/CentroidPeaksMD.h
 	inc/MantidMDAlgorithms/CentroidPeaksMD2.h
 	inc/MantidMDAlgorithms/CloneMDWorkspace.h
@@ -219,10 +218,10 @@ set ( INC_FILES
 	inc/MantidMDAlgorithms/Quantification/ResolutionConvolvedCrossSection.h
 	inc/MantidMDAlgorithms/Quantification/SimulateResolutionConvolvedModel.h
 	inc/MantidMDAlgorithms/QueryMDWorkspace.h
-	inc/MantidMDAlgorithms/ReflectometryTransform.h
 	inc/MantidMDAlgorithms/ReflectometryTransformKiKf.h
 	inc/MantidMDAlgorithms/ReflectometryTransformP.h
 	inc/MantidMDAlgorithms/ReflectometryTransformQxQz.h
+	inc/MantidMDAlgorithms/ReplicateMD.h
 	inc/MantidMDAlgorithms/SaveIsawQvector.h
 	inc/MantidMDAlgorithms/SaveMD.h
 	inc/MantidMDAlgorithms/SaveMD2.h
@@ -233,6 +232,7 @@ set ( INC_FILES
 	inc/MantidMDAlgorithms/SmoothMD.h
 	inc/MantidMDAlgorithms/ThresholdMD.h
 	inc/MantidMDAlgorithms/TransformMD.h
+	inc/MantidMDAlgorithms/TransposeMD.h
 	inc/MantidMDAlgorithms/UnaryOperationMD.h
 	inc/MantidMDAlgorithms/UnitsConversionHelper.h
 	inc/MantidMDAlgorithms/Vector3DParameter.h
@@ -325,6 +325,7 @@ set ( TEST_FILES
 	ReflectometryTransformKiKfTest.h
 	ReflectometryTransformPTest.h
 	ReflectometryTransformQxQzTest.h
+	ReplicateMDTest.h
 	ResolutionConvolvedCrossSectionTest.h
 	SaveIsawQvectorTest.h
 	SaveMD2Test.h
@@ -341,6 +342,7 @@ set ( TEST_FILES
 	TobyFitResolutionModelTest.h
 	TobyFitYVectorTest.h
 	TransformMDTest.h
+	TransposeMDTest.h
 	UnaryOperationMDTest.h
 	UnitsConversionHelperTest.h
 	WeightedMeanMDTest.h
@@ -379,7 +381,7 @@ endif ()
 set_property ( TARGET MDAlgorithms PROPERTY FOLDER "MantidFramework" )
 
 include_directories ( inc )
-target_link_libraries ( MDAlgorithms LINK_PRIVATE ${MANTIDLIBS} ${GSL_LIBRARIES} ${NEXUS_LIBRARIES}  )
+target_link_libraries ( MDAlgorithms LINK_PRIVATE ${TCMALLOC_LIBRARIES_LINKTIME} ${MANTIDLIBS} ${GSL_LIBRARIES} ${NEXUS_LIBRARIES}  )
 
 # Add the unit tests directory
 add_subdirectory ( test )

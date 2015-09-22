@@ -55,8 +55,8 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
         ws_validator = CompositeValidator([WorkspaceUnitValidator('Wavelength'), InstrumentValidator()])
 
         self.declareProperty(MatrixWorkspaceProperty('SampleWorkspace', '',
-                             validator=ws_validator,
-                             direction=Direction.Input),
+                                                     validator=ws_validator,
+                                                     direction=Direction.Input),
                              doc="Name for the input Sample workspace.")
 
         self.declareProperty(name='SampleChemicalFormula', defaultValue='',
@@ -73,9 +73,9 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
                              doc='Sample outer radius')
 
         self.declareProperty(MatrixWorkspaceProperty('CanWorkspace', '',
-                             optional=PropertyMode.Optional,
-                             validator=ws_validator,
-                             direction=Direction.Input),
+                                                     optional=PropertyMode.Optional,
+                                                     validator=ws_validator,
+                                                     direction=Direction.Input),
                              doc="Name for the input Can workspace.")
 
         self.declareProperty(name='CanChemicalFormula', defaultValue='',
@@ -110,7 +110,7 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
                              doc='Analyser energy')
 
         self.declareProperty(WorkspaceGroupProperty('OutputWorkspace', '',
-                             direction=Direction.Output),
+                                                    direction=Direction.Output),
                              doc='The output corrections workspace group')
 #------------------------------------------------------------------------------
 
@@ -158,32 +158,44 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
 
         # Create the output workspaces
         ass_ws = self._output_ws_name + '_ass'
-        CreateWorkspace(OutputWorkspace=ass_ws, DataX=dataX, DataY=dataA1,
-                    NSpec=len(self._angles), UnitX='Wavelength')
+        CreateWorkspace(OutputWorkspace=ass_ws,
+                        DataX=dataX,
+                        DataY=dataA1,
+                        NSpec=len(self._angles),
+                        UnitX='Wavelength',
+                        ParentWorkspace=self._sample_ws_name)
         workspaces = [ass_ws]
 
         if self._use_can:
             assc_ws = self._output_ws_name + '_assc'
             workspaces.append(assc_ws)
-            CreateWorkspace(OutputWorkspace=assc_ws, DataX=dataX, DataY=dataA2,
-                            NSpec=len(self._angles), UnitX='Wavelength')
+            CreateWorkspace(OutputWorkspace=assc_ws,
+                            DataX=dataX,
+                            DataY=dataA2,
+                            NSpec=len(self._angles),
+                            UnitX='Wavelength',
+                            ParentWorkspace=self._sample_ws_name)
 
             acsc_ws = self._output_ws_name + '_acsc'
             workspaces.append(acsc_ws)
-            CreateWorkspace(OutputWorkspace=acsc_ws, DataX=dataX, DataY=dataA3,
-                            NSpec=len(self._angles), UnitX='Wavelength')
+            CreateWorkspace(OutputWorkspace=acsc_ws,
+                            DataX=dataX,
+                            DataY=dataA3,
+                            NSpec=len(self._angles),
+                            UnitX='Wavelength',
+                            ParentWorkspace=self._sample_ws_name)
 
             acc_ws = self._output_ws_name + '_acc'
             workspaces.append(acc_ws)
-            CreateWorkspace(OutputWorkspace=acc_ws, DataX=dataX, DataY=dataA4,
-                            NSpec=len(self._angles), UnitX='Wavelength')
+            CreateWorkspace(OutputWorkspace=acc_ws,
+                            DataX=dataX,
+                            DataY=dataA4,
+                            NSpec=len(self._angles),
+                            UnitX='Wavelength',
+                            ParentWorkspace=self._sample_ws_name)
 
         if self._interpolate:
             self._interpolate_corrections(workspaces)
-        try:
-            self. _copy_detector_table(workspaces)
-        except RuntimeError:
-            logger.warning('Cannot copy spectra mapping. Check input workspace instrument.')
 
         sample_log_workspaces = workspaces
         sample_logs = [('sample_shape', 'cylinder'),
@@ -229,8 +241,7 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
         if (self._radii[1] - self._radii[0]) < 1e-4:
             raise ValueError('Sample outer radius not > inner radius')
         else:
-            logger.information('Sample : inner radius = %f ; outer radius = %f' % (
-                               self._radii[0], self._radii[1]))
+            logger.information('Sample : inner radius = %f ; outer radius = %f' % (self._radii[0], self._radii[1]))
             self._ms = int((self._radii[1] - self._radii[0] + 0.0001)/self._step_size)
             if self._ms < 20:
                 raise ValueError('Number of steps ( %i ) should be >= 20' % (self._ms))
@@ -243,8 +254,7 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
             if (self._radii[2] - self._radii[1]) < 1e-4:
                 raise ValueError('Can outer radius not > sample outer radius')
             else:
-                logger.information('Can : inner radius = %f ; outer radius = %f' % (
-                                   self._radii[1], self._radii[2]))
+                logger.information('Can : inner radius = %f ; outer radius = %f' % (self._radii[1], self._radii[2]))
 
         beam_width = self.getProperty('BeamWidth').value
         beam_height = self.getProperty('BeamHeight').value
@@ -304,8 +314,7 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
             detector = mtd[self._sample_ws_name].getDetector(index)
             two_theta = detector.getTwoTheta(sample_pos, beam_pos) * 180.0 / math.pi
             self._angles.append(two_theta)
-        logger.information('Detector angles : %i from %f to %f ' % (
-                           len(self._angles), self._angles[0], self._angles[-1]))
+        logger.information('Detector angles : %i from %f to %f ' % (len(self._angles), self._angles[0], self._angles[-1]))
 
 #------------------------------------------------------------------------------
 
@@ -332,8 +341,7 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
             self._elastic = math.sqrt(81.787/self._efixed) # elastic wavelength
 
         logger.information('Elastic lambda : %f' % (self._elastic))
-        logger.information('Lambda : %i values from %f to %f' % (
-                           len(self._waves), self._waves[0], self._waves[-1]))
+        logger.information('Lambda : %i values from %f to %f' % (len(self._waves), self._waves[0], self._waves[-1]))
 
 #------------------------------------------------------------------------------
 
@@ -364,38 +372,19 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
 
 #------------------------------------------------------------------------------
 
-    def _copy_detector_table(self, workspaces):
-        """
-        Copy the detector table from the sample workspaces to the correction workspaces.
-
-        @param workspaces List of correction workspaces
-        """
-
-        instrument = mtd[self._sample_ws_name].getInstrument().getName()
-
-        for ws in workspaces:
-            LoadInstrument(Workspace=ws,
-                           InstrumentName=instrument)
-
-            CopyDetectorMapping(WorkspaceToMatch=self._sample_ws_name,
-                                WorkspaceToRemap=ws,
-                                IndexBySpectrumNumber=True)
-
-#------------------------------------------------------------------------------
-
     def _cyl_abs(self, angle):
-#  Parameters :
-#  self._step_size - step size
-#  self._beam - beam parameters
-#  nan - number of annuli
-#  radii - list of radii (for each annulus)
-#  density - list of densities (for each annulus)
-#  sigs - list of scattering cross-sections (for each annulus)
-#  siga - list of absorption cross-sections (for each annulus)
-#  angle - list of angles
-#  wavelas - elastic wavelength
-#  waves - list of wavelengths
-#  Output parameters :  A1 - Ass ; A2 - Assc ; A3 - Acsc ; A4 - Acc
+        #  Parameters :
+        #  self._step_size - step size
+        #  self._beam - beam parameters
+        #  nan - number of annuli
+        #  radii - list of radii (for each annulus)
+        #  density - list of densities (for each annulus)
+        #  sigs - list of scattering cross-sections (for each annulus)
+        #  siga - list of absorption cross-sections (for each annulus)
+        #  angle - list of angles
+        #  wavelas - elastic wavelength
+        #  waves - list of wavelengths
+        #  Output parameters :  A1 - Ass ; A2 - Assc ; A3 - Acsc ; A4 - Acc
 
         amu_scat = np.zeros(self._number_can)
         amu_scat = self._density*self._sig_s
@@ -443,9 +432,9 @@ class CylinderPaalmanPingsCorrection(PythonAlgorithm):
 #  No. STEPS ARE CHOSEN SO THAT STEP WIDTH IS THE SAME FOR ALL ANNULI
 #
             AAAA, BBBA, Area_A = self._sum_rom(0, 0, A, self._radii[0], self._radii[1], self._ms,
-                                         theta, amu_scat, amu_tot_i, amu_tot_s)
+                                               theta, amu_scat, amu_tot_i, amu_tot_s)
             AAAB, BBBB, Area_B = self._sum_rom(0, 0, -A, self._radii[0], self._radii[1], self._ms,
-                                         theta, amu_scat, amu_tot_i, amu_tot_s)
+                                               theta, amu_scat, amu_tot_i, amu_tot_s)
             Area_s += Area_A + Area_B
             Ass += AAAA + AAAB
             Ass = Ass/Area_s

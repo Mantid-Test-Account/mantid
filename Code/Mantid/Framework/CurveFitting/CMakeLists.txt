@@ -15,6 +15,7 @@ set ( SRC_FILES
 	src/CalculateChiSquared.cpp
 	src/CalculateGammaBackground.cpp
 	src/CalculateMSVesuvio.cpp
+	src/ChebfunBase.cpp
 	src/Chebyshev.cpp
 	src/ComptonPeakProfile.cpp
 	src/ComptonProfile.cpp
@@ -35,6 +36,7 @@ set ( SRC_FILES
 	src/DynamicKuboToyabe.cpp
 	src/EndErfc.cpp
 	src/EstimatePeakErrors.cpp
+	src/EvaluateFunction.cpp
 	src/ExpDecay.cpp
 	src/ExpDecayMuon.cpp
 	src/ExpDecayOsc.cpp
@@ -49,6 +51,7 @@ set ( SRC_FILES
 	src/FunctionDomain1DSpectrumCreator.cpp
 	src/GSLFunctions.cpp
 	src/GSLMatrix.cpp
+	src/GSLVector.cpp
 	src/GausDecay.cpp
 	src/GausOsc.cpp
 	src/Gaussian.cpp
@@ -73,6 +76,7 @@ set ( SRC_FILES
 	src/NormaliseByPeakArea.cpp
 	src/PRConjugateGradientMinimizer.cpp
 	src/ParDomain.cpp
+	src/ParameterEstimator.cpp
 	src/PawleyFit.cpp
 	src/PawleyFunction.cpp
 	src/PeakParameterFunction.cpp
@@ -89,6 +93,7 @@ set ( SRC_FILES
 	src/Resolution.cpp
 	src/SeqDomain.cpp
 	src/SeqDomainSpectrumCreator.cpp
+	src/SimpleChebfun.cpp
 	src/SimplexMinimizer.cpp
 	src/SpecialFunctionHelper.cpp
 	src/SplineBackground.cpp
@@ -131,6 +136,7 @@ set ( INC_FILES
 	inc/MantidCurveFitting/CalculateChiSquared.h
 	inc/MantidCurveFitting/CalculateGammaBackground.h
 	inc/MantidCurveFitting/CalculateMSVesuvio.h
+	inc/MantidCurveFitting/ChebfunBase.h
 	inc/MantidCurveFitting/Chebyshev.h
 	inc/MantidCurveFitting/ComptonPeakProfile.h
 	inc/MantidCurveFitting/ComptonProfile.h
@@ -152,6 +158,7 @@ set ( INC_FILES
 	inc/MantidCurveFitting/DynamicKuboToyabe.h
 	inc/MantidCurveFitting/EndErfc.h
 	inc/MantidCurveFitting/EstimatePeakErrors.h
+	inc/MantidCurveFitting/EvaluateFunction.h
 	inc/MantidCurveFitting/ExpDecay.h
 	inc/MantidCurveFitting/ExpDecayMuon.h
 	inc/MantidCurveFitting/ExpDecayOsc.h
@@ -173,6 +180,7 @@ set ( INC_FILES
 	inc/MantidCurveFitting/Gaussian.h
 	inc/MantidCurveFitting/GaussianComptonProfile.h
 	inc/MantidCurveFitting/GramCharlierComptonProfile.h
+	inc/MantidCurveFitting/HalfComplex.h
 	inc/MantidCurveFitting/IFittingAlgorithm.h
 	inc/MantidCurveFitting/IkedaCarpenterPV.h
 	inc/MantidCurveFitting/Jacobian.h
@@ -193,6 +201,7 @@ set ( INC_FILES
 	inc/MantidCurveFitting/NormaliseByPeakArea.h
 	inc/MantidCurveFitting/PRConjugateGradientMinimizer.h
 	inc/MantidCurveFitting/ParDomain.h
+	inc/MantidCurveFitting/ParameterEstimator.h
 	inc/MantidCurveFitting/PawleyFit.h
 	inc/MantidCurveFitting/PawleyFunction.h
 	inc/MantidCurveFitting/PeakParameterFunction.h
@@ -209,6 +218,7 @@ set ( INC_FILES
 	inc/MantidCurveFitting/Resolution.h
 	inc/MantidCurveFitting/SeqDomain.h
 	inc/MantidCurveFitting/SeqDomainSpectrumCreator.h
+	inc/MantidCurveFitting/SimpleChebfun.h
 	inc/MantidCurveFitting/SimplexMinimizer.h
 	inc/MantidCurveFitting/SpecialFunctionSupport.h
 	inc/MantidCurveFitting/SplineBackground.h
@@ -247,6 +257,7 @@ set ( TEST_FILES
 	CalculateChiSquaredTest.h
 	CalculateGammaBackgroundTest.h
 	CalculateMSVesuvioTest.h
+	ChebfunBaseTest.h
 	ChebyshevTest.h
 	CompositeFunctionTest.h
 	ComptonPeakProfileTest.h
@@ -264,6 +275,7 @@ set ( TEST_FILES
 	DynamicKuboToyabeTest.h
 	EndErfcTest.h
 	EstimatePeakErrorsTest.h
+	EvaluateFunctionTest.h
 	ExpDecayMuonTest.h
 	ExpDecayOscTest.h
 	ExpDecayTest.h
@@ -278,6 +290,7 @@ set ( TEST_FILES
 	FunctionFactoryConstraintTest.h
 	FunctionParameterDecoratorFitTest.h
 	GSLMatrixTest.h
+	GSLVectorTest.h
 	GausDecayTest.h
 	GausOscTest.h
 	GaussianComptonProfileTest.h
@@ -303,6 +316,7 @@ set ( TEST_FILES
 	NeutronBk2BkExpConvPVoigtTest.h
 	NormaliseByPeakAreaTest.h
 	PRConjugateGradientTest.h
+	ParameterEstimatorTest.h
 	PawleyFitTest.h
 	PawleyFunctionTest.h
 	PeakParameterFunctionTest.h
@@ -318,6 +332,7 @@ set ( TEST_FILES
 	ReflectivityMulfTest.h
 	ResolutionTest.h
 	SeqDomainSpectrumCreatorTest.h
+	SimpleChebfunTest.h
 	SimplexTest.h
 	SpecialFunctionSupportTest.h
 	SplineBackgroundTest.h
@@ -368,7 +383,7 @@ set_property ( TARGET CurveFitting PROPERTY FOLDER "MantidFramework" )
 
 include_directories ( inc )
 
-target_link_libraries ( CurveFitting LINK_PRIVATE ${MANTIDLIBS} ${GSL_LIBRARIES} )
+target_link_libraries ( CurveFitting LINK_PRIVATE ${TCMALLOC_LIBRARIES_LINKTIME} ${MANTIDLIBS} ${GSL_LIBRARIES} )
 
 # Add the unit tests directory
 add_subdirectory ( test )

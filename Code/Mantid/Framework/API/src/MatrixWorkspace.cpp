@@ -8,7 +8,10 @@
 #include "MantidGeometry/Instrument/DetectorGroup.h"
 #include "MantidGeometry/Instrument/NearestNeighboursFactory.h"
 #include "MantidGeometry/Instrument/ReferenceFrame.h"
+#include "MantidGeometry/MDGeometry/MDFrame.h"
+#include "MantidGeometry/MDGeometry/GeneralFrame.h"
 #include "MantidKernel/TimeSeriesProperty.h"
+#include "MantidKernel/MDUnit.h"
 
 #include <numeric>
 #include <boost/math/special_functions/fpclassify.hpp>
@@ -42,6 +45,34 @@ MatrixWorkspace::MatrixWorkspace(
       m_nearestNeighboursFactory(
           (nnFactory == NULL) ? new NearestNeighboursFactory : nnFactory),
       m_nearestNeighbours() {}
+
+MatrixWorkspace::MatrixWorkspace(const MatrixWorkspace &other)
+    : IMDWorkspace(other), ExperimentInfo(other) {
+  m_axes.resize(other.m_axes.size());
+  for (size_t i = 0; i < m_axes.size(); ++i)
+    m_axes[i] = other.m_axes[i]->clone(this);
+
+  m_isInitialized = other.m_isInitialized;
+  m_YUnit = other.m_YUnit;
+  m_YUnitLabel = other.m_YUnitLabel;
+  m_isDistribution = other.m_isDistribution;
+  m_isCommonBinsFlagSet = other.m_isCommonBinsFlagSet;
+  m_isCommonBinsFlag = other.m_isCommonBinsFlag;
+  m_masks = other.m_masks;
+  m_indexCalculator = other.m_indexCalculator;
+  // I think it is necessary to create our own copy of the factory, since we do
+  // not know who owns the factory in other and how its lifetime is controlled.
+  m_nearestNeighboursFactory.reset(new NearestNeighboursFactory);
+  // m_nearestNeighbours seem to be built automatically when needed, so we do
+  // not copy here.
+
+  // TODO: Do we need to init m_monitorWorkspace?
+
+  // This call causes copying of m_parmap (ParameterMap). The constructor of
+  // ExperimentInfo just kept a shared_ptr to the same map as in other, which
+  // is not enough as soon as the maps in one of the workspaces it edited.
+  instrumentParameters();
+}
 
 /// Destructor
 // RJT, 3/10/07: The Analysis Data Service needs to be able to delete
@@ -552,6 +583,10 @@ MatrixWorkspace::getIndexFromSpectrumNumber(const specid_t specNo) const {
 //---------------------------------------------------------------------------------------
 /** Converts a list of detector IDs to the corresponding workspace indices.
 *
+     *  Note that only known detector IDs are converted (so an empty vector will be returned
+     *  if none of the IDs are recognised), and that the returned workspace indices are
+     *  effectively a set (i.e. there are no duplicates).
+     *
 *  @param detIdList :: The list of detector IDs required
 *  @param indexList :: Returns a reference to the vector of indices
 */
@@ -1245,7 +1280,7 @@ class MWDimension : public Mantid::Geometry::IMDDimension {
 public:
   MWDimension(const Axis *axis, const std::string &dimensionId)
       : m_axis(*axis), m_dimensionId(dimensionId),
-        m_haveEdges(dynamic_cast<const BinEdgeAxis *>(&m_axis) != NULL) {}
+        m_haveEdges(dynamic_cast<const BinEdgeAxis *>(&m_axis) != NULL), m_frame(new Geometry::GeneralFrame(m_axis.unit()->label(), m_axis.unit()->label())) {}
 
   /// the name of the dimennlsion as can be displayed along the axis
   virtual std::string getName() const {
@@ -1307,12 +1342,21 @@ public:
     throw std::runtime_error("Not implemented");
   }
 
+  const Kernel::MDUnit &getMDUnits() const{
+      return m_frame->getMDUnit();
+  }
+  const Geometry::MDFrame& getMDFrame() const{
+      return *m_frame;
+  }
+
   virtual ~MWDimension() {}
 
 private:
   const Axis &m_axis;
   const std::string m_dimensionId;
   const bool m_haveEdges;
+  const Geometry::MDFrame_const_uptr m_frame;
+
 };
 
 //===============================================================================
@@ -1322,7 +1366,7 @@ private:
 class MWXDimension : public Mantid::Geometry::IMDDimension {
 public:
   MWXDimension(const MatrixWorkspace *ws, const std::string &dimensionId)
-      : m_ws(ws), m_dimensionId(dimensionId) {
+      : m_ws(ws), m_dimensionId(dimensionId), m_frame(new Geometry::GeneralFrame(m_ws->getAxis(0)->unit()->label(), m_ws->getAxis(0)->unit()->label())) {
     m_X = ws->readX(0);
   }
 
@@ -1375,6 +1419,12 @@ public:
   virtual std::string toXMLString() const {
     throw std::runtime_error("Not implemented");
   }
+  const Kernel::MDUnit &getMDUnits() const{
+      return m_frame->getMDUnit();
+  }
+  const Geometry::MDFrame& getMDFrame() const{
+      return *m_frame;
+  }
 
 private:
   /// Workspace we refer to
@@ -1383,6 +1433,8 @@ private:
   MantidVec m_X;
   /// Dimension ID string
   const std::string m_dimensionId;
+  /// Unit
+  const Geometry::MDFrame_const_uptr m_frame;
 };
 
 boost::shared_ptr<const Mantid::Geometry::IMDDimension>

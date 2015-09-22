@@ -19,6 +19,11 @@ either sample temperature or run number of temperature is not available.
 The ELT workspace shows the normalisation of the ELF workspace to run with the
 lowest sample temperature.
 
+Workflow
+--------
+
+.. diagram:: ElasticWindowMultiple-v1_wkflw.dot
+
 Usage
 -----
 
@@ -56,7 +61,7 @@ Usage
 
         SetInstrumentParameter(Workspace=ws_name,
                                ParameterName='Efixed',
-                               DetectorList=range(1,114),
+                               DetectorList=range(1,113),
                                ParameterType='Number',
                                Value='1.555')
 
@@ -81,3 +86,5 @@ Usage
     ELF bin count: 7
 
 .. categories::
+
+.. sourcelink::

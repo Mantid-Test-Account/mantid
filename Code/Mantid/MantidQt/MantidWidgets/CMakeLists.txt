@@ -6,6 +6,7 @@ set ( SRC_FILES
     src/CheckboxHeader.cpp
     src/DataSelector.cpp
     src/DiagResults.cpp
+    src/ErrorCurve.cpp
     src/FilenameDialogEditor.cpp
     src/FindDialog.cpp
     src/FindReplaceDialog.cpp
@@ -25,6 +26,7 @@ set ( SRC_FILES
     src/MuonFitPropertyBrowser.cpp
     src/MuonSequentialFitDialog.cpp
     src/PeakPicker.cpp
+    src/PeriodicTableWidget.cpp
     src/PreviewPlot.cpp
     src/ProcessingAlgoWidget.cpp
     src/PropertyHandler.cpp
@@ -75,6 +77,7 @@ set ( MOC_FILES
     inc/MantidQtMantidWidgets/MWDiag.h
     inc/MantidQtMantidWidgets/MWRunFiles.h
     inc/MantidQtMantidWidgets/PeakPicker.h
+    inc/MantidQtMantidWidgets/PeriodicTableWidget.h
     inc/MantidQtMantidWidgets/pqHelpWindow.h
     inc/MantidQtMantidWidgets/PreviewPlot.h
     inc/MantidQtMantidWidgets/PropertyHandler.h
@@ -103,6 +106,7 @@ set ( INC_FILES
     ${MOC_FILES}
     inc/MantidQtMantidWidgets/AlgorithmHintStrategy.h
     inc/MantidQtMantidWidgets/CatalogHelper.h
+    inc/MantidQtMantidWidgets/ErrorCurve.h
     inc/MantidQtMantidWidgets/WidgetDllOption.h
     inc/MantidQtMantidWidgets/HintStrategy.h
 )
@@ -124,6 +128,7 @@ set ( UI_FILES
     inc/MantidQtMantidWidgets/SlicingAlgorithmDialog.ui
     inc/MantidQtMantidWidgets/SlitCalculator.ui
     inc/MantidQtMantidWidgets/UserFunctionDialog.ui
+    inc/MantidQtMantidWidgets/PeriodicTableWidget.ui
     inc/MantidQtMantidWidgets/PreviewPlot.ui
     inc/MantidQtMantidWidgets/pqHelpWindow.ui
 )
@@ -161,7 +166,7 @@ if (OSX_VERSION VERSION_GREATER 10.8)
   set_target_properties ( MantidWidgets PROPERTIES INSTALL_RPATH "@loader_path/../MacOS")
 endif ()
 
-target_link_libraries ( MantidWidgets LINK_PRIVATE 
+target_link_libraries ( MantidWidgets LINK_PRIVATE ${TCMALLOC_LIBRARIES_LINKTIME} 
             MantidQtAPI
             QtPropertyBrowser
             ${CORE_MANTIDLIBS}
