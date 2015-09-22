@@ -242,29 +242,8 @@ void ConvFit::run() {
   int maxIterations =
       static_cast<int>(m_dblManager->value(m_properties["MaxIterations"]));
 
-  // Construct expected name
-  m_baseName = QString::fromStdString(m_cfInputWS->getName());
-  int pos = m_baseName.lastIndexOf("_");
-  if (pos != -1) {
-    m_baseName = m_baseName.left(pos + 1);
-  }
-  m_baseName += "conv_";
-  if (m_blnManager->value(m_properties["UseDeltaFunc"])) {
-    m_baseName += "Delta";
-  }
-  int fitIndex = m_uiForm.cbFitType->currentIndex();
-  if (fitIndex < 3 && fitIndex != 0) {
-    m_baseName += QString::number(fitIndex);
-    m_baseName += "L";
-  } else {
-    m_baseName += convertFuncToShort(m_uiForm.cbFitType->currentText());
-  }
-  m_baseName +=
-      convertBackToShort(m_uiForm.cbBackground->currentText().toStdString()) +
-      "_s";
-  m_baseName += QString::fromStdString(specMin);
-  m_baseName += "_to_";
-  m_baseName += QString::fromStdString(specMax);
+  // Get BaseName
+  QString baseName = constructBaseName(specMin, specMax);
 
   // Run ConvolutionFitSequential Algorithm
   IAlgorithm_sptr cfs =
@@ -1600,6 +1579,31 @@ void ConvFit::updatePlotOptions() {
  * @param
  * @return The baseName of ConvFitWorkspaces
  */
+QString ConvFit::constructBaseName(const std::string &specMin, const std::string &specMax){
+  QString baseName = QString::fromStdString(m_cfInputWS->getName());
+  int pos = baseName.lastIndexOf("_");
+  if (pos != -1) {
+    baseName = baseName.left(pos + 1);
+  }
+  baseName += "conv_";
+  if (m_blnManager->value(m_properties["UseDeltaFunc"])) {
+    baseName += "Delta";
+  }
+  int fitIndex = m_uiForm.cbFitType->currentIndex();
+  if (fitIndex < 3 && fitIndex != 0) {
+    baseName += QString::number(fitIndex);
+    baseName += "L";
+  } else {
+    baseName += convertFuncToShort(m_uiForm.cbFitType->currentText());
+  }
+  baseName +=
+      convertBackToShort(m_uiForm.cbBackground->currentText().toStdString()) +
+      "_s";
+  baseName += QString::fromStdString(specMin);
+  baseName += "_to_";
+  baseName += QString::fromStdString(specMax);
+  return baseName;
+}
 
 
 /**
