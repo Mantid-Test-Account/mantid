@@ -18,6 +18,7 @@ add_custom_target(CompilePyUI DEPENDS
 )
 
 set ( TEST_PY_FILES
+      test/BilbyReducerTest.py
       test/ConvertToWavelengthTest.py
       test/DirectReductionHelpersTest.py
       test/DirectPropertyManagerTest.py
@@ -41,8 +42,6 @@ set ( TEST_PY_FILES
 # python unit tests
 if (PYUNITTEST_FOUND)
   pyunittest_add_test ( ${CMAKE_CURRENT_SOURCE_DIR}/test PythonScriptsTest ${TEST_PY_FILES} )
-  # Trying to add tested modules to python system path
-  #set (ENV{PYTHONPATH}  "ENV{PYTHONPATH} ${CMAKE_CURRENT_SOURCE_DIR}/Inelastic" )
 endif ()
 
 # Ensure we don't get stale pyc files around
