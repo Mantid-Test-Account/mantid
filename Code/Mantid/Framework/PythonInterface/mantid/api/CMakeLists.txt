@@ -32,6 +32,7 @@ set ( EXPORT_FILES
   src/Exports/WorkspaceProperty.cpp
   src/Exports/ITableWorkspace.cpp
   src/Exports/ITableWorkspaceProperty.cpp
+  src/Exports/ISplittersWorkspace.cpp
   src/Exports/MDGeometry.cpp
   src/Exports/IMDWorkspace.cpp
   src/Exports/IMDWorkspaceProperty.cpp
@@ -43,6 +44,7 @@ set ( EXPORT_FILES
   src/Exports/MatrixWorkspaceProperty.cpp
   src/Exports/IEventWorkspace.cpp
   src/Exports/IEventWorkspaceProperty.cpp
+  src/Exports/IMaskWorkspace.cpp
   src/Exports/IPeaksWorkspace.cpp
   src/Exports/IPeaksWorkspaceProperty.cpp
   src/Exports/BinaryOperations.cpp
@@ -54,6 +56,7 @@ set ( EXPORT_FILES
   src/Exports/IPeak.cpp
   src/Exports/BoxController.cpp
   src/Exports/FileFinder.cpp
+  src/Exports/FileLoaderRegistry.cpp
   src/Exports/Sample.cpp
   src/Exports/ScriptRepository.cpp
   src/Exports/ScriptRepositoryFactory.cpp
@@ -85,6 +88,7 @@ set ( SRC_FILES
   src/PythonAlgorithm/AlgorithmAdapter.cpp
   src/PythonAlgorithm/DataProcessorAdapter.cpp
   src/CloneMatrixWorkspace.cpp
+  src/ExtractWorkspace.cpp
 )
 
 set ( INC_FILES
@@ -96,6 +100,7 @@ set ( INC_FILES
   ${HEADER_DIR}/api/PythonAlgorithm/DataProcessorAdapter.h
   ${HEADER_DIR}/api/BinaryOperations.h
   ${HEADER_DIR}/api/CloneMatrixWorkspace.h
+  ${HEADER_DIR}/api/ExtractWorkspace.h
   ${HEADER_DIR}/api/WorkspacePropertyExporter.h
 )
 
@@ -131,7 +136,7 @@ set_python_properties( PythonAPIModule _api )
 set_target_output_directory ( PythonAPIModule ${OUTPUT_DIR} .pyd )
 
 # Add the required dependencies
-target_link_libraries ( PythonAPIModule LINK_PRIVATE
+target_link_libraries ( PythonAPIModule LINK_PRIVATE ${TCMALLOC_LIBRARIES_LINKTIME}
             PythonGeometryModule
             PythonKernelModule
             API

@@ -73,10 +73,16 @@ public:
     checkPW(*pw);
   }
 
+  class TestablePeaksWorkspace : public PeaksWorkspace {
+  public:
+    TestablePeaksWorkspace(const PeaksWorkspace &other)
+        : PeaksWorkspace(other) {}
+  };
+
   void test_copyConstructor()
   {
     auto pw = buildPW();
-    auto pw2 = PeaksWorkspace_sptr(new PeaksWorkspace(*pw));
+    auto pw2 = PeaksWorkspace_sptr(new TestablePeaksWorkspace(*pw));
     checkPW(*pw2);
   }
 
@@ -149,6 +155,9 @@ public:
 
     // Check detector IDs
     TS_ASSERT_THROWS_NOTHING(nexusHelper.file->openData("column_1") );
+    std::string columnName;
+    TS_ASSERT_THROWS_NOTHING(nexusHelper.file->getAttr("name", columnName) );
+    TS_ASSERT_EQUALS( columnName, "Detector ID");
     std::vector<int> detIDs;
     TS_ASSERT_THROWS_NOTHING(nexusHelper.file->getData(detIDs));
     nexusHelper.file->closeData();
