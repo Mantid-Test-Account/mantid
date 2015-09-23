@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# For OS X only
+# Launch IPython with paths set for the Mantid environment
+
+# Find out where we are
+INSTALLDIR=/Applications/MantidPlot.app
+IPYTHON='/Applications/MantidPlot.app/Contents/MacOS/bin/ipython'
+
+# Define extra libraries for python
+LOCAL_PYTHONPATH=${INSTALLDIR}/Contents/MacOS
+if [-n "${PYTHONPATH}" ]; then
+	LOCAL_PYTHONPATH=${LOCAL_PYTHONPATH}:${PYTHONPATH}
+fi
+
+PYTHONPATH=${LOCAL_PYTHONPATH} \
+	${IPYTHON} notebook --notebook-dir=$HOME
