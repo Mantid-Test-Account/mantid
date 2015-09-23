@@ -287,7 +287,13 @@ void LoadBBY::exec() {
   // eventWS->mutableRun().addProperty("duration", duration[0], units);
 
   // create instrument
-  Geometry::Instrument_sptr instrument = createInstrument(file, pixelsCutOffL, pixelsCutOffH, tubeBinning, finalBinsY);
+  double periodMasterDefault = 0.0;
+  double periodSlaveDefault = 0.0;
+  double phaseSlaveDefault = 0.0;
+  Geometry::Instrument_sptr instrument = createInstrument(file, pixelsCutOffL, pixelsCutOffH, tubeBinning, finalBinsY,
+                                            /*ref*/ periodMasterDefault,
+                                            /*ref*/ periodSlaveDefault,
+                                            /*ref*/ phaseSlaveDefault);
   eventWS->setInstrument(instrument);
 
   // load events
@@ -310,10 +316,17 @@ void LoadBBY::exec() {
   bool setPeriodSlave = periodSlave > 0.0;
   bool setPhaseSlave = phaseSlave != 0.0;
 
-  if ((setPeriodMaster != setPeriodSlave) || setPhaseSlave)
+  if ((setPeriodMaster != setPeriodSlave) || (setPhaseSlave != setPeriodSlave))
     throw std::runtime_error("Please specify PeriodMaster, PeriodSlave and PhaseSlave or none of them.");
 
-  double periode = periodSlave > 0.0 ? periodSlave : periodMaster;
+  if (!setPeriodMaster) {
+    // if values have not been specified in loader then use values from hdf file
+    periodMaster = periodMasterDefault;
+    periodSlave = periodSlaveDefault;
+    phaseSlave = phaseSlaveDefault;
+  }
+
+  double periode = periodSlave;
   double shift = -1.0/6.0*periodMaster - periodSlave * phaseSlave / 360.0;
 
   // count total events per pixel to reserve necessary memory
@@ -400,7 +413,8 @@ void LoadBBY::exec() {
 }
 
 // instrument creation
-Geometry::Instrument_sptr LoadBBY::createInstrument(ANSTO::Tar::File &tarFile, size_t pixelsCutOffL, size_t pixelsCutOffH, size_t tubeBinning, size_t finalBinsY) {
+Geometry::Instrument_sptr LoadBBY::createInstrument(ANSTO::Tar::File &tarFile, size_t pixelsCutOffL, size_t pixelsCutOffH, size_t tubeBinning, size_t finalBinsY,
+                                                    double &periodMaster, double &periodSlave, double &phaseSlave) {
   // instrument
   Geometry::Instrument_sptr instrument =
       boost::make_shared<Geometry::Instrument>("BILBY");
@@ -439,6 +453,10 @@ Geometry::Instrument_sptr LoadBBY::createInstrument(ANSTO::Tar::File &tarFile, s
   double D_curtainr_value = 0.4024;
   double D_curtainu_value = 0.3947;
   double D_curtaind_value = 0.3978;
+
+  periodMaster = 0.0;
+  periodSlave = 0.0;
+  phaseSlave = 0.0;
 
   // extract hdf file
   int64_t fileSize = 0;
@@ -492,6 +510,13 @@ Geometry::Instrument_sptr LoadBBY::createInstrument(ANSTO::Tar::File &tarFile, s
         D_curtainu_value = tmp * toMeters;
       if (loadNXDataSet(tmp, entry, "instrument/detector/curtaind"))
         D_curtaind_value = tmp * toMeters;
+      
+      if (loadNXDataSet(tmp, entry, "instrument/master_chopper_freq"))
+        periodMaster = 1.0 / tmp * 1.0e6;
+      if (loadNXDataSet(tmp, entry, "instrument/t0_chopper_freq"))
+        periodSlave = 1.0 / tmp * 1.0e6;
+      if (loadNXDataSet(tmp, entry, "instrument/t0_chopper_phase"))
+        phaseSlave = tmp;
     }
   }
 
@@ -795,7 +820,7 @@ void BbyDetectorBankFactory::createAndAssign(size_t startIndex,
   // create a RectangularDetector which represents a rectangular array of pixels
   Geometry::RectangularDetector *bank = new Geometry::RectangularDetector(
       "bank",
-      m_instrument.get()); // ??? possible memory leak!? "new" without "delete"
+      m_instrument.get()); // Bank gets registered with instrument component. instrument acts as sink and manages lifetime.
 
   bank->initialize(m_pixelShape,
                    // x
