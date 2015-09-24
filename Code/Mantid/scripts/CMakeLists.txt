@@ -25,6 +25,7 @@ set ( TEST_PY_FILES
       test/DirectEnergyConversionTest.py
       test/ISISDirecInelasticConfigTest.py
       test/IndirectCommonTests.py
+      test/LoadRunBilbyTest.py
       test/ReductionWrapperTest.py
       test/ReflectometryQuickAuxiliaryTest.py
       test/RunDescriptorTest.py
