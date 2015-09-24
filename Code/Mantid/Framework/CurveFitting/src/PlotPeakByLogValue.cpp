@@ -134,15 +134,16 @@ void PlotPeakByLogValue::init() {
   declareProperty(
       new WorkspaceProperty<WorkspaceGroup>(
           "OutputWorkspaceNormalisedCovariance", "", Direction::Output),
-      "The name to give the output workspace");
+      "The name to give the output workspace for the Normalised Covariance");
 
   declareProperty(new WorkspaceProperty<WorkspaceGroup>(
                       "OutputWorkspaceParameter", "", Direction::Output),
-                  "The name to give the output workspace");
+                  "The name to give the output workspace for the Parameters");
 
   declareProperty(new WorkspaceProperty<WorkspaceGroup>("OutputWorkspaceGroup",
                                                         "", Direction::Output),
-                  "The name to give the output workspace");
+                  "The name to give the output workspace for the group of all "
+                  "workspaces used");
 }
 
 /**
