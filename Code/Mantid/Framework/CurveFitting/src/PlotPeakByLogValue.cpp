@@ -357,28 +357,33 @@ void PlotPeakByLogValue::exec() {
     API::IAlgorithm_sptr groupAlgNorm = createChildAlgorithm("GroupWorkspaces");
     groupAlgNorm->setProperty("InputWorkspaces", covariance_workspaces);
     groupAlgNorm->setProperty(
-        "OutputWorkspace", getProperty("OutputWorkspaceNormalisedCovariance"));
+        "OutputWorkspace",
+        std::string(getProperty("OutputWorkspaceNormalisedCovariance")));
     groupAlgNorm->executeAsChildAlg();
-    setProperty("OutputWorkspaceNormalisedCovariance",
-                groupAlgNorm->getProperty("OutputWorkspace"));
+    setProperty(
+        "OutputWorkspaceNormalisedCovariance",
+        WorkspaceGroup_sptr(groupAlgNorm->getProperty("OutputWorkspace")));
 
     API::IAlgorithm_sptr groupAlgParam =
         createChildAlgorithm("GroupWorkspaces");
     groupAlgParam->setProperty("InputWorkspaces", parameter_workspaces);
-    groupAlgParam->setProperty("OutputWorkspace",
-                               getProperty("OutputWorkspaceParameter"));
+    groupAlgParam->setProperty(
+        "OutputWorkspace",
+        std::string(getProperty("OutputWorkspaceParameter")));
     groupAlgParam->executeAsChildAlg();
-    setProperty("OutputWorkspaceParameter",
-                groupAlgParam->getProperty("OutputWorkspace"));
+    setProperty(
+        "OutputWorkspaceParameter",
+        WorkspaceGroup_sptr(groupAlgParam->getProperty("OutputWorkspace")));
 
     API::IAlgorithm_sptr groupAlgWorkspaces =
         createChildAlgorithm("GroupWorkspaces");
     groupAlgWorkspaces->setProperty("InputWorkspaces", fit_workspaces);
-    groupAlgWorkspaces->setProperty("OutputWorkspace",
-                                    getProperty("OutputWorkspaceGroup"));
+    groupAlgWorkspaces->setProperty(
+        "OutputWorkspace", std::string(getProperty("OutputWorkspaceGroup")));
     groupAlgWorkspaces->executeAsChildAlg();
     setProperty("OutputWorkspaceGroup",
-                groupAlgWorkspaces->getProperty("OutputWorkspace"));
+                WorkspaceGroup_sptr(
+                    groupAlgWorkspaces->getProperty("OutputWorkspace")));
   }
 
   for (auto it = m_minimizerWorkspaces.begin();

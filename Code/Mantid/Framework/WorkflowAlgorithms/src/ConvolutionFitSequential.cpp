@@ -218,11 +218,13 @@ void ConvolutionFitSequential::exec() {
   plotPeaks->setProperty("MaxIterations", maxIter);
   plotPeaks->setProperty("Minimizer", minimizer);
   plotPeaks->setProperty("PassWSIndexToFunction", passIndex);
+  plotPeaks->setProperty("OutputWorkspaceGroup", (outputWsName + "_Workspaces"));
   plotPeaks->executeAsChildAlg();
   ITableWorkspace_sptr outputWs = plotPeaks->getProperty("OutputWorkspace");
+  WorkspaceGroup_sptr groupWs = plotPeaks->getProperty("OutputWorkspaceGroup");
 
   // Delete workspaces
-  Progress deleteProgress(this, 0.90, 0.91, 2);
+ /* Progress deleteProgress(this, 0.90, 0.91, 2);
   auto deleter = createChildAlgorithm("DeleteWorkspace");
   deleter->setProperty("WorkSpace",
                        outputWsName + "_NormalisedCovarianceMatrices");
@@ -232,7 +234,7 @@ void ConvolutionFitSequential::exec() {
   deleter = createChildAlgorithm("DeleteWorkspace");
   deleter->setProperty("WorkSpace", outputWsName + "_Parameters");
   deleter->executeAsChildAlg();
-  deleteProgress.report();
+  deleteProgress.report();*/
 
   std::string paramTableName = outputWsName + "_Parameters";
   AnalysisDataService::Instance().add(paramTableName, outputWs);
@@ -330,14 +332,14 @@ void ConvolutionFitSequential::exec() {
   // Copy Logs to GroupWorkspace
   logCopier = createChildAlgorithm("CopyLogs", 0.97, 0.98, true);
   logCopier->setProperty("InputWorkspace", resultWs);
-  std::string groupName = outputWsName + "_Workspaces";
-  logCopier->setProperty("OutputWorkspace", groupName);
+  std::string groupName = groupWs->getName();
+  logCopier->setProperty("OutputWorkspace", groupWs->getName());
   logCopier->executeAsChildAlg();
 
   // Rename Workspaces in group
-  WorkspaceGroup_sptr groupWs =
+  /*WorkspaceGroup_sptr groupWs =
       AnalysisDataService::Instance().retrieveWS<WorkspaceGroup>(outputWsName +
-                                                                 "_Workspaces");
+                                                                 "_Workspaces");*/
   auto groupWsNames = groupWs->getNames();
   auto renamer = createChildAlgorithm("RenameWorkspace");
   Progress renamerProg(this, 0.98, 1.0, specMax + 1);
