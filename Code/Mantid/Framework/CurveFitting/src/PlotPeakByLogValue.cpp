@@ -130,6 +130,19 @@ void PlotPeakByLogValue::init() {
                   "If true and OutputCompositeMembers is true members of any "
                   "Convolution are output convolved\n"
                   "with corresponding resolution");
+
+  declareProperty(
+      new WorkspaceProperty<WorkspaceGroup>(
+          "OutputWorkspaceNormalisedCovariance", "", Direction::Output),
+      "The name to give the output workspace");
+
+  declareProperty(new WorkspaceProperty<WorkspaceGroup>(
+                      "OutputWorkspaceParameter", "", Direction::Output),
+                  "The name to give the output workspace");
+
+  declareProperty(new WorkspaceProperty<WorkspaceGroup>("OutputWorkspaceGroup",
+                                                        "", Direction::Output),
+                  "The name to give the output workspace");
 }
 
 /**
@@ -341,25 +354,24 @@ void PlotPeakByLogValue::exec() {
 
   if (createFitOutput) {
     // collect output of fit for each spectrum into workspace groups
-    API::IAlgorithm_sptr groupAlg =
-        AlgorithmManager::Instance().createUnmanaged("GroupWorkspaces");
-    groupAlg->initialize();
-    groupAlg->setProperty("InputWorkspaces", covariance_workspaces);
-    groupAlg->setProperty("OutputWorkspace",
+    API::IAlgorithm_sptr groupAlgNorm = createChildAlgorithm("GroupWorkspaces");
+    groupAlgNorm->setProperty("InputWorkspaces", covariance_workspaces);
+    groupAlgNorm->setProperty("OutputWorkspace",
                           m_baseName + "_NormalisedCovarianceMatrices");
-    groupAlg->execute();
+    groupAlgNorm->executeAsChildAlg();
+	setProperty("OutputWorkspaceNormalisedCovariance", groupAlgNorm->getProperty("OutputWorkspace"));
 
-    groupAlg = AlgorithmManager::Instance().createUnmanaged("GroupWorkspaces");
-    groupAlg->initialize();
-    groupAlg->setProperty("InputWorkspaces", parameter_workspaces);
-    groupAlg->setProperty("OutputWorkspace", m_baseName + "_Parameters");
-    groupAlg->execute();
+	API::IAlgorithm_sptr groupAlgParam = createChildAlgorithm("GroupWorkspaces");
+    groupAlgParam->setProperty("InputWorkspaces", parameter_workspaces);
+    groupAlgParam->setProperty("OutputWorkspace", m_baseName + "_Parameters");
+    groupAlgParam->executeAsChildAlg();
+	setProperty("OutputWorkspaceParameter", groupAlgParam->getProperty("OutputWorkspace"));
 
-    groupAlg = AlgorithmManager::Instance().createUnmanaged("GroupWorkspaces");
-    groupAlg->initialize();
-    groupAlg->setProperty("InputWorkspaces", fit_workspaces);
-    groupAlg->setProperty("OutputWorkspace", m_baseName + "_Workspaces");
-    groupAlg->execute();
+	API::IAlgorithm_sptr groupAlgWorkspaces = createChildAlgorithm("GroupWorkspaces");
+    groupAlgWorkspaces->setProperty("InputWorkspaces", fit_workspaces);
+    groupAlgWorkspaces->setProperty("OutputWorkspace", m_baseName + "_Workspaces");
+    groupAlgWorkspaces->executeAsChildAlg();
+	setProperty("OutputWorkspaceGroup", groupAlgWorkspaces->getProperty("OutputWorkspace"));
   }
 
   for (auto it = m_minimizerWorkspaces.begin();
