@@ -243,12 +243,11 @@ void PlotPeakByLogValue::exec() {
       double logValue = 0;
       if (logName.empty()) {
         API::Axis *axis = data.ws->getAxis(1);
-        if(dynamic_cast<BinEdgeAxis *>(axis)) {
+        if (dynamic_cast<BinEdgeAxis *>(axis)) {
           double lowerEdge((*axis)(j));
-          double upperEdge((*axis)(j+1));
+          double upperEdge((*axis)(j + 1));
           logValue = lowerEdge + (upperEdge - lowerEdge) / 2;
-        }
-        else
+        } else
           logValue = (*axis)(j);
       } else if (logName != "SourceName") {
         Kernel::Property *prop = data.ws->run().getLogData(logName);
@@ -356,22 +355,29 @@ void PlotPeakByLogValue::exec() {
     // collect output of fit for each spectrum into workspace groups
     API::IAlgorithm_sptr groupAlgNorm = createChildAlgorithm("GroupWorkspaces");
     groupAlgNorm->setProperty("InputWorkspaces", covariance_workspaces);
-    groupAlgNorm->setProperty("OutputWorkspace",
-                          m_baseName + "_NormalisedCovarianceMatrices");
+    groupAlgNorm->setProperty(
+        "OutputWorkspace", getProperty("OutputWorkspaceNormalisedCovariance"));
     groupAlgNorm->executeAsChildAlg();
-	setProperty("OutputWorkspaceNormalisedCovariance", groupAlgNorm->getProperty("OutputWorkspace"));
+    setProperty("OutputWorkspaceNormalisedCovariance",
+                groupAlgNorm->getProperty("OutputWorkspace"));
 
-	API::IAlgorithm_sptr groupAlgParam = createChildAlgorithm("GroupWorkspaces");
+    API::IAlgorithm_sptr groupAlgParam =
+        createChildAlgorithm("GroupWorkspaces");
     groupAlgParam->setProperty("InputWorkspaces", parameter_workspaces);
-    groupAlgParam->setProperty("OutputWorkspace", m_baseName + "_Parameters");
+    groupAlgParam->setProperty("OutputWorkspace",
+                               getProperty("OutputWorkspaceParameter"));
     groupAlgParam->executeAsChildAlg();
-	setProperty("OutputWorkspaceParameter", groupAlgParam->getProperty("OutputWorkspace"));
+    setProperty("OutputWorkspaceParameter",
+                groupAlgParam->getProperty("OutputWorkspace"));
 
-	API::IAlgorithm_sptr groupAlgWorkspaces = createChildAlgorithm("GroupWorkspaces");
+    API::IAlgorithm_sptr groupAlgWorkspaces =
+        createChildAlgorithm("GroupWorkspaces");
     groupAlgWorkspaces->setProperty("InputWorkspaces", fit_workspaces);
-    groupAlgWorkspaces->setProperty("OutputWorkspace", m_baseName + "_Workspaces");
+    groupAlgWorkspaces->setProperty("OutputWorkspace",
+                                    getProperty("OutputWorkspaceGroup"));
     groupAlgWorkspaces->executeAsChildAlg();
-	setProperty("OutputWorkspaceGroup", groupAlgWorkspaces->getProperty("OutputWorkspace"));
+    setProperty("OutputWorkspaceGroup",
+                groupAlgWorkspaces->getProperty("OutputWorkspace"));
   }
 
   for (auto it = m_minimizerWorkspaces.begin();
