@@ -1,12 +1,13 @@
 import mantid
 import unittest
 
-from ANSTO.LoadRunBilby import LoadRunBilby
+from ANSTO.bilby_load_run import BilbyLoadRun
 
 class LoadRunBilbyTest(unittest.TestCase):
 
+
     def test_load(self):
-        step = LoadRunBilby("BBY0000014.tar")
+        step = BilbyLoadRun("BBY0000014.tar")
         ws = step.execute()
         self.assertEquals("BILBY", ws.getInstrument().getName())
 

@@ -1,6 +1,6 @@
 from mantid.api import AlgorithmManager
 
-class LoadRunBilby(object):
+class BilbyLoadRun(object):
 
     def __init__(self, filename):
         self._filename = filename
