@@ -8,7 +8,7 @@ class BilbyLoadRun(object):
     def setFilename(self, filename):
         self._filename = filename
 
-    def execute(self):
+    def execute(self, ws_arg=None):
         loader = AlgorithmManager.create("LoadBBY")
         loader.setChild(True)
         loader.initialize()
