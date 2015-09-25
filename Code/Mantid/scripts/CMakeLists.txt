@@ -20,6 +20,7 @@ add_custom_target(CompilePyUI DEPENDS
 set ( TEST_PY_FILES
       test/BilbyReducerTest.py
       test/BilbyLoadRunTest.py
+      test/BilbyTransmissionCalculatorTest.py
       test/BilbyUnitsConvertTest.py
       test/ConvertToWavelengthTest.py
       test/DirectReductionHelpersTest.py
