@@ -8,7 +8,7 @@ from mantid.simpleapi import CreateSampleWorkspace, DeleteWorkspace, ConvertUnit
 class BilbyTransmissionCalculatorTest(unittest.TestCase):
 
     def _create_workspace(self, name):
-        ws = CreateSampleWorkspace(OutputWorkspace=name)
+        ws = CreateSampleWorkspace(OutputWorkspace=name, NumBanks=1)
         ws = ConvertUnits(ws, Target='Wavelength', OutputWorkspace=name)
         ws = Rebin(ws, Params=[5,0.1,15], OutputWorkspace=name)
         return ws
