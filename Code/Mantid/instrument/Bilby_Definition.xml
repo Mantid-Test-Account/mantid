@@ -29,7 +29,7 @@
   </component>
   <type name="source" is="Source" />
   
-  <component name="Some-Sample-Holder" type="some-sample-holder">
+  <component name="Sample-Holder" type="some-sample-holder">
     <location z="0.0" x="0.0" y="0.0"/>
   </component>
   <type name="some-sample-holder" is="SamplePos" />
@@ -87,6 +87,28 @@
     </location>
  </component>
  </type>
+ 
+ <component name="BackDetectorLeft" type="bank05" idlist="bank05">
+  <location/>
+ </component>
+  <type name="bank05">
+ <component type="BilbyPanel">
+    <location x="+0.168" y="0.0" z="6" > 
+    </location>
+ </component>
+ </type>
+ 
+  <component name="BackDetectorRight" type="bank06" idlist="bank06">
+  <location/>
+ </component>
+  <type name="bank06">
+ <component type="BilbyPanel">
+    <location x="-0.168" y="0.0" z="6" > 
+    <rot val="180" axis-x="0" axis-y="0" axis-z="1" />
+    </location>
+ </component>
+ </type>
+
 
  
  <type name="BilbyPanel">
