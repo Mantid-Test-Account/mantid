@@ -107,19 +107,22 @@ class ResNorm(PythonAlgorithm):
         out_name = getWSprefix(self._res_ws) + 'ResNorm_Fit'
         function = 'name=TabulatedFunction,Workspace=%s,Scaling=1,Shift=0,XScaling=1,ties=(Shift=0)' % self._van_ws
 
-        fit_params = PlotPeakByLogValue(Input=input_str,
-                                        OutputWorkspace=out_name,
-                                        Function=function,
-                                        FitType='Individual',
-                                        PassWSIndexToFunction=True,
-                                        CreateOutput=self._create_output,
-                                        StartX=self._e_min,
-                                        EndX=self._e_max)
+        PlotPeakByLogValue(Input=input_str,
+                           OutputWorkspace=out_name,
+                           Function=function,
+                           FitType='Individual',
+                           PassWSIndexToFunction=True,
+                           CreateOutput=self._create_output,
+                           StartX=self._e_min,
+                           EndX=self._e_max,
+                           OutputWorkspaceParameter=out_name + '_Paramters',
+                           OutputWorkspaceNormalisedCovariance=out_name + '_NormalisedCovarianceMatrices',
+                           OutputWorkspaceGroup=out_name + '_Workspaces')
 
         params = {'XScaling':'Stretch', 'Scaling':'Intensity'}
         result_workspaces = []
         for param_name, output_name in params.items():
-            result_workspaces.append(self._process_fit_params(fit_params, param_name, v_values, v_unit, output_name))
+            result_workspaces.append(self._process_fit_params(mtd[out_name], param_name, v_values, v_unit, output_name))
 
         GroupWorkspaces(InputWorkspaces=result_workspaces,
                         OutputWorkspace=self._out_ws)
