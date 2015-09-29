@@ -333,12 +333,6 @@ void ConvolutionFitSequential::exec() {
     logAdder->executeAsChildAlg();
     logAdderProg.report();
   }
-  // Copy Logs to GroupWorkspace
-  logCopier = createChildAlgorithm("CopyLogs", 0.97, 0.98, true);
-  logCopier->setProperty("InputWorkspace", resultWs);
-  std::string groupName = groupWs->getName();
-  logCopier->setProperty("OutputWorkspace", groupWs->getName());
-  logCopier->executeAsChildAlg();
 
   // Rename Workspaces in group
   /*WorkspaceGroup_sptr groupWs =
@@ -346,19 +340,29 @@ void ConvolutionFitSequential::exec() {
                                                                  "_Workspaces");*/
   auto groupWsNames = groupWs->getNames();
   auto renamer = createChildAlgorithm("RenameWorkspace");
+  logCopier = createChildAlgorithm("CopyLogs");
   Progress renamerProg(this, 0.98, 1.0, specMax + 1);
   for (int i = specMin; i < specMax + 1; i++) {
+    logCopier->setProperty("InputWorkspace", resultWs);
+    logCopier->setProperty("Outputworkspace", groupWsNames.at(i - specMin));
+    logCopier->executeAsChildAlg();
+
     renamer->setProperty("InputWorkspace", groupWsNames.at(i - specMin));
     std::string outName = outputWsName + "_";
     outName += boost::lexical_cast<std::string>(i);
     outName += "_Workspace";
     renamer->setProperty("OutputWorkspace", outName);
     renamer->executeAsChildAlg();
+
     renamerProg.report();
   }
 
+  auto groupWsName = outputWsName + "_Workspaces";
+
   AnalysisDataService::Instance().addOrReplace(resultWsName, resultWs);
+  AnalysisDataService::Instance().addOrReplace(groupWsName, groupWs);
   setProperty("OutputWorkspace", resultWsName);
+
 }
 
 /**
