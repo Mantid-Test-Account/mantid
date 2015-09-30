@@ -77,7 +77,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtainu_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
+      <logfile id="L2_curtainu_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front t panel z position -->
     </parameter>
     <parameter name="y">
       <logfile id="D_curtainu_value" eq="1*value"/> <!-- from beam center -->
@@ -97,7 +97,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtainr_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
+      <logfile id="L2_curtainr_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front r panel z position -->
     </parameter>
     <parameter name="x">
       <logfile id="D_curtainr_value" eq="-1*value"/> <!-- from beam center -->
@@ -117,7 +117,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtaind_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
+      <logfile id="L2_curtaind_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front b panel z position -->
     </parameter>
     <parameter name="y">
       <logfile id="D_curtaind_value" eq="-1*value"/> <!-- from beam center -->
@@ -130,10 +130,13 @@
  </component>
   <type name="bank05">
  <component type="BilbyPanel">
-    <location x="+0.168" y="0.0" > 
+    <location  y="0.0" > 
     </location>
     <parameter name="z"> 
-      <logfile id="L2_det_value"/> <!-- back panel position -->
+      <logfile id="L2_det_value"/> <!-- back panel z position -->
+    </parameter>
+    <parameter name="x">
+      <logfile id="D_det_value" eq="0.168 + value"/> <!-- x pos -->
     </parameter>
  </component>
  </type>
@@ -147,7 +150,10 @@
      <rot val="180" axis-x="0" axis-y="0" axis-z="1" />
     </location>
     <parameter name="z"> 
-      <logfile id="L2_det_value"/> <!-- back panel position -->
+      <logfile id="L2_det_value"/> <!-- back panel z position -->
+    </parameter>
+    <parameter name="x">
+      <logfile id="D_det_value" eq="-0.168 - value"/>  <!-- x pos -->
     </parameter>
  </component>
  </type>
