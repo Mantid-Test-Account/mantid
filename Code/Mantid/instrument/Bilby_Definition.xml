@@ -50,7 +50,7 @@
   <location/>
  </component>
   <type name="bank01">
- <component type="BilbyPanel">
+ <component type="IdealBilbyPanel">
     <location y="0.0">
       <!-- Rotate the panel 10 degrees -->
       <rot val="10" axis-x="0" axis-y="1" axis-z="0">
@@ -69,7 +69,7 @@
   <location/>
 </component>
 <type name="bank03">
- <component type="BilbyPanel">
+ <component type="IdealBilbyPanel">
     <location x="0.0"> 
     <rot val="90" axis-x="0" axis-y="0" axis-z="1">
     <!-- Rotate the panel 10 degrees -->
@@ -89,7 +89,7 @@
   <location/>
  </component>
   <type name="bank02">
- <component type="BilbyPanel">
+ <component type="IdealBilbyPanel">
     <location y="0.0" > 
     <rot val="180" axis-x="0" axis-y="0" axis-z="1">
     <!-- Rotate the panel 10 degrees -->
@@ -109,7 +109,7 @@
   <location/>
  </component>
   <type name="bank04">
- <component type="BilbyPanel">
+ <component type="IdealBilbyPanel">
     <location x="0.0" > 
     <rot val="270" axis-x="0" axis-y="0" axis-z="1">
     <!-- Rotate the panel 10 degrees -->
@@ -129,7 +129,7 @@
   <location/>
  </component>
   <type name="bank05">
- <component type="BilbyPanel">
+ <component type="EastBilbyPanel">
     <location  y="0.0" > 
     </location>
     <parameter name="z"> 
@@ -145,7 +145,7 @@
   <location/>
  </component>
   <type name="bank06">
- <component type="BilbyPanel">
+ <component type="WestBilbyPanel">
     <location x="-0.168" y="0.0" > 
      <rot val="180" axis-x="0" axis-y="0" axis-z="1" />
     </location>
@@ -157,52 +157,57 @@
     </parameter>
  </component>
  </type>
-
-
- <type name="BilbyPanel">
- <component type="tube">
-<location  x="-0.168000" name="tube1" />
-<location  x="-0.159600" name="tube2" />
-<location  x="-0.151200" name="tube3" />
-<location  x="-0.142800" name="tube4" />
-<location  x="-0.134400" name="tube5" />
-<location  x="-0.126000" name="tube6" />
-<location  x="-0.117600" name="tube7" />
-<location  x="-0.109200" name="tube8" />
-<location  x="-0.100800" name="tube9" />
-<location  x="-0.092400" name="tube10" />
-<location  x="-0.084000" name="tube11" />
-<location  x="-0.075600" name="tube12" />
-<location  x="-0.067200" name="tube13" />
-<location  x="-0.058800" name="tube14" />
-<location  x="-0.050400" name="tube15" />
-<location  x="-0.042000" name="tube16" />
-<location  x="-0.033600" name="tube17" />
-<location  x="-0.025200" name="tube18" />
-<location  x="-0.016800" name="tube19" />
-<location  x="-0.008400" name="tube20" />
-<location  x="0.000000" name="tube21" />
-<location  x="0.008400" name="tube22" />
-<location  x="0.016800" name="tube23" />
-<location  x="0.025200" name="tube24" />
-<location  x="0.033600" name="tube25" />
-<location  x="0.042000" name="tube26" />
-<location  x="0.050400" name="tube27" />
-<location  x="0.058800" name="tube28" />
-<location  x="0.067200" name="tube29" />
-<location  x="0.075600" name="tube30" />
-<location  x="0.084000" name="tube31" />
-<location  x="0.092400" name="tube32" />
-<location  x="0.100800" name="tube33" />
-<location  x="0.109200" name="tube34" />
-<location  x="0.117600" name="tube35" />
-<location  x="0.126000" name="tube36" />
-<location  x="0.134400" name="tube37" />
-<location  x="0.142800" name="tube38" />
-<location  x="0.151200" name="tube39" />
-<location  x="0.159600" name="tube40" />
+ 
+ <!--- Bilby's 6 panels are 0.64m high, and 0.336m wide. Each panel has 40 tubes each made from 256 pixels. --> 
+ 
+  <!-- Grouping by eight-packs would really be unnecessary. All tubes equally spaced. -->
+ <type name="IdealBilbyPanel"> 
+ <component type="eight_pack">
+<location  x="-0.168000" name="eight_pack1" />
+<location  x="-0.100800" name="eight_pack2" />
+<location  x="-0.033600" name="eight_pack3" />
+<location  x="0.033600" name="eight_pack4" />
+<location  x="0.100800" name="eight_pack5" />
  </component>
  </type> 
+ 
+ <!-- eight-packs not equally separated. -->
+ <type name="EastBilbyPanel"> 
+ <!-- Grouping by eight-packs would really be unnecessary. All tubes equally spaced. -->
+ <component type="eight_pack">
+<location  x="-0.167000" name="eight_pack1" />
+<location  x="-0.099200" name="eight_pack2" />
+<location  x="-0.031600" name="eight_pack3" />
+<location  x="0.036200" name="eight_pack4" />
+<location  x="0.104000" name="eight_pack5" />
+ </component>
+ </type> 
+ 
+  <!-- eight-packs not equally separated. -->
+  <type name="WestBilbyPanel"> 
+ <!-- Grouping by eight-packs would really be unnecessary. All tubes equally spaced. -->
+ <component type="eight_pack">
+<location  x="-0.167000" name="eight_pack1" />
+<location  x="-0.099200" name="eight_pack2" />
+<location  x="-0.031600" name="eight_pack3" />
+<location  x="0.035700" name="eight_pack4" />
+<location  x="0.103900" name="eight_pack5" />
+ </component>
+ </type> 
+ 
+<type name="eight_pack">
+<component type="tube">
+<!-- tubes in each eight_pack are 0.0004 m separated -->
+<location  x="0.000000" name="tube1" />
+<location  x="0.008400" name="tube2" />
+<location  x="0.016800" name="tube3" />
+<location  x="0.025200" name="tube4" />
+<location  x="0.033600" name="tube5" />
+<location  x="0.042000" name="tube6" />
+<location  x="0.050400" name="tube7" />
+<location  x="0.058800" name="tube8" />
+</component>
+</type>
 
  
  <type name="tube" outline="yes">
