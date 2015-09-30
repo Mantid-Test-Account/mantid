@@ -57,7 +57,7 @@
       </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtainl_value" eq="1*value"/> <!-- front l panel position -->
+      <logfile id="L2_curtainl_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
     </parameter>
     <parameter name="x">
       <logfile id="D_curtainl_value" eq="1*value"/> <!-- from beam center -->
@@ -77,7 +77,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtainu_value" eq="1*value"/> <!-- front l panel position -->
+      <logfile id="L2_curtainu_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
     </parameter>
     <parameter name="y">
       <logfile id="D_curtainu_value" eq="1*value"/> <!-- from beam center -->
@@ -97,7 +97,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtainr_value" eq="1*value"/> <!-- front l panel position -->
+      <logfile id="L2_curtainr_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
     </parameter>
     <parameter name="x">
       <logfile id="D_curtainr_value" eq="-1*value"/> <!-- from beam center -->
@@ -117,7 +117,7 @@
     </rot>
     </location>
     <parameter name="z">
-      <logfile id="L2_curtaind_value" eq="1*value"/> <!-- front l panel position -->
+      <logfile id="L2_curtaind_value" eq="1*value - ( sin(10 * _pi / 180.0) * 0.0084 * 40 / 2 )"/> <!-- front l panel position -->
     </parameter>
     <parameter name="y">
       <logfile id="D_curtaind_value" eq="-1*value"/> <!-- from beam center -->
