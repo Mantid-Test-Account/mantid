@@ -4,7 +4,7 @@
 <instrument xmlns="http://www.mantidproject.org/IDF/1.0" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation="http://www.mantidproject.org/IDF/1.0 http://schema.mantidproject.org/IDF/1.0/IDFSchema.xsd"
- name="LOQ" valid-from   ="1901-01-01 00:00:00"
+ name="Bilby" valid-from   ="1901-01-01 00:00:00"
                        valid-to     ="2100-01-01 00:00:00"
 		       last-modified="2100-01-01 00:00:00">
 
@@ -25,7 +25,10 @@
   <!-- source and sample-position components -->
 
   <component name="Source" type="source">
-    <location x="0.0" y="0.0" z="-18.4726" />
+    <location x="0.0" y="0.0" />
+    <parameter name="z"> 
+      <logfile id="source_z" extract-single-value-as="last_value"/>
+    </parameter>
   </component>
   <type name="source" is="Source" />
   
@@ -49,8 +52,9 @@
  </component>
   <type name="bank01">
  <component type="BilbyPanel">
-    <location>
-      <trans x="0.5" y="0" z="2"/>
+    <location x="0.5" y="0" z="2">
+      <!-- Rotate the panel 10 degrees -->
+      <rot val="10" axis-x="0" axis-y="1" axis-z="0" />
     </location>
  </component>
  </type>
@@ -61,7 +65,10 @@
 <type name="bank03">
  <component type="BilbyPanel">
     <location x="0" y="0.5" z="2" > 
-    <rot val="90" axis-x="0" axis-y="0" axis-z="1" />
+    <rot val="90" axis-x="0" axis-y="0" axis-z="1">
+    <!-- Rotate the panel 10 degrees -->
+    <rot val="10" axis-x="0" axis-y="1" axis-z="0" />
+    </rot>
     </location>
  </component>
 </type>
@@ -72,7 +79,10 @@
   <type name="bank02">
  <component type="BilbyPanel">
     <location x="-0.5" y="0" z="2" > 
-    <rot val="180" axis-x="0" axis-y="0" axis-z="1" />
+    <rot val="180" axis-x="0" axis-y="0" axis-z="1">
+    <!-- Rotate the panel 10 degrees -->
+    <rot val="10" axis-x="0" axis-y="1" axis-z="0" />
+    </rot>
     </location>
  </component>
  </type>
@@ -83,7 +93,10 @@
   <type name="bank04">
  <component type="BilbyPanel">
     <location x="0.0" y="-0.5" z="2" > 
-    <rot val="270" axis-x="0" axis-y="0" axis-z="1" />
+    <rot val="270" axis-x="0" axis-y="0" axis-z="1">
+    <!-- Rotate the panel 10 degrees -->
+    <rot val="10" axis-x="0" axis-y="1" axis-z="0" />
+    </rot>
     </location>
  </component>
  </type>
