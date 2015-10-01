@@ -223,19 +223,6 @@ void ConvolutionFitSequential::exec() {
   ITableWorkspace_sptr outputWs = plotPeaks->getProperty("OutputWorkspace");
   WorkspaceGroup_sptr groupWs = plotPeaks->getProperty("OutputWorkspaceGroup");
 
-  // Delete workspaces
- /* Progress deleteProgress(this, 0.90, 0.91, 2);
-  auto deleter = createChildAlgorithm("DeleteWorkspace");
-  deleter->setProperty("WorkSpace",
-                       outputWsName + "_NormalisedCovarianceMatrices");
-  deleter->executeAsChildAlg();
-  deleteProgress.report();
-
-  deleter = createChildAlgorithm("DeleteWorkspace");
-  deleter->setProperty("WorkSpace", outputWsName + "_Parameters");
-  deleter->executeAsChildAlg();
-  deleteProgress.report();*/
-
   std::string paramTableName = outputWsName + "_Parameters";
   AnalysisDataService::Instance().add(paramTableName, outputWs);
 
@@ -335,9 +322,6 @@ void ConvolutionFitSequential::exec() {
   }
 
   // Rename Workspaces in group
-  /*WorkspaceGroup_sptr groupWs =
-      AnalysisDataService::Instance().retrieveWS<WorkspaceGroup>(outputWsName +
-                                                                 "_Workspaces");*/
   auto groupWsNames = groupWs->getNames();
   auto renamer = createChildAlgorithm("RenameWorkspace");
   logCopier = createChildAlgorithm("CopyLogs");
