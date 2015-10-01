@@ -98,17 +98,22 @@ class MSDFit(DataProcessorAlgorithm):
         function = 'name=LinearBackground, A0=0, A1=0'
         input_params = [self._input_ws + ',i%d' % i for i in xrange(self._spec_range[0],
                                                                     self._spec_range[1] + 1)]
+        out_name = self._output_msd_ws
         input_params = ';'.join(input_params)
         PlotPeakByLogValue(Input=input_params,
-                           OutputWorkspace=self._output_msd_ws,
+                           OutputWorkspace=out_name,
                            Function=function,
                            StartX=self._x_range[0],
                            EndX=self._x_range[1],
                            FitType='Sequential',
-                           CreateOutput=True)
+                           CreateOutput=True,
+                           OutputWorkspaceParameter=out_name + '_Paramters',
+                           OutputWorkspaceNormalisedCovariance=out_name + '_NormalisedCovarianceMatrices',
+                           OutputWorkspaceGroup=out_name + '_Workspaces')
 
         DeleteWorkspace(self._output_msd_ws + '_NormalisedCovarianceMatrices')
         DeleteWorkspace(self._output_msd_ws + '_Parameters')
+
         RenameWorkspace(self._output_msd_ws,
                         OutputWorkspace=self._output_param_ws)
 
