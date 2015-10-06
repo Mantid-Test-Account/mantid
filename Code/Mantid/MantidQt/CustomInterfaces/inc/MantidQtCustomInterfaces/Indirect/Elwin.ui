@@ -28,9 +28,6 @@
           <verstretch>41</verstretch>
          </sizepolicy>
         </property>
-        <property name="findRunFiles" stdset="0">
-         <bool>false</bool>
-        </property>
         <property name="label" stdset="0">
          <string>Input File</string>
         </property>
