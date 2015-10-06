@@ -109,6 +109,10 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
     TS_ASSERT(alg.isExecuted());
 
@@ -169,6 +173,10 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TWS_type result =
@@ -228,6 +236,10 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TWS_type result =
@@ -258,6 +270,10 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TWS_type result =
@@ -285,6 +301,10 @@ public:
     alg.setPropertyValue("OutputWorkspace", "PlotPeakResult");
     alg.setProperty("PassWSIndexToFunction", true);
     alg.setPropertyValue("Function", "name=PLOTPEAKBYLOGVALUETEST_Fun");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TS_ASSERT(alg.isExecuted());
@@ -312,6 +332,10 @@ public:
     alg.setPropertyValue("OutputWorkspace", "PlotPeakResult");
     alg.setProperty("PassWSIndexToFunction", false);
     alg.setPropertyValue("Function", "name=PLOTPEAKBYLOGVALUETEST_Fun");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TS_ASSERT(alg.isExecuted());
@@ -343,6 +367,10 @@ public:
     alg.setPropertyValue(
         "Function",
         "name=FlatBackground,ties=(A0=0.5);name=PLOTPEAKBYLOGVALUETEST_Fun");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TS_ASSERT(alg.isExecuted());
@@ -373,6 +401,10 @@ public:
     alg.setPropertyValue(
         "Function",
         "name=FlatBackground,ties=(A0=0.5);name=PLOTPEAKBYLOGVALUETEST_Fun");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TS_ASSERT(alg.isExecuted());
@@ -389,13 +421,13 @@ public:
 
     auto matrices =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_NormalisedCovarianceMatrices");
+            "NormalisedCovarianceWs");
     auto params =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Parameters");
+            "ParameterWs");
     auto fits =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Workspaces");
+            "GroupWs");
 
     TS_ASSERT(matrices);
     TS_ASSERT(params);
@@ -422,6 +454,10 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     TS_ASSERT(alg.execute());
 
     TWS_type result =
@@ -430,13 +466,13 @@ public:
 
     auto matrices =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_NormalisedCovarianceMatrices");
+            "NormalisedCovarianceWs");
     auto params =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Parameters");
+            "ParameterWs");
     auto fits =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Workspaces");
+            "GroupWs");
 
     TS_ASSERT(matrices);
     TS_ASSERT(params);
@@ -464,6 +500,10 @@ public:
         "(composite=Convolution,FixResolution=true,NumDeriv=true;"
         "name=Resolution,Workspace=PLOTPEAKBYLOGVALUETEST_WS,WorkspaceIndex=0;"
         "name=Gaussian,Height=3000,PeakCentre=6493,Sigma=50;);");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
     alg.execute();
 
     TS_ASSERT(alg.isExecuted());
@@ -474,13 +514,13 @@ public:
 
     auto matrices =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_NormalisedCovarianceMatrices");
+            "NormalisedCovarianceWs");
     auto params =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Parameters");
+            "ParameterWs");
     auto fits =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Workspaces");
+            "GroupWs");
 
     TS_ASSERT(matrices);
     TS_ASSERT(params);
@@ -518,13 +558,17 @@ public:
     // This is a stupid use case but will at least demonstrate the functionality
     alg.setPropertyValue("Minimizer",
                          "Levenberg-Marquardt,AbsError=0.01,RelError=$wsindex");
+    alg.setPropertyValue("OutputWorkspaceNormalisedCovariance",
+                         "NormalisedCovarianceWs");
+    alg.setPropertyValue("OutputWorkspaceParameter", "ParameterWs");
+    alg.setPropertyValue("OutputWorkspaceGroup", "GroupWs");
 
     alg.execute();
     TS_ASSERT(alg.isExecuted());
 
     auto fits =
         AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
-            "PlotPeakResult_Workspaces");
+            "GroupWs");
     TS_ASSERT(fits);
 
     if (fits->size() > 0) {
