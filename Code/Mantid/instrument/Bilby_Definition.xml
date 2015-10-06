@@ -130,13 +130,10 @@
  </component>
   <type name="bank05">
  <component type="EastBilbyPanel">
-    <location  y="0.0" > 
+    <location  y="0.0" x="0.171" > 
     </location>
     <parameter name="z"> 
       <logfile id="L2_det_value"/> <!-- back panel z position -->
-    </parameter>
-    <parameter name="x">
-      <logfile id="D_det_value" eq="0.168 + value"/> <!-- x pos -->
     </parameter>
  </component>
  </type>
@@ -146,14 +143,11 @@
  </component>
   <type name="bank06">
  <component type="WestBilbyPanel">
-    <location x="-0.168" y="0.0" > 
+    <location x="-0.171" y="0.0" > 
      <rot val="180" axis-x="0" axis-y="0" axis-z="1" />
     </location>
     <parameter name="z"> 
       <logfile id="L2_det_value"/> <!-- back panel z position -->
-    </parameter>
-    <parameter name="x">
-      <logfile id="D_det_value" eq="-0.168 - value"/>  <!-- x pos -->
     </parameter>
  </component>
  </type>
