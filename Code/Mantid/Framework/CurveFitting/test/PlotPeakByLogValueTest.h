@@ -109,10 +109,6 @@ public:
     alg.setPropertyValue("Function", "name=LinearBackground,A0=1,A1=0.3;name="
                                      "Gaussian,PeakCentre=5,Height=2,Sigma=0."
                                      "1");
-    alg.setProperty("OutputWorkspaceNormalisedCovariance",
-                    "NormalisedCovarianceWs");
-    alg.setProperty("OutputWorkspaceParameter", "ParameterWs");
-    alg.setProperty("OutputWorkspaceGroup", "FitWs");
     alg.execute();
     TS_ASSERT(alg.isExecuted());
 
@@ -391,10 +387,15 @@ public:
       TS_ASSERT_DELTA(row.Double(1), 0.5, 1e-15);
     } while (row.next());
 
-    WorkspaceGroup_sptr matrices =
-        alg.getProperty("OutputWorkspaceNormalisedCovariance");
-    WorkspaceGroup_sptr params = alg.getProperty("OutputWorkspaceParameter");
-    WorkspaceGroup_sptr fits = alg.getProperty("OutputWorkspaceGroup");
+    auto matrices =
+        AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
+            "PlotPeakResult_NormalisedCovarianceMatrices");
+    auto params =
+        AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
+            "PlotPeakResult_Parameters");
+    auto fits =
+        AnalysisDataService::Instance().retrieveWS<const WorkspaceGroup>(
+            "PlotPeakResult_Workspaces");
 
     TS_ASSERT(matrices);
     TS_ASSERT(params);
