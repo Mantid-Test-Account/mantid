@@ -187,7 +187,7 @@ void ConvolutionFitSequential::exec() {
   const std::string tempFitWsName = "__convfit_fit_ws";
   auto tempFitWs = convertInputToElasticQ(inputWs, tempFitWsName);
 
-  Progress plotPeakStringProg(this, 0.0, 0.05, specMax-specMin);
+  Progress plotPeakStringProg(this, 0.0, 0.05, specMax - specMin);
   // Construct plotpeak string
   std::string plotPeakInput = "";
   for (int i = specMin; i < specMax + 1; i++) {
@@ -218,7 +218,8 @@ void ConvolutionFitSequential::exec() {
   plotPeaks->setProperty("MaxIterations", maxIter);
   plotPeaks->setProperty("Minimizer", minimizer);
   plotPeaks->setProperty("PassWSIndexToFunction", passIndex);
-  plotPeaks->setProperty("OutputWorkspaceGroup", (outputWsName + "_Workspaces"));
+  plotPeaks->setProperty("OutputWorkspaceGroup",
+                         (outputWsName + "_Workspaces"));
   plotPeaks->executeAsChildAlg();
   ITableWorkspace_sptr outputWs = plotPeaks->getProperty("OutputWorkspace");
   WorkspaceGroup_sptr groupWs = plotPeaks->getProperty("OutputWorkspaceGroup");
@@ -346,7 +347,6 @@ void ConvolutionFitSequential::exec() {
   AnalysisDataService::Instance().addOrReplace(resultWsName, resultWs);
   AnalysisDataService::Instance().addOrReplace(groupWsName, groupWs);
   setProperty("OutputWorkspace", resultWsName);
-
 }
 
 /**
@@ -358,7 +358,7 @@ bool ConvolutionFitSequential::checkForTwoLorentz(
     const std::string &subFunction) {
   auto pos = subFunction.rfind("Lorentzian");
   if (pos != std::string::npos) {
-      return true;
+    return true;
   }
   return false;
 }
