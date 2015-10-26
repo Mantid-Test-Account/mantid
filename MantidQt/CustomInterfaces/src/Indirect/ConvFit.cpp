@@ -931,11 +931,6 @@ void ConvFit::typeSelection(int index) {
     m_blnManager->setValue(m_properties["UseDeltaFunc"], false);
   }
 
-  // Disable Plot Guess and Use Delta Function for DiffSphere and
-  // DiffRotDiscreteCircle
-  m_uiForm.ckPlotGuess->setEnabled(index < 3);
-  m_properties["UseDeltaFunc"]->setEnabled(index < 3);
-
   updatePlotOptions();
 }
 
@@ -1021,11 +1016,11 @@ void ConvFit::plotGuess() {
         m_uiForm.ckPlotGuess->isChecked()))
     return;
 
-  if (m_uiForm.cbFitType->currentIndex() > 2) {
-    return;
+  int funcIndex = m_uiForm.cbFitType->currentIndex();
+  bool tieCentres = false;
+  if(funcIndex == 2){
+	 tieCentres = true;
   }
-
-  bool tieCentres = (m_uiForm.cbFitType->currentIndex() > 1);
   CompositeFunction_sptr function = createFunction(tieCentres);
 
   if (m_cfInputWS == NULL) {
