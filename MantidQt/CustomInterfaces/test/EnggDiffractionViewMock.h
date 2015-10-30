@@ -50,6 +50,9 @@ public:
   // virtual std::string currentCalibFile() const;
   MOCK_CONST_METHOD0(currentCalibFile, std::string());
 
+  // std::string currentPlotType
+  MOCK_CONST_METHOD0(currentPlotType, int());
+
   // virtual std::string newVanadiumNo() const;
   MOCK_CONST_METHOD0(newVanadiumNo, std::string());
 
@@ -70,6 +73,9 @@ public:
   MOCK_METHOD3(writeOutCalibFile,
                void(const std::string &, const std::vector<double> &,
                     const std::vector<double> &));
+
+  // virtual void enableTabs(bool enable);
+  MOCK_METHOD1(enableTabs, void(bool));
 
   // virtual void enableCalibrateAndFocusActions(bool enable);
   MOCK_METHOD1(enableCalibrateAndFocusActions, void(bool));
@@ -104,8 +110,23 @@ public:
   // void saveSettings() const;
   MOCK_CONST_METHOD0(saveSettings, void());
 
+  // std::string saveOutputFiles
+  MOCK_CONST_METHOD0(saveOutputFiles, bool());
+
   // virtual void plotFocusedSpectrum();
-  MOCK_METHOD1(plotFocusedSpectrum, void(const std::string&));
+  MOCK_METHOD1(plotFocusedSpectrum, void(const std::string &));
+
+  // void plotFocusStatus();
+  MOCK_METHOD0(plotFocusStatus, void());
+
+  // void plotRepChanged();
+  MOCK_METHOD1(plotRepChanged, void(int idx));
+
+  // virtual void plotWaterfallSpectrum
+  MOCK_METHOD1(plotWaterfallSpectrum, void(const std::string &wsName));
+
+  // virtual void plotReplacingWindow
+  MOCK_METHOD1(plotReplacingWindow, void(const std::string &wsName));
 };
 
 #endif // MANTID_CUSTOMINTERFACES_ENGGDIFFRACTIONVIEWMOCK_H

@@ -11,6 +11,8 @@
 
 #include <boost/scoped_ptr.hpp>
 
+#include <Poco/Path.h>
+
 #include <QObject>
 
 class QThread;
@@ -84,6 +86,7 @@ protected:
   void processResetFocus();
   void processLogMsg();
   void processInstChange();
+  void processRBNumberChange();
   void processShutDown();
 
 protected slots:
@@ -91,6 +94,8 @@ protected slots:
   void focusingFinished();
 
 private:
+  bool validateRBNumber(const std::string &rbn) const;
+
   /// @name Calibration related private methods
   //@{
   void inputChecksBeforeCalibrate(const std::string &newVanNo,
@@ -176,6 +181,23 @@ private:
                               Mantid::API::ITableWorkspace_sptr &vanIntegWS,
                               Mantid::API::MatrixWorkspace_sptr &vanCurvesWS);
 
+  // plots workspace according to the user selection
+  void plotFocusedWorkspace(std::string outWSName, int bank);
+
+  // algorithms to save the generated workspace
+  void saveGSS(std::string inputWorkspace, std::string bank, std::string runNo);
+  void saveFocusedXYE(std::string inputWorkspace, std::string bank,
+                      std::string runNo);
+  void saveOpenGenie(std::string inputWorkspace, std::string specNums,
+                     std::string bank, std::string runNo);
+
+  // generates the required file name of the output files
+  std::string outFileNameFactory(std::string inputWorkspace, std::string runNo,
+                                 std::string bank, std::string format);
+
+  // generates a directory if not found and handles the path
+  Poco::Path outFilesDir(std::string runNo);
+
   /// string to use for ENGINX file names (as a prefix, etc.)
   const static std::string g_enginxStr;
 
@@ -191,6 +213,12 @@ private:
   bool m_calibFinishedOK;
   /// true if the last focusing completed successfully
   bool m_focusFinishedOK;
+
+  /// Counter for the cropped output files
+  static int g_croppedCounter;
+
+  /// counter for the plotting workspace
+  static int g_plottingCounter;
 
   /// Associated view for this presenter (MVP pattern)
   IEnggDiffractionView *const m_view;

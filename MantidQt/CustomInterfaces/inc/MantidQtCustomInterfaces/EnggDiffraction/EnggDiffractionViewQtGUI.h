@@ -99,6 +99,8 @@ public:
                          const std::vector<double> &difc,
                          const std::vector<double> &tzero);
 
+  virtual void enableTabs(bool enable);
+
   virtual void enableCalibrateAndFocusActions(bool enable);
 
   virtual std::string focusingDir() const;
@@ -120,6 +122,14 @@ public:
   virtual void resetFocus();
 
   virtual void plotFocusedSpectrum(const std::string &wsName);
+
+  virtual void plotWaterfallSpectrum(const std::string &wsName);
+
+  virtual void plotReplacingWindow(const std::string &wsName);
+
+  virtual bool saveOutputFiles() const;
+
+  int currentPlotType() const { return m_currentType; }
 
 private slots:
   /// for buttons, do calibrate, focus and similar
@@ -144,6 +154,14 @@ private slots:
 
   // slots of the general part of the interface
   void instrumentChanged(int idx);
+
+  void RBNumberChanged();
+
+  // slots of the focus part of the interface
+  void plotRepChanged(int idx);
+
+  // slots of plot spectrum check box status
+  void plotFocusStatus();
 
   // show the standard Mantid help window with this interface's help
   void openHelpWin();
@@ -183,6 +201,16 @@ private:
 
   /// instrument selected (ENGIN-X, etc.)
   std::string m_currentInst;
+
+  /// User select instrument
+  void userSelectInstrument(const QString &prefix);
+
+  /// setting the instrument prefix ahead of the run number
+  void setPrefix(std::string prefix);
+
+  // plot data representation type selected
+  int static m_currentType;
+
   /// current calibration produced in the 'Calibration' tab
   std::string m_currentCalibFilename;
   /// calibration settings - from/to the 'settings' tab
