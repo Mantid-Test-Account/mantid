@@ -22,8 +22,10 @@ class ILLIN16BCalibrationTest(unittest.TestCase):
                                        MirrorMode=False,
                                        PeakRange=[-0.001, 0.002])
 
-        self.assertEqual(calib_ws.getNumberHistograms(), 24)
-        self.assertEqual(calib_ws.blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(0).getNumberHistograms(), 24)
+        self.assertEqual(calib_ws.getItem(1).getNumberHistograms(), 24)
+        self.assertEqual(calib_ws.getItem(0).blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(1).blocksize(), 1)
 
 
     def test_happy_case_mirror_mode(self):
@@ -31,8 +33,10 @@ class ILLIN16BCalibrationTest(unittest.TestCase):
                                        MirrorMode=True,
                                        PeakRange=[-0.001, 0.002])
 
-        self.assertEqual(calib_ws.getNumberHistograms(), 24)
-        self.assertEqual(calib_ws.blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(0).getNumberHistograms(), 24)
+        self.assertEqual(calib_ws.getItem(1).getNumberHistograms(), 24)
+        self.assertEqual(calib_ws.getItem(0).blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(1).blocksize(), 1)
 
 
     def test_map_file(self):
@@ -43,8 +47,10 @@ class ILLIN16BCalibrationTest(unittest.TestCase):
                                        MapFile=temp_map.getName(),
                                        PeakRange=[-0.001, 0.002])
 
-        self.assertEqual(calib_ws.getNumberHistograms(), 4)
-        self.assertEqual(calib_ws.blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(0).getNumberHistograms(), 4)
+        self.assertEqual(calib_ws.getItem(1).getNumberHistograms(), 4)
+        self.assertEqual(calib_ws.getItem(0).blocksize(), 1)
+        self.assertEqual(calib_ws.getItem(1).blocksize(), 1)
 
 
 if __name__=="__main__":

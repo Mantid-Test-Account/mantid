@@ -1,7 +1,7 @@
 #pylint: disable=no-init,invalid-name
 from mantid.simpleapi import *
 from mantid.kernel import StringListValidator, Direction
-from mantid.api import DataProcessorAlgorithm, PropertyMode, AlgorithmFactory, \
+from mantid.api import DataProcessorAlgorithm, PropertyMode, AlgorithmFactory, WorkspaceGroupProperty, \
                        FileProperty, FileAction, MatrixWorkspaceProperty
 from mantid import config, logger, mtd
 
@@ -11,12 +11,16 @@ import os.path
 #pylint: disable=too-many-instance-attributes
 class IndirectILLReduction(DataProcessorAlgorithm):
 
+    _run_path = None
+    _calibration_workspace = None
+    _origin_workspace = None
     _raw_workspace = None
     _red_workspace = None
     _red_left_workspace = None
     _red_right_workspace = None
     _map_file = None
     _use_mirror_mode = None
+    _shift_origin = False
     _save = None
     _plot = None
     _instrument_name = None
@@ -24,10 +28,9 @@ class IndirectILLReduction(DataProcessorAlgorithm):
     _analyser = None
     _reflection = None
     _run_name = None
-    _calibration_workspace = None
 
     def category(self):
-        return "Workflow\\MIDAS;Inelastic\\Reduction"
+        return "Workflow\\MIDAS;Inelastic;PythonAlgorithms"
 
 
     def summary(self):
@@ -41,7 +44,7 @@ class IndirectILLReduction(DataProcessorAlgorithm):
                                           extensions=["nxs"]),
                              doc='File path of run.')
 
-        self.declareProperty(MatrixWorkspaceProperty("CalibrationWorkspace", "",
+        self.declareProperty(WorkspaceGroupProperty("CalibrationWorkspace", "",
                                                      optional=PropertyMode.Optional,
                                                      direction=Direction.Input),
                              doc="Workspace containing calibration intensities.")
@@ -89,55 +92,31 @@ class IndirectILLReduction(DataProcessorAlgorithm):
                              doc='Whether to plot the output workspace.')
 
 
-    def validateInputs(self):
-        issues = dict()
-
-        red_left_workspace = self.getPropertyValue('LeftWorkspace')
-        red_right_workspace = self.getPropertyValue('RightWorkspace')
-        use_mirror_mode = self.getProperty('MirrorMode').value
-
-        # Need the right and left workspaces for mirror mode
-        if use_mirror_mode:
-            if red_left_workspace == '':
-                issues['LeftWorkspace'] = 'Mirror Mode requires this workspace to be set'
-
-            if red_right_workspace == '':
-                issues['RightWorkspace'] = 'Mirror Mode requires this workspace to be set'
-
-        return issues
-
-
     def PyExec(self):
-        self.log().information('IndirectILLreduction')
-
-        run_path = self.getPropertyValue('Run')
-        self._calibration_workspace = self.getPropertyValue('CalibrationWorkspace')
-        self._raw_workspace = self.getPropertyValue('RawWorkspace')
-        self._red_workspace = self.getPropertyValue('ReducedWorkspace')
-        self._red_left_workspace = self.getPropertyValue('LeftWorkspace')
-        self._red_right_workspace = self.getPropertyValue('RightWorkspace')
-        self._map_file = self.getProperty('MapFile').value
-
-        self._use_mirror_mode = self.getProperty('MirrorMode').value
-        self._save = self.getProperty('Save').value
-        self._plot = self.getProperty('Plot').value
-
-        LoadILLIndirect(FileName=run_path, OutputWorkspace=self._raw_workspace)
+        self._setup()
+        logger.information('Nxs file : %s' % self._run_path)
+        LoadILLIndirect(FileName=self._run_path,
+                        OutputWorkspace=self._raw_workspace)
+        self._setup_mirror()
+        if self._calibration_workspace != '':
+            LoadNexus(Filename=self._origin_workspace + '.nxs',
+                      OutputWorkspace=self._origin_workspace)                  
 
         instrument = mtd[self._raw_workspace].getInstrument()
         self._instrument_name = instrument.getName()
-
         self._run_number = mtd[self._raw_workspace].getRunNumber()
         self._analyser = self.getPropertyValue('Analyser')
         self._reflection = self.getPropertyValue('Reflection')
         self._run_name = self._instrument_name + '_' + str(self._run_number)
 
-        AddSampleLog(Workspace=self._raw_workspace, LogName="mirror_sense",
-                     LogType="String", LogText=str(self._use_mirror_mode))
-
-        logger.information('Nxs file : %s' % run_path)
-
         output_workspaces = self._reduction()
+
+        self.setPropertyValue('RawWorkspace', self._raw_workspace)
+        self.setPropertyValue('ReducedWorkspace', self._red_workspace)
+
+        if self._use_mirror_mode:
+            self.setPropertyValue('LeftWorkspace', self._red_left_workspace)
+            self.setPropertyValue('RightWorkspace', self._red_right_workspace)
 
         if self._save:
             workdir = config['defaultsave.directory']
@@ -159,13 +138,44 @@ class IndirectILLReduction(DataProcessorAlgorithm):
             layer.setAxisTitle(mtd_plot.Layer.Left, '')
             layer.setTitle('')
 
+    def _setup(self):
+        self._run_path = self.getPropertyValue('Run')
+        self._calibration_workspace = self.getPropertyValue('CalibrationWorkspace')
+        self._origin_workspace = self._calibration_workspace[:-5] + 'origin'
+        self._raw_workspace = self.getPropertyValue('RawWorkspace')
+        self._red_workspace = self.getPropertyValue('ReducedWorkspace')
+        self._red_left_workspace = self._red_workspace + '_left'
+        self._red_right_workspace = self._red_workspace + '_right'
+        self._map_file = self.getProperty('MapFile').value
+
         self.setPropertyValue('RawWorkspace', self._raw_workspace)
         self.setPropertyValue('ReducedWorkspace', self._red_workspace)
 
-        if self._use_mirror_mode:
-            self.setPropertyValue('LeftWorkspace', self._red_left_workspace)
-            self.setPropertyValue('RightWorkspace', self._red_right_workspace)
+        self._use_mirror_mode = self.getProperty('MirrorMode').value
+        if self._calibration_workspace == '':
+            self._shift_origin = False
+        else:
+            self._shift_origin = True
+        logger.information('Shift option is %s' % self._shift_origin)
 
+        self._save = self.getProperty('Save').value
+        self._plot = self.getProperty('Plot').value
+		
+    def _setup_mirror(self):
+        run = mtd[self._raw_workspace].getRun()
+        if run.hasProperty('Doppler.mirror_sense'):
+            mirror_sense = run.getLogData('Doppler.mirror_sense').value
+            if mirror_sense == 16:
+                self._use_mirror_mode = False
+                logger.information('Doppler mirror_sense is %s' % self._use_mirror_mode)
+            elif mirror_sense == 14:
+                self._use_mirror_mode = True
+                logger.information('Doppler mirror_sense is %s' % self._use_mirror_mode)
+            else:
+                logger.information('Doppler mirror_sense is Unknown')
+
+        AddSampleLog(Workspace=self._raw_workspace, LogName="mirror_sense",
+                     LogType="String", LogText=str(self._use_mirror_mode))
 
     def _reduction(self):
         """
@@ -198,6 +208,7 @@ class IndirectILLReduction(DataProcessorAlgorithm):
         GroupDetectors(InputWorkspace=self._raw_workspace,
                        OutputWorkspace=grouped_ws,
                        MapFile=self._map_file,
+                       IgnoreGroupNumber=True,
                        Behaviour='Average')
 
         monitor_ws = self._run_name + '_mon'
@@ -208,13 +219,25 @@ class IndirectILLReduction(DataProcessorAlgorithm):
         if self._use_mirror_mode:
             output_workspaces = self._run_mirror_mode(monitor_ws, grouped_ws)
         else:
-            logger.information('Mirror sense is OFF')
-
-            self._calculate_energy(monitor_ws, grouped_ws, self._red_workspace)
-            output_workspaces = [self._red_workspace]
+            output_workspaces = self._run_non_mirror_mode(monitor_ws, grouped_ws)
 
         return output_workspaces
 
+
+    def _run_non_mirror_mode(self, monitor_ws, grouped_ws):
+        """
+        Runs energy reduction with mirror mode.
+
+        @param monitor_ws :: name of the monitor workspace
+        @param grouped_ws :: name of workspace with the detectors grouped
+        """
+        logger.information('Mirror sense is OFF')
+        self._calculate_energy(monitor_ws, grouped_ws, self._red_workspace)
+        if self._calibration_workspace != '':
+            Divide(LHSWorkspace=self._red_workspace,
+                   RHSWorkspace=self._calibration_workspace + '_red',
+                   OutputWorkspace=self._red_workspace)
+        return [self._red_workspace]
 
     def _run_mirror_mode(self, monitor_ws, grouped_ws):
         """
@@ -230,7 +253,8 @@ class IndirectILLReduction(DataProcessorAlgorithm):
 
         #left half
         left_ws = self._run_name + '_left'
-        left_mon_ws = left_ws + '_left_mon'
+        left_mon_ws = left_ws + '_mon'
+        left_temp_ws = '__left_temp_ws'
         CropWorkspace(InputWorkspace=grouped_ws,
                       OutputWorkspace=left_ws,
                       XMax=x[mid_point - 1])
@@ -238,14 +262,17 @@ class IndirectILLReduction(DataProcessorAlgorithm):
                       OutputWorkspace=left_mon_ws,
                       XMax=x[mid_point - 1])
 
-        self._calculate_energy(left_mon_ws, left_ws, self._red_left_workspace)
-        xl = mtd[self._red_left_workspace].readX(0)
+        self._calculate_energy(left_mon_ws, left_ws, left_temp_ws)
+        if self._calibration_workspace != '':
+            Divide(LHSWorkspace=left_temp_ws,
+                   RHSWorkspace=self._calibration_workspace + '_left',
+                   OutputWorkspace=left_temp_ws)
 
-        logger.information('Energy range, left : %f to %f' % (xl[0], xl[-1]))
-
+				   
         #right half
         right_ws = self._run_name + '_right'
         right_mon_ws = right_ws + '_mon'
+        right_temp_ws = '__right_temp_ws'
         CropWorkspace(InputWorkspace=grouped_ws,
                       OutputWorkspace=right_ws,
                       Xmin=x[mid_point])
@@ -253,27 +280,52 @@ class IndirectILLReduction(DataProcessorAlgorithm):
                       OutputWorkspace=right_mon_ws,
                       Xmin=x[mid_point])
 
-        self._calculate_energy(right_mon_ws, right_ws, self._red_right_workspace)
-        xr = mtd[self._red_right_workspace].readX(0)
+        self._calculate_energy(right_mon_ws, right_ws, right_temp_ws)
+        if self._calibration_workspace != '':
+            Divide(LHSWorkspace=right_temp_ws,
+                   RHSWorkspace=self._calibration_workspace + '_right',
+                   OutputWorkspace=right_temp_ws)
+        number_histograms = mtd[left_temp_ws].getNumberHistograms()
 
-        logger.information('Energy range, right : %f to %f' % (xr[0], xr[-1]))
+        if self._shift_origin:
+            index = self._indexOf(mtd[self._origin_workspace].getAxis(1), "left")
+            left_mean = mtd[self._origin_workspace].readY(index)
+            index = self._indexOf(mtd[self._origin_workspace].getAxis(1), "right")
+            right_mean = mtd[self._origin_workspace].readY(index)
 
-        xl = mtd[self._red_left_workspace].readX(0)
-        yl = mtd[self._red_left_workspace].readY(0)
-        nlmax = np.argmax(np.array(yl))
-        xlmax = xl[nlmax]
-        xr = mtd[self._red_right_workspace].readX(0)
-        yr = mtd[self._red_right_workspace].readY(0)
-        nrmax = np.argmax(np.array(yr))
-        xrmax = xr[nrmax]
-        xshift = xlmax - xrmax
-        ScaleX(InputWorkspace=self._red_right_workspace,
-               OutputWorkspace=self._red_right_workspace,
-               Factor=xshift,
-               Operation='Add')
-        RebinToWorkspace(WorkspaceToRebin=self._red_right_workspace,
-                         WorkspaceToMatch=self._red_left_workspace,
-                         OutputWorkspace=self._red_right_workspace)
+            left_spectrum = '__left_spectrum'
+            right_spectrum = '__right_spectrum'
+            CloneWorkspace(InputWorkspace=left_temp_ws,
+                           OutputWorkspace=self._red_left_workspace)
+            CloneWorkspace(InputWorkspace=right_temp_ws,
+                                    OutputWorkspace=self._red_right_workspace)
+
+            for idx in range(number_histograms):
+                ExtractSingleSpectrum(InputWorkspace=self._red_left_workspace,
+                                      OutputWorkspace=left_spectrum,
+                                      WorkspaceIndex=idx)
+                x_shifted = mtd[left_spectrum].readX(0) - left_mean[idx]
+                mtd[self._red_left_workspace].setX(idx, x_shifted)
+
+                ExtractSingleSpectrum(InputWorkspace=self._red_right_workspace,
+                                      OutputWorkspace=right_spectrum,
+                                      WorkspaceIndex=idx)
+                x_shifted = mtd[right_spectrum].readX(0) - right_mean[idx]
+                mtd[self._red_right_workspace].setX(idx, x_shifted)
+
+            RebinToWorkspace(WorkspaceToRebin=self._red_left_workspace,
+                             WorkspaceToMatch=left_temp_ws,
+                             OutputWorkspace=self._red_left_workspace)
+            RebinToWorkspace(WorkspaceToRebin=self._red_right_workspace,
+                             WorkspaceToMatch=left_temp_ws,
+                             OutputWorkspace=self._red_right_workspace)
+
+
+        else:
+            RenameWorkspace(InputWorkspace=left_temp_ws,
+                            OutputWorkspace=self._red_left_workspace)
+            RenameWorkspace(InputWorkspace=right_temp_ws,
+                            OutputWorkspace=self._red_right_workspace)
 
         #sum both workspaces together
         Plus(LHSWorkspace=self._red_left_workspace,
@@ -285,6 +337,13 @@ class IndirectILLReduction(DataProcessorAlgorithm):
 
         DeleteWorkspace(monitor_ws)
         DeleteWorkspace(grouped_ws)
+        DeleteWorkspace(left_mon_ws)
+        DeleteWorkspace(right_mon_ws)
+        DeleteWorkspace(left_temp_ws)
+        DeleteWorkspace(right_temp_ws)
+        if self._shift_origin:
+            DeleteWorkspace(left_spectrum)
+            DeleteWorkspace(right_spectrum)
 
         return [self._red_left_workspace, self._red_right_workspace, self._red_workspace]
 
@@ -321,30 +380,21 @@ class IndirectILLReduction(DataProcessorAlgorithm):
                Factor=-x_range[0],
                Operation='Add')
 
-        # Apply the detector intensity calibration
-        if self._calibration_workspace != '':
-            Divide(LHSWorkspace=grouped_ws,
-                   RHSWorkspace=self._calibration_workspace,
-                   OutputWorkspace=grouped_ws)
-
         Divide(LHSWorkspace=grouped_ws,
                RHSWorkspace=monitor_ws,
                OutputWorkspace=grouped_ws)
+
         formula = self._energy_range(grouped_ws)
         ConvertAxisByFormula(InputWorkspace=grouped_ws,
                              OutputWorkspace=red_ws,
                              Axis='X',
+#                             AxisUnits='DeltaE',
                              Formula=formula)
 
         red_ws_p = mtd[red_ws]
         red_ws_p.getAxis(0).setUnit('DeltaE')
 
-        xnew = red_ws_p.readX(0)  # energy array
-        logger.information('Energy range : %f to %f' % (xnew[0], xnew[-1]))
-
-        DeleteWorkspace(grouped_ws)
-        DeleteWorkspace(monitor_ws)
-
+		
 
     def _monitor_range(self, monitor_ws):
         """
@@ -379,7 +429,7 @@ class IndirectILLReduction(DataProcessorAlgorithm):
         wave = gRun.getLogData('wavelength').value
         logger.information('Wavelength : %s' % wave)
         if gRun.hasProperty('Doppler.maximum_delta_energy'):
-            energy = gRun.getLogData('Doppler.maximum_delta_energy').value
+            energy = gRun.getLogData('Doppler.maximum_delta_energy').value*1e-3  #max energy in meV
             logger.information('Doppler max energy : %s' % energy)
         elif gRun.hasProperty('Doppler.doppler_speed'):
             speed = gRun.getLogData('Doppler.doppler_speed').value
@@ -398,6 +448,14 @@ class IndirectILLReduction(DataProcessorAlgorithm):
         formula = '(x-%f)*%f' % (imid, dele)
 
         return formula
+
+    def _indexOf(self, text_axis, label):
+        nvals = text_axis.length()
+        for idx in range(nvals):
+            if label == text_axis.label(idx):
+                return idx
+    # If we reach here we didn't find it
+        raise LookupError("Label '%s' not found on text axis" % label)
 
 
 # Register algorithm with Mantid
