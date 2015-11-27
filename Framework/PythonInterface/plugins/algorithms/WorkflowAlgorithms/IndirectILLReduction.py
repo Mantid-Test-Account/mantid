@@ -339,8 +339,6 @@ class IndirectILLReduction(DataProcessorAlgorithm):
         DeleteWorkspace(grouped_ws)
         DeleteWorkspace(left_mon_ws)
         DeleteWorkspace(right_mon_ws)
-        DeleteWorkspace(left_temp_ws)
-        DeleteWorkspace(right_temp_ws)
         if self._shift_origin:
             DeleteWorkspace(left_spectrum)
             DeleteWorkspace(right_spectrum)
