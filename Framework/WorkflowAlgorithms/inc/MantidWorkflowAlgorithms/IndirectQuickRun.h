@@ -1,10 +1,10 @@
-#ifndef MANTID_WORKFLOWALGORITHMS_INDIRECTQUICKRUN_H_
-#define MANTID_WORKFLOWALGORITHMS_INDIRECTQUICKRUN_H_
+#ifndef MANTID_INDIRECTQUICKRUN_H_
+#define MANTID_INDIRECTQUICKRUN_H_
 
-#include "MantidWorkflowAlgorithms/DllConfig.h"
-#include "MantidAPI/Algorithm.h"
+#include "MantidAPI/DataProcessorAlgorithm.h"
+
 namespace Mantid {
-namespace WorkflowAlgorithms {
+namespace Algorithms {
 
 /** 
   IndirectQuickRun : Reduces input data if required then runs Elwin and
@@ -32,7 +32,7 @@ namespace WorkflowAlgorithms {
   File change history is stored at: <https://github.com/mantidproject/mantid>
   Code Documentation is available at: <http://doxygen.mantidproject.org>
 */
-class MANTID_WORKFLOWALGORITHMS_DLL IndirectQuickRun : public API::Algorithm {
+class DLLExport IndirectQuickRun : public API::DataProcessorAlgorithm {
 public:
   IndirectQuickRun();
   virtual ~IndirectQuickRun();

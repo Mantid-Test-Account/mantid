@@ -1,7 +1,7 @@
 #include "MantidWorkflowAlgorithms/IndirectQuickRun.h"
 
 namespace Mantid {
-namespace WorkflowAlgorithms {
+namespace Algorithms {
 
 using Mantid::Kernel::Direction;
 using Mantid::API::WorkspaceProperty;
