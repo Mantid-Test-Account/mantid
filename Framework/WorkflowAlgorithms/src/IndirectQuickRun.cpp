@@ -82,6 +82,16 @@ void IndirectQuickRun::init() {
                   "The Reflection for the input files ", Direction::Input);
 
   declareProperty(
+      "Iqt", true,
+      "If ture, quick run will also run the data through the I(Q, t) algorithm",
+      Direction::Input);
+
+  declareProperty(
+      new WorkspaceProperty<MatrixWorkspace>(
+          "ResolutionWorkspace", "", Direction::Input, PropertyMode::Optional),
+      "The resolution workspace to be used in the I(Q, t) algorithm");
+
+  declareProperty(
       new WorkspaceProperty<>("OutputWorkspace", "", Direction::Output),
       "An output workspace.");
 }
@@ -90,13 +100,26 @@ void IndirectQuickRun::init() {
 /** Execute the algorithm.
  */
 void IndirectQuickRun::exec() {
-  // Get Properties
+  //------------------------------------GetProperties-------------------------------------------
   const std::string inputFiles = getProperty("InputFiles");
   const std::string instrument = getProperty("Instrument");
   const std::string analyser = getProperty("Analyser");
   const std::string reflection = getProperty("Reflection");
+  const bool usingIqt = getProperty("Iqt");
+  MatrixWorkspace_sptr resolutionWs = getProperty("ResolutionWorkspace");
 
+  //------------------------------------ValidateInputs------------------------------------------
+  if (usingIqt) {
+    // Check resolution workspace is given (not null)
+  }
 
+  //--------------------------------------ReduceData--------------------------------------------
+
+  //----------------------------------------Elwin-----------------------------------------------
+
+  //----------------------------------------I(Q,t)----------------------------------------------
+  if (usingIqt) {
+  }
 }
 
 } // namespace WorkflowAlgorithms
