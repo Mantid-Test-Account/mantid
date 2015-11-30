@@ -1,10 +1,15 @@
 #include "MantidWorkflowAlgorithms/IndirectQuickRun.h"
 
+#include "MantidAPI/AlgorithmManager.h"
+
+#include "MantidKernel/MandatoryValidator.h"
+#include "MantidKernel/ListValidator.h"
+
 namespace Mantid {
 namespace Algorithms {
 
-using Mantid::Kernel::Direction;
-using Mantid::API::WorkspaceProperty;
+using namespace API;
+using namespace Kernel;
 
 // Register the algorithm into the AlgorithmFactory
 DECLARE_ALGORITHM(IndirectQuickRun)
@@ -42,8 +47,40 @@ const std::string IndirectQuickRun::summary() const {
  */
 void IndirectQuickRun::init() {
   declareProperty(
-      new WorkspaceProperty<>("InputWorkspace", "", Direction::Input),
-      "An input workspace.");
+      "InputFiles", "", boost::make_shared<MandatoryValidator<std::string>>(),
+      "A comma seperated list or range of input files", Direction::Input);
+
+  // Options for the different instruments that can be used
+  auto instrumentOptions = std::vector<std::string>();
+  instrumentOptions.push_back("Iris");
+  instrumentOptions.push_back("Osiris");
+
+  declareProperty("Instrument", "Iris",
+                  boost::make_shared<StringListValidator>(instrumentOptions),
+                  "The instrument you which to run QuickRun for.",
+                  Direction::Input);
+
+  // Options for Instrument analyser that can be used
+  auto analyserOptions = std::vector<std::string>();
+  analyserOptions.push_back("graphite");
+  analyserOptions.push_back("mica");
+  analyserOptions.push_back("fmica");
+
+  declareProperty("Analyser", "graphite",
+                  boost::make_shared<StringListValidator>(analyserOptions),
+                  "The Analyser for the input files. mica and fmica "
+                  "should only be used for Iris.",
+                  Direction::Input);
+
+  // Options for the reflection of the instrument
+  auto reflectionOptions = std::vector<std::string>();
+  reflectionOptions.push_back("002");
+  reflectionOptions.push_back("004");
+
+  declareProperty("Reflection", "002",
+                  boost::make_shared<StringListValidator>(reflectionOptions),
+                  "The Reflection for the input files ", Direction::Input);
+
   declareProperty(
       new WorkspaceProperty<>("OutputWorkspace", "", Direction::Output),
       "An output workspace.");
@@ -53,7 +90,13 @@ void IndirectQuickRun::init() {
 /** Execute the algorithm.
  */
 void IndirectQuickRun::exec() {
-  // TODO Auto-generated execute stub
+  // Get Properties
+  const std::string inputFiles = getProperty("InputFiles");
+  const std::string instrument = getProperty("Instrument");
+  const std::string analyser = getProperty("Analyser");
+  const std::string reflection = getProperty("Reflection");
+
+
 }
 
 } // namespace WorkflowAlgorithms
