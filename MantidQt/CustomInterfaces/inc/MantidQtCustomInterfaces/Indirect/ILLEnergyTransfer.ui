@@ -41,15 +41,22 @@
      <property name="title">
       <string>Calibration</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
        <widget class="QCheckBox" name="ckUseCalibration">
         <property name="text">
          <string>Use Calibration</string>
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="0">
+        <widget class="QLabel" name="lbCalibrationInput">
+          <property name="text">
+            <string>Calibration:</string>
+          </property>"
+        </widget>
+      </item>
+      <item row="1" column="1">
        <widget class="MantidQt::MantidWidgets::DataSelector" name="dsCalibration" native="true">
         <property name="enabled">
          <bool>false</bool>
@@ -70,6 +77,36 @@
           <string>_calib.nxs</string>
          </stringlist>
         </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lbOriginInput">
+         <property name="text">
+           <string>Origin:</string>
+         </property>"
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="MantidQt::MantidWidgets::DataSelector" name="dsOrigin" native="true">
+         <property name="enabled">
+           <bool>false</bool>
+         </property>
+         <property name="autoLoad" stdset="0">
+           <bool>true</bool>
+         </property>
+         <property name="showLoad" stdset="0">
+           <bool>false</bool>
+         </property>
+         <property name="workspaceSuffixes" stdset="0">
+           <stringlist>
+             <string>_origin</string>
+           </stringlist>
+         </property>
+         <property name="fileBrowserSuffixes" stdset="0">
+          <stringlist>
+             <string>_origin.nxs</string>
+           </stringlist>
+         </property>
        </widget>
       </item>
      </layout>
@@ -249,6 +286,22 @@
      <y>111</y>
     </hint>
    </hints>
+  </connection>
+  <connection>
+    <sender>ckUseCalibration</sender>
+    <signal>toggled(bool)</signal>
+    <receiver>dsOrigin</receiver>
+    <slot>setEnabled(bool)</slot>
+    <hints>
+     <hint type="sourcelabel">
+       <x>65</x>
+       <y>88</y>
+     </hint>
+     <hint type="destinationlabel">
+       <x>87</x>
+       <y>111</y>
+     </hint>
+    </hints>
   </connection>
  </connections>
 </ui>
