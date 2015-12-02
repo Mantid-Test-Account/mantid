@@ -13,6 +13,7 @@ class ResNorm(PythonAlgorithm):
     _van_ws = None
     _e_min = None
     _e_max = None
+    _sequential_fit = None
     _create_output = None
     _out_ws = None
     _out_ws_table = None
@@ -47,6 +48,10 @@ class ResNorm(PythonAlgorithm):
         self.declareProperty(name='EnergyMax',
                              defaultValue=0.2,
                              doc='Maximum energy for fit. Default=0.2')
+
+        self.declareProperty(name'SequentialFit', defaultValue=False,
+                             doc='If true, the fit will be sequential. '
+                             'If false, then an individual fit will be used.')
 
         self.declareProperty(name='CreateOutput',
                              defaultValue=False,
@@ -87,6 +92,7 @@ class ResNorm(PythonAlgorithm):
         self._van_ws = self.getPropertyValue('VanadiumWorkspace')
         self._e_min = self.getProperty('EnergyMin').value
         self._e_max = self.getProperty('EnergyMax').value
+        self._sequential_fit = self.getProperty('SequentialFit').value
         self._create_output = self.getProperty('CreateOutput').value
         self._out_ws = self.getPropertyValue('OutputWorkspace')
 
@@ -125,7 +131,7 @@ class ResNorm(PythonAlgorithm):
         plot_peaks.setProperty('Input', input_str)
         plot_peaks.setProperty('OutputWorkspace', out_name)
         plot_peaks.setProperty('Function', function)
-        plot_peaks.setProperty('FitType', 'Individual')
+        plot_peaks.setProperty('FitType', self._sequential_fit)
         plot_peaks.setProperty('PassWSIndexToFunction', True)
         plot_peaks.setProperty('CreateOutput', self._create_output)
         plot_peaks.setProperty('StartX', self._e_min)
