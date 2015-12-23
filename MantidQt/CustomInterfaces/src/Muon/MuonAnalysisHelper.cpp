@@ -516,7 +516,7 @@ Workspace_sptr sumWorkspaces(const std::vector<Workspace_sptr>& workspaces)
                           sampleTemps.end());
     }
     if (!sampleFields.empty()) {
-      magFields.insert(sampleFields.end(), sampleFields.begin(),
+      magFields.insert(magFields.end(), sampleFields.begin(),
                        sampleFields.end());
     }
 
@@ -538,6 +538,23 @@ Workspace_sptr sumWorkspaces(const std::vector<Workspace_sptr>& workspaces)
   replaceLogValue(accumulatorEntry.name(), "run_end", lastEnd.toSimpleString());
 
   // Put in range of temperatures and magnetic fields
+  auto tempRange =
+      std::minmax_element(temperatures.begin(), temperatures.end());
+  auto fieldRange = std::minmax_element(magFields.begin(), magFields.end());
+  std::ostringstream tempRangeStream;
+  tempRangeStream << *tempRange.first;
+  if (*tempRange.second != *tempRange.first) {
+    tempRangeStream << " to " << *tempRange.second;
+  }
+  replaceLogValue(accumulatorEntry.name(), "sample_temp",
+                  tempRangeStream.str());
+  std::ostringstream fieldRangeStream;
+  fieldRangeStream << *fieldRange.first;
+  if (*fieldRange.first != *fieldRange.second) {
+    fieldRangeStream << " to " << *fieldRange.second;
+  }
+  replaceLogValue(accumulatorEntry.name(), "sample_magn_field",
+                  fieldRangeStream.str());
 
   return accumulatorEntry.retrieve();
 }
