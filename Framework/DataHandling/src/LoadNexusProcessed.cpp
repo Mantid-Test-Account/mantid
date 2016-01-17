@@ -1691,7 +1691,7 @@ void LoadNexusProcessed::loadNonSpectraAxis(
     boost::char_separator<char> sep("\n");
     boost::tokenizer<boost::char_separator<char>> tokenizer(axisLabels, sep);
     // We must cast the axis object to TextAxis so we may use ->setLabel
-    TextAxis *textAxis = static_cast<TextAxis *>(axis);
+    TextAxis *textAxis = dynamic_cast<TextAxis *>(axis);
     int i = 0;
     for (auto tokIter = tokenizer.begin(); tokIter != tokenizer.end();
          ++tokIter, ++i) {

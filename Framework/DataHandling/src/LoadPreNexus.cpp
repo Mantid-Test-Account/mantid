@@ -239,7 +239,7 @@ void LoadPreNexus::parseRuninfo(const string &runinfo, string &dataDir,
               while (pNode) {
                 if (pNode->nodeName() == "scattering") {
                   Poco::XML::Element *element =
-                      static_cast<Poco::XML::Element *>(pNode);
+                      dynamic_cast<Poco::XML::Element *>(pNode);
                   eventFilenames.push_back(element->getAttribute("name"));
                 }
                 pNode = pNode->nextSibling();

@@ -210,7 +210,7 @@ void FilterByLogValue::exec() {
     output_runs.push_back(output_run);
     inputWS->run().splitByTime(splitter, output_runs);
     // Set the output back in the input
-    inputWS->mutableRun() = *(static_cast<Run *>(output_runs[0]));
+    inputWS->mutableRun() = *(dynamic_cast<Run *>(output_runs[0]));
     inputWS->mutableRun().integrateProtonCharge();
 
     // Cast the outputWS to the matrixOutputWS and save it

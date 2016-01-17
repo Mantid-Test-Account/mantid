@@ -339,9 +339,9 @@ InstrumentDefinitionParser::parseXML(Kernel::ProgressBase *prog) {
   Poco::XML::Node *pNode = it.nextNode();
   while (pNode) {
     if (pNode->nodeName() == "parameter") {
-      Element *pParameterElem = static_cast<Element *>(pNode);
+      Element *pParameterElem = dynamic_cast<Element *>(pNode);
       m_hasParameterElement.push_back(
-          static_cast<Element *>(pParameterElem->parentNode()));
+          dynamic_cast<Element *>(pParameterElem->parentNode()));
     }
     pNode = it.nextNode();
   }
@@ -772,7 +772,7 @@ Poco::XML::Element *InstrumentDefinitionParser::getParentComponent(
 
   Element *pCompElem;
   if (pCompNode->nodeType() == 1) {
-    pCompElem = static_cast<Element *>(pCompNode);
+    pCompElem = dynamic_cast<Element *>(pCompNode);
     if ((pCompElem->tagName()).compare("component")) {
       g_log.error("Argument to function getParentComponent must be a XML "
                   "element sitting inside a component element.");
@@ -979,7 +979,7 @@ std::vector<std::string> InstrumentDefinitionParser::buildExcludeList(
   unsigned long numberExcludeEle = pNLexclude->length();
   std::vector<std::string> newExcludeList;
   for (unsigned long i = 0; i < numberExcludeEle; i++) {
-    Element *pExElem = static_cast<Element *>(pNLexclude->item(i));
+    Element *pExElem = dynamic_cast<Element *>(pNLexclude->item(i));
     if (pExElem->hasAttribute("sub-part"))
       newExcludeList.push_back(pExElem->getAttribute("sub-part"));
   }
@@ -1100,7 +1100,7 @@ void InstrumentDefinitionParser::appendAssembly(
     if (pNode->nodeName().compare("location") == 0) {
       // pLocElem is the location of a type. This type is here an assembly and
       // pElem below is a <location> within this type
-      const Element *pElem = static_cast<Element *>(pNode);
+      const Element *pElem = dynamic_cast<Element *>(pNode);
 
       // get the parent of pElem, i.e. a pointer to the <component> element that
       // contains pElem
@@ -1125,7 +1125,7 @@ void InstrumentDefinitionParser::appendAssembly(
       }
     }
     if (pNode->nodeName().compare("locations") == 0) {
-      const Element *pLocationsElems = static_cast<Element *>(pNode);
+      const Element *pLocationsElems = dynamic_cast<Element *>(pNode);
       const Element *pParentLocationsElem =
           InstrumentDefinitionParser::getParentComponent(pLocationsElems);
 
@@ -1541,7 +1541,7 @@ void InstrumentDefinitionParser::populateIdList(Poco::XML::Element *pE,
     Node *pNode = it.nextNode();
     while (pNode) {
       if (pNode->nodeName().compare("id") == 0) {
-        Element *pIDElem = static_cast<Element *>(pNode);
+        Element *pIDElem = dynamic_cast<Element *>(pNode);
 
         if (pIDElem->hasAttribute("val")) {
           int valID = atoi((pIDElem->getAttribute("val")).c_str());
@@ -1818,7 +1818,7 @@ void InstrumentDefinitionParser::setLogfile(
           ((pNL_comp->item(i))->nodeName()).compare("parameter") == 0))
       continue;
 
-    Element *pParamElem = static_cast<Element *>(pNL_comp->item(i));
+    Element *pParamElem = dynamic_cast<Element *>(pNL_comp->item(i));
 
     if (!pParamElem->hasAttribute("name"))
       throw Kernel::Exception::InstrumentDefinitionError(
@@ -1885,7 +1885,7 @@ void InstrumentDefinitionParser::setLogfile(
     // if more than one <value> specified for a parameter use only the first
     // <value> element
     if (numberValueEle >= 1) {
-      pValueElem = static_cast<Element *>(pNLvalue->item(0));
+      pValueElem = dynamic_cast<Element *>(pNLvalue->item(0));
       if (!pValueElem->hasAttribute("val"))
         throw Kernel::Exception::InstrumentDefinitionError(
             "XML element with name or type = " + comp->getName() +
@@ -1896,7 +1896,7 @@ void InstrumentDefinitionParser::setLogfile(
       value = pValueElem->getAttribute("val");
     } else if (numberLogfileEle >= 1) {
       // <logfile > tag was used at least once.
-      pLogfileElem = static_cast<Element *>(pNLlogfile->item(0));
+      pLogfileElem = dynamic_cast<Element *>(pNLlogfile->item(0));
       if (!pLogfileElem->hasAttribute("id"))
         throw Kernel::Exception::InstrumentDefinitionError(
             "XML element with name or type = " + comp->getName() +
@@ -1964,11 +1964,11 @@ void InstrumentDefinitionParser::setLogfile(
     size_t numberMax = pNLMax->length();
 
     if (numberMin >= 1) {
-      Element *pMin = static_cast<Element *>(pNLMin->item(0));
+      Element *pMin = dynamic_cast<Element *>(pNLMin->item(0));
       constraint[0] = pMin->getAttribute("val");
     }
     if (numberMax >= 1) {
-      Element *pMax = static_cast<Element *>(pNLMax->item(0));
+      Element *pMax = dynamic_cast<Element *>(pNLMax->item(0));
       constraint[1] = pMax->getAttribute("val");
     }
 
@@ -1982,7 +1982,7 @@ void InstrumentDefinitionParser::setLogfile(
 
     if (numberPenaltyFactor >= 1) {
       Element *pPenaltyFactor =
-          static_cast<Element *>(pNL_penaltyFactor->item(0));
+          dynamic_cast<Element *>(pNL_penaltyFactor->item(0));
       penaltyFactor = pPenaltyFactor->getAttribute("val");
     }
 
@@ -1993,7 +1993,7 @@ void InstrumentDefinitionParser::setLogfile(
     boost::shared_ptr<Interpolation> interpolation(new Interpolation);
 
     if (numberLookUp >= 1) {
-      Element *pLookUp = static_cast<Element *>(pNLLookUp->item(0));
+      Element *pLookUp = dynamic_cast<Element *>(pNLLookUp->item(0));
 
       if (pLookUp->hasAttribute("interpolation"))
         interpolation->setMethod(pLookUp->getAttribute("interpolation"));
@@ -2024,7 +2024,7 @@ void InstrumentDefinitionParser::setLogfile(
       unsigned long numberPoint = pNLpoint->length();
 
       for (unsigned long i = 0; i < numberPoint; i++) {
-        Element *pPoint = static_cast<Element *>(pNLpoint->item(i));
+        Element *pPoint = dynamic_cast<Element *>(pNLpoint->item(i));
         double x = atof(pPoint->getAttribute("x").c_str());
         double y = atof(pPoint->getAttribute("y").c_str());
         interpolation->addPoint(x, y);
@@ -2038,7 +2038,7 @@ void InstrumentDefinitionParser::setLogfile(
     std::string resultUnit = "";
 
     if (numberFormula >= 1) {
-      Element *pFormula = static_cast<Element *>(pNLFormula->item(0));
+      Element *pFormula = dynamic_cast<Element *>(pNLFormula->item(0));
       formula = pFormula->getAttribute("eq");
       if (pFormula->hasAttribute("unit")) {
         std::vector<std::string>::iterator it;
@@ -2063,7 +2063,7 @@ void InstrumentDefinitionParser::setLogfile(
 
     if (numberDescription >= 1) {
       // use only first description from a list
-      Element *pDescription = static_cast<Element *>(pNLDescription->item(0));
+      Element *pDescription = dynamic_cast<Element *>(pNLDescription->item(0));
       description = pDescription->getAttribute("is");
     }
 
@@ -2115,7 +2115,7 @@ void InstrumentDefinitionParser::setComponentLinks(
   while (curNode) {
     if (curNode->nodeType() == Node::ELEMENT_NODE &&
         curNode->nodeName() == elemName) {
-      Element *curElem = static_cast<Element *>(curNode);
+      Element *curElem = dynamic_cast<Element *>(curNode);
 
       if (progress) {
         if (progress->hasCancellationBeenRequested())
@@ -2395,7 +2395,7 @@ void InstrumentDefinitionParser::adjust(
       pElem->getElementsByTagName("translate-rotate-combined-shape-to");
   Element *pTransRot = 0;
   if (pNL_TransRot->length() == 1) {
-    pTransRot = static_cast<Element *>(pNL_TransRot->item(0));
+    pTransRot = dynamic_cast<Element *>(pNL_TransRot->item(0));
   }
 
   // to convert all <component>'s in type into <cuboid> elements, which are
@@ -2405,7 +2405,7 @@ void InstrumentDefinitionParser::adjust(
   std::set<Element *> allComponentInType;   // used to hold <component>'s found
   std::vector<std::string> allLocationName; // used to check if loc names unique
   for (unsigned long i = 0; i < numLocation; i++) {
-    Element *pLoc = static_cast<Element *>(pNL->item(i));
+    Element *pLoc = dynamic_cast<Element *>(pNL->item(i));
 
     // The location element is required to be a child of a component element.
     // Get this component element
@@ -2732,7 +2732,7 @@ InstrumentDefinitionParser::getShapeElement(const Poco::XML::Element *pElem,
         "XML element: <" + pElem->tagName() +
         "> must contain exactly one sub-element with name: <" + name + ">.");
   }
-  Element *retVal = static_cast<Element *>(pNL->item(0));
+  Element *retVal = dynamic_cast<Element *>(pNL->item(0));
   return retVal;
 }
 
@@ -2836,7 +2836,7 @@ std::string InstrumentDefinitionParser::getShapeCoorSysComp(
   if (pNL->length() == 0) {
     return pType->getAttribute("name");
   } else if (pNL->length() == 1) {
-    Element *pElem = static_cast<Element *>(pNL->item(0));
+    Element *pElem = dynamic_cast<Element *>(pNL->item(0));
     return getShapeCoorSysComp(ass, pElem, getTypeElement, endAssembly);
   } else {
     throw Exception::InstrumentDefinitionError(

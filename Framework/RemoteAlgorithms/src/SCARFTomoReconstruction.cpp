@@ -1191,7 +1191,7 @@ void SCARFTomoReconstruction::genOutputStatusInfo(
   std::vector<std::string> jobStatus;
   std::vector<std::string> jobCommands;
   for (size_t i = 0; i < n; i++) {
-    Poco::XML::Element *el = static_cast<Poco::XML::Element *>(
+    Poco::XML::Element *el = dynamic_cast<Poco::XML::Element *>(
         jobs->item(static_cast<unsigned long>(i)));
     if (!el)
       throw std::runtime_error("Error while trying to parse job with index " +

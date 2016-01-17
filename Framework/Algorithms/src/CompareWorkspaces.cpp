@@ -682,7 +682,7 @@ bool CompareWorkspaces::checkAxes(API::MatrixWorkspace_const_sptr ws1,
     // Don't check spectra axis as that just takes it values from the ISpectrum
     // (see checkSpectraMap)
     if (ax1->isNumeric() && ax2->isNumeric()) {
-      const NumericAxis *na1 = static_cast<const NumericAxis *>(ax1);
+      const NumericAxis *na1 = dynamic_cast<const NumericAxis *>(ax1);
       const double tolerance = getProperty("Tolerance");
       if (!na1->equalWithinTolerance(*ax2, tolerance)) {
         recordMismatch(axis_name + " values mismatch");

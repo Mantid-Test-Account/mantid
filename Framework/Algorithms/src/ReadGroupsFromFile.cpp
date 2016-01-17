@@ -212,7 +212,7 @@ void ReadGroupsFromFile::readXMLGroupingFile(const std::string &filename) {
   for (unsigned int i = 0; i < nGroups; i++) {
     // Get the "detids" element from the grouping file
     Poco::XML::Element *elem =
-        static_cast<Poco::XML::Element *>(groups->item(i));
+        dynamic_cast<Poco::XML::Element *>(groups->item(i));
     Poco::XML::Element *group = elem->getChildElement("detids");
 
     if (!group) {

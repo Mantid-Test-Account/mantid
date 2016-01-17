@@ -296,7 +296,7 @@ FitMW::createOutputWorkspace(const std::string &baseName,
   const size_t nyvalues = values->size();
   auto ws = createEmptyResultWS(nhistograms, nyvalues);
   // The workspace was constructed with a TextAxis
-  API::TextAxis *textAxis = static_cast<API::TextAxis *>(ws->getAxis(1));
+  API::TextAxis *textAxis = dynamic_cast<API::TextAxis *>(ws->getAxis(1));
   textAxis->setLabel(0, "Data");
   textAxis->setLabel(1, "Calc");
   textAxis->setLabel(2, "Diff");

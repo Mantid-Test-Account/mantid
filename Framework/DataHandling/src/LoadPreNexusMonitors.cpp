@@ -95,7 +95,7 @@ void LoadPreNexusMonitors::exec() {
     // Get the beamline name.
     if (pNode->nodeName() == "RunInfo") {
       Poco::XML::Element *pRunInfoElement =
-          static_cast<Poco::XML::Element *>(pNode);
+          dynamic_cast<Poco::XML::Element *>(pNode);
       instrumentName = pRunInfoElement->getAttribute("instrument");
     }
 
@@ -107,7 +107,7 @@ void LoadPreNexusMonitors::exec() {
       // Increment the number of monitors we've found
       ++nMonitors;
 
-      Poco::XML::Element *pE = static_cast<Poco::XML::Element *>(pNode);
+      Poco::XML::Element *pE = dynamic_cast<Poco::XML::Element *>(pNode);
       g_log.debug() << "Beam Monitor " << pE->getAttribute("id") << std::endl;
       g_log.debug() << "\tname: " << pE->getAttribute("name") << std::endl;
       g_log.debug() << "\tdescription: " << pE->getAttribute("description")
@@ -131,7 +131,7 @@ void LoadPreNexusMonitors::exec() {
         // We only care about monitors
         if (pDataListChildren->item(i)->nodeName() == "monitor") {
           Poco::XML::Element *element =
-              static_cast<Poco::XML::Element *>(pDataListChildren->item(i));
+              dynamic_cast<Poco::XML::Element *>(pDataListChildren->item(i));
           monitorIDs.push_back(
               boost::lexical_cast<int>(element->getAttribute("id")));
           monitorFilenames.push_back(element->getAttribute("name"));
@@ -148,7 +148,7 @@ void LoadPreNexusMonitors::exec() {
         // We only care about monitors
         if (pDataListChildren->item(i)->nodeName() == "monitor") {
           std::string dims =
-              static_cast<Poco::XML::Element *>(pDataListChildren->item(i))
+              dynamic_cast<Poco::XML::Element *>(pDataListChildren->item(i))
                   ->getAttribute("dims");
           tchannels = boost::lexical_cast<int>(dims);
         }

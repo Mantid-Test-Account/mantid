@@ -123,7 +123,7 @@ boost::shared_ptr<Object> ShapeFactory::createShape(Poco::XML::Element *pElem) {
   if (pNL_algebra->length() == 0) {
     defaultAlgebra = true;
   } else if (pNL_algebra->length() == 1) {
-    Element *pElemAlgebra = static_cast<Element *>(pNL_algebra->item(0));
+    Element *pElemAlgebra = dynamic_cast<Element *>(pNL_algebra->item(0));
     algebraFromUser = pElemAlgebra->getAttribute("val");
   } else {
     g_log.warning()
@@ -153,7 +153,7 @@ boost::shared_ptr<Object> ShapeFactory::createShape(Poco::XML::Element *pElem) {
                                // and cuboid
   for (unsigned int i = 0; i < pNL_length; i++) {
     if ((pNL->item(i))->nodeType() == Node::ELEMENT_NODE) {
-      Element *pE = static_cast<Element *>(pNL->item(i));
+      Element *pE = dynamic_cast<Element *>(pNL->item(i));
 
       // assume for now that if sub-element has attribute id then it is a shape
       // element
@@ -1178,7 +1178,7 @@ Poco::XML::Element *ShapeFactory::getShapeElement(Poco::XML::Element *pElem,
         "XML element: <" + pElem->tagName() +
         "> must contain exactly one sub-element with name: <" + name + ">.");
   }
-  Element *retVal = static_cast<Element *>(pNL->item(0));
+  Element *retVal = dynamic_cast<Element *>(pNL->item(0));
   return retVal;
 }
 
@@ -1205,7 +1205,7 @@ ShapeFactory::getOptionalShapeElement(Poco::XML::Element *pElem,
         "XML element: <" + pElem->tagName() +
         "> may contain at most one sub-element with name: <" + name + ">.");
 
-  Element *retVal = static_cast<Element *>(pNL->item(0));
+  Element *retVal = dynamic_cast<Element *>(pNL->item(0));
   return retVal;
 }
 

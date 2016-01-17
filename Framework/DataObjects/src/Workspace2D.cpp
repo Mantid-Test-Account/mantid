@@ -28,7 +28,7 @@ Workspace2D::Workspace2D(const Workspace2D &other)
     // Careful: data holds pointers to ISpectrum, but they point to Histogram1D.
     // There are copy constructors, but we would need a clone() function that is
     // aware of the polymorphism. Use cast + copy constructor for now.
-    data[i] = new Histogram1D(*static_cast<Histogram1D *>(other.data[i]));
+    data[i] = new Histogram1D(*dynamic_cast<Histogram1D *>(other.data[i]));
   }
 }
 

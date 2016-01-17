@@ -180,7 +180,7 @@ void Instrument::getDetectors(detid2det_map &out_map) const {
     // Get the base instrument detectors
     out_map.clear();
     const detid2det_map &in_dets =
-        static_cast<const Instrument *>(m_base)->m_detectorCache;
+        dynamic_cast<const Instrument *>(m_base)->m_detectorCache;
     // And turn them into parametrized versions
     for (auto it = in_dets.cbegin(); it != in_dets.cend(); ++it) {
       out_map.insert(std::pair<detid_t, IDetector_sptr>(
@@ -199,7 +199,7 @@ std::vector<detid_t> Instrument::getDetectorIDs(bool skipMonitors) const {
   std::vector<detid_t> out;
   if (m_map) {
     const detid2det_map &in_dets =
-        static_cast<const Instrument *>(m_base)->m_detectorCache;
+        dynamic_cast<const Instrument *>(m_base)->m_detectorCache;
     for (auto it = in_dets.cbegin(); it != in_dets.cend(); ++it)
       if (!skipMonitors || !it->second->isMonitor())
         out.push_back(it->first);
@@ -217,7 +217,8 @@ std::size_t Instrument::getNumberDetectors(bool skipMonitors) const {
   std::size_t numDetIDs(0);
 
   if (m_map) {
-    numDetIDs = static_cast<const Instrument *>(m_base)->m_detectorCache.size();
+    numDetIDs =
+        dynamic_cast<const Instrument *>(m_base)->m_detectorCache.size();
   } else {
     numDetIDs = m_detectorCache.size();
   }
@@ -227,7 +228,7 @@ std::size_t Instrument::getNumberDetectors(bool skipMonitors) const {
     std::size_t monitors(0);
     if (m_map) {
       const detid2det_map &in_dets =
-          static_cast<const Instrument *>(m_base)->m_detectorCache;
+          dynamic_cast<const Instrument *>(m_base)->m_detectorCache;
       for (auto it = in_dets.cbegin(); it != in_dets.cend(); ++it)
         if (it->second->isMonitor())
           monitors += 1;
@@ -251,7 +252,7 @@ std::size_t Instrument::getNumberDetectors(bool skipMonitors) const {
 void Instrument::getMinMaxDetectorIDs(detid_t &min, detid_t &max) const {
   const detid2det_map *in_dets;
   if (m_map)
-    in_dets = &(static_cast<const Instrument *>(m_base)->m_detectorCache);
+    in_dets = &(dynamic_cast<const Instrument *>(m_base)->m_detectorCache);
   else
     in_dets = &this->m_detectorCache;
 
@@ -306,7 +307,7 @@ IComponent_const_sptr Instrument::getSource() const {
     g_log.warning("In Instrument::getSource(). No source has been set.");
     return IComponent_const_sptr(m_sourceCache, NoDeleting());
   } else if (m_map) {
-    auto sourceCache = static_cast<const Instrument *>(m_base)->m_sourceCache;
+    auto sourceCache = dynamic_cast<const Instrument *>(m_base)->m_sourceCache;
     if (dynamic_cast<const ObjComponent *>(sourceCache))
       return IComponent_const_sptr(new ObjComponent(sourceCache, m_map));
     else if (dynamic_cast<const CompAssembly *>(sourceCache))
@@ -360,7 +361,7 @@ IComponent_const_sptr Instrument::getSample() const {
     g_log.warning("In Instrument::getSamplePos(). No SamplePos has been set.");
     return IComponent_const_sptr(m_sampleCache, NoDeleting());
   } else if (m_map) {
-    auto sampleCache = static_cast<const Instrument *>(m_base)->m_sampleCache;
+    auto sampleCache = dynamic_cast<const Instrument *>(m_base)->m_sampleCache;
     if (dynamic_cast<const ObjComponent *>(sampleCache))
       return IComponent_const_sptr(new ObjComponent(sampleCache, m_map));
     else if (dynamic_cast<const CompAssembly *>(sampleCache))
@@ -774,7 +775,7 @@ void Instrument::removeDetector(IDetector *det) {
 std::vector<detid_t> Instrument::getMonitors() const {
   // Monitors cannot be parametrized. So just return the base.
   if (m_map)
-    return static_cast<const Instrument *>(m_base)->m_monitorCache;
+    return dynamic_cast<const Instrument *>(m_base)->m_monitorCache;
   else
     return m_monitorCache;
 }
@@ -785,7 +786,7 @@ std::vector<detid_t> Instrument::getMonitors() const {
  */
 size_t Instrument::numMonitors() const {
   if (m_map) {
-    return static_cast<const Instrument *>(m_base)->m_monitorCache.size();
+    return dynamic_cast<const Instrument *>(m_base)->m_monitorCache.size();
   } else {
     return m_monitorCache.size();
   }
