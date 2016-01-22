@@ -26,7 +26,7 @@ void export_PointGroupFactory() {
                                                     no_init)
       .def("isSubscribed", &PointGroupFactoryImpl::isSubscribed,
            (arg("self"), arg("hmSymbol")),
-           "Returns true of the point group with the given symbol is "
+           "Returns true if the point group with the given symbol is "
            "subscribed.")
       .def("createPointGroup", &PointGroupFactoryImpl::createPointGroup,
            (arg("self"), arg("hmSymbol")),

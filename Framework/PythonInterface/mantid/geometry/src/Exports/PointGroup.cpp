@@ -64,10 +64,18 @@ void export_PointGroup() {
       .value("Cubic", PointGroup::LatticeSystem::Cubic);
 
   class_<PointGroup, boost::noncopyable, bases<Group>>("PointGroup", no_init)
-      .def("getName", &PointGroup::getName, arg("self"))
-      .def("getHMSymbol", &PointGroup::getSymbol, arg("self"))
-      .def("getCrystalSystem", &PointGroup::crystalSystem, arg("self"))
-      .def("getLatticeSystem", &PointGroup::latticeSystem, arg("self"))
+      .def("getName", &PointGroup::getName, arg("self"),
+           "Returns the name of the point group that is used internally in "
+           "some algorithms of Mantid.")
+      .def("getHMSymbol", &PointGroup::getSymbol, arg("self"),
+           "Returns the Hermann-Mauguin symbol of the point group.")
+      .def("getCrystalSystem", &PointGroup::crystalSystem, arg("self"),
+           "Returns the crystal system the point group belongs to.")
+      .def("getLatticeSystem", &PointGroup::latticeSystem, arg("self"),
+           "Returns the lattice system of the point group. This is important "
+           "for trigonal groups, which may be defined with respect to "
+           "rhombohedral or hexagonal lattice. The symmetry operations are "
+           "different in these cases.")
       .def("isEquivalent", &isEquivalent,
            (arg("self"), arg("hkl1"), arg("hkl2")),
            "Check whether the two HKLs are symmetrically equivalent.")

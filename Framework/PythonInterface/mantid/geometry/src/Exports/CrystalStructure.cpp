@@ -31,8 +31,14 @@ std::vector<std::string> getScatterers(CrystalStructure &self) {
 void export_CrystalStructure() {
   class_<CrystalStructure>("CrystalStructure", no_init)
       .def(init<const std::string &, const std::string &, const std::string &>(
-          (arg("unitCell"), arg("spaceGroup"), arg("scatterers"))))
-      .def("getUnitCell", &CrystalStructure::cell)
-      .def("getSpaceGroup", &getSpaceGroup)
-      .def("getScatterers", &getScatterers);
+          (arg("unitCell"), arg("spaceGroup"), arg("scatterers")),
+          "Constructor for CrystalStructure with string-arguments for the "
+          "required components."))
+      .def("getUnitCell", &CrystalStructure::cell,
+           "Returns the UnitCell-object stored in the CrystalStructure.")
+      .def("getSpaceGroup", &getSpaceGroup,
+           "Returns the SpaceGroup-object stored in the CrystalStructure.")
+      .def("getScatterers", &getScatterers, "Returns string representations of "
+                                            "the scatterers in the "
+                                            "CrystalStructure.");
 }
