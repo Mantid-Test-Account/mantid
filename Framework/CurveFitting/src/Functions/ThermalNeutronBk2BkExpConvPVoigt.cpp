@@ -44,7 +44,7 @@ ThermalNeutronBk2BkExpConvPVoigt::ThermalNeutronBk2BkExpConvPVoigt()
 //------------------------------------------------------------------------------------------------
 /** Destructor
 */
-ThermalNeutronBk2BkExpConvPVoigt::~ThermalNeutronBk2BkExpConvPVoigt() {}
+ThermalNeutronBk2BkExpConvPVoigt::~ThermalNeutronBk2BkExpConvPVoigt() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Define the fittable parameters

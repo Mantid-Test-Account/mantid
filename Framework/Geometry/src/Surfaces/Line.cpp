@@ -31,13 +31,7 @@ Constructor
   Direct.normalize();
 }
 
-Line::Line(const Line &A)
-    : Origin(A.Origin), Direct(A.Direct)
-/**
-Copy Constructor
-@param A :: Line to copy
-*/
-{}
+Line::Line(const Line &A) = default;
 
 Line *Line::clone() const
 /**
@@ -63,10 +57,10 @@ Assignment operator
 }
 
 Line::~Line()
-/**
-Destructor
-*/
-{}
+    /**
+    Destructor
+    */
+    = default;
 
 Kernel::V3D Line::getPoint(const double lambda) const
 /**

@@ -53,8 +53,7 @@ Goniometer::Goniometer() : R(3, 3, true), initFromR(false) {}
 
 /// Copy constructor
 /// @param other :: Goniometer from which to copy information
-Goniometer::Goniometer(const Goniometer &other)
-    : R(other.R), motors(other.motors), initFromR(other.initFromR) {}
+Goniometer::Goniometer(const Goniometer &other) = default;
 
 /// Constructor from a rotation matrix
 /// @param rot :: DblMatrix matrix that is going to be the internal rotation
@@ -71,7 +70,7 @@ Goniometer::Goniometer(DblMatrix rot) {
 }
 
 /// Default destructor
-Goniometer::~Goniometer() {}
+Goniometer::~Goniometer() = default;
 
 /// Return global rotation matrix
 /// @return R :: 3x3 rotation matrix

@@ -139,7 +139,7 @@ void InstrumentDefinitionParser::initialise(const std::string &filename,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-InstrumentDefinitionParser::~InstrumentDefinitionParser() {}
+InstrumentDefinitionParser::~InstrumentDefinitionParser() = default;
 
 //----------------------------------------------------------------------------------------------
 /**

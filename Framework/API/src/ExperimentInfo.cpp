@@ -49,7 +49,7 @@ ExperimentInfo::ExperimentInfo()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ExperimentInfo::~ExperimentInfo() {}
+ExperimentInfo::~ExperimentInfo() = default;
 
 //---------------------------------------------------------------------------------------
 /**

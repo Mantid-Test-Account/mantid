@@ -13,8 +13,7 @@ SplittingInterval::SplittingInterval(const DateAndTime &start,
     : m_start(start), m_stop(stop), m_index(index) {}
 
 /// Copy Constructor
-SplittingInterval::SplittingInterval(const SplittingInterval &other)
-    : m_start(other.m_start), m_stop(other.m_stop), m_index(other.m_index) {}
+SplittingInterval::SplittingInterval(const SplittingInterval &other) = default;
 
 /// Return the start time
 DateAndTime SplittingInterval::start() const { return m_start; }

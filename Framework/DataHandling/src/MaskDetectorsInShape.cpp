@@ -17,7 +17,7 @@ using namespace API;
 MaskDetectorsInShape::MaskDetectorsInShape() {}
 
 /// Destructor
-MaskDetectorsInShape::~MaskDetectorsInShape() {}
+MaskDetectorsInShape::~MaskDetectorsInShape() = default;
 
 void MaskDetectorsInShape::init() {
   declareProperty(new WorkspaceProperty<>("Workspace", "", Direction::InOut),

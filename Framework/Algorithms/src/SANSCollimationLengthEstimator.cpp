@@ -31,9 +31,9 @@ namespace Algorithms {
 using namespace Kernel;
 using namespace API;
 
-SANSCollimationLengthEstimator::SANSCollimationLengthEstimator() {}
+SANSCollimationLengthEstimator::SANSCollimationLengthEstimator() = default;
 
-SANSCollimationLengthEstimator::~SANSCollimationLengthEstimator() {}
+SANSCollimationLengthEstimator::~SANSCollimationLengthEstimator() = default;
 
 /**
  * Provide the collimation length which is associated with the instrument

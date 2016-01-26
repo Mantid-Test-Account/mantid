@@ -36,7 +36,7 @@ CoordTransform::CoordTransform(const size_t inD, const size_t outD)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-CoordTransform::~CoordTransform() {}
+CoordTransform::~CoordTransform() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Apply the transformation to an input vector (as a VMD type).

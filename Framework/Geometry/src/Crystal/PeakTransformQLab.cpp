@@ -15,8 +15,7 @@ PeakTransformQLab::PeakTransformQLab(const std::string &xPlotLabel,
     : PeakTransform(xPlotLabel, yPlotLabel, regex("^Q_lab_x.*$"),
                     regex("^Q_lab_y.*$"), regex("^Q_lab_z.*$")) {}
 
-PeakTransformQLab::PeakTransformQLab(const PeakTransformQLab &other)
-    : PeakTransform(other) {}
+PeakTransformQLab::PeakTransformQLab(const PeakTransformQLab &other) = default;
 
 PeakTransformQLab &PeakTransformQLab::
 operator=(const PeakTransformQLab &other) {
@@ -33,7 +32,7 @@ operator=(const PeakTransformQLab &other) {
   return *this;
 }
 
-PeakTransformQLab::~PeakTransformQLab() {}
+PeakTransformQLab::~PeakTransformQLab() = default;
 
 /**
 Clone the PeakTransformQLab.

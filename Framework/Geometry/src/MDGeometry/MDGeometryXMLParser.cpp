@@ -175,7 +175,7 @@ MDGeometryXMLParser::MDGeometryXMLParser()
 /**
 Destructor
 */
-MDGeometryXMLParser::~MDGeometryXMLParser() {}
+MDGeometryXMLParser::~MDGeometryXMLParser() = default;
 
 /**
 Getter for x dimension

@@ -30,7 +30,7 @@ PDDetermineCharacterizations::PDDetermineCharacterizations() {}
 
 //----------------------------------------------------------------------------------------------
 /// Destructor
-PDDetermineCharacterizations::~PDDetermineCharacterizations() {}
+PDDetermineCharacterizations::~PDDetermineCharacterizations() = default;
 
 //----------------------------------------------------------------------------------------------
 

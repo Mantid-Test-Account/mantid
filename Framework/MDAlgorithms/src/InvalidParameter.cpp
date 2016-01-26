@@ -16,7 +16,7 @@ InvalidParameter *InvalidParameter::clone() const {
   return new InvalidParameter(m_value);
 }
 
-InvalidParameter::~InvalidParameter() {}
+InvalidParameter::~InvalidParameter() = default;
 
 std::string InvalidParameter::toXMLString() const {
   throw std::runtime_error("Invalid parameters cannot be represented in xml.");

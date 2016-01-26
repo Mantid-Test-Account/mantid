@@ -23,7 +23,7 @@ ConvertToEventWorkspace::ConvertToEventWorkspace() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ConvertToEventWorkspace::~ConvertToEventWorkspace() {}
+ConvertToEventWorkspace::~ConvertToEventWorkspace() = default;
 
 //------------------------------------------MaxEventsPerBin----------------------------------------------------
 

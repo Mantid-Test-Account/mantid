@@ -19,7 +19,7 @@ V3D::V3D(const double xx, const double yy, const double zz)
     : x(xx), y(yy), z(zz) {}
 
 /// Copy constructor
-V3D::V3D(const V3D &v) : x(v.x), y(v.y), z(v.z) {}
+V3D::V3D(const V3D &v) = default;
 
 /**
   Sets the vector position based on spherical coordinates
@@ -103,15 +103,10 @@ void V3D::azimuth_polar_SNS(const double &R, const double &azimuth,
   @param rhs :: V3D to copy
   @return *this
 */
-V3D &V3D::operator=(const V3D &rhs) {
-  x = rhs.x;
-  y = rhs.y;
-  z = rhs.z;
-  return *this;
-}
+V3D &V3D::operator=(const V3D &rhs) = default;
 
 /// Destructor
-V3D::~V3D() {}
+V3D::~V3D() = default;
 
 /**
   Addtion operator

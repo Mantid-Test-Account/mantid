@@ -29,7 +29,7 @@ ThermalNeutronBk2BkExpBeta::ThermalNeutronBk2BkExpBeta() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ThermalNeutronBk2BkExpBeta::~ThermalNeutronBk2BkExpBeta() {}
+ThermalNeutronBk2BkExpBeta::~ThermalNeutronBk2BkExpBeta() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Defintion of parameter

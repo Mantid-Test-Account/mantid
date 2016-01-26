@@ -170,7 +170,7 @@ NormaliseToMonitor::NormaliseToMonitor()
       m_integrationMax(EMPTY_DBL()) {}
 
 /// Destructor
-NormaliseToMonitor::~NormaliseToMonitor() {}
+NormaliseToMonitor::~NormaliseToMonitor() = default;
 
 void NormaliseToMonitor::init() {
   auto val = boost::make_shared<CompositeValidator>();

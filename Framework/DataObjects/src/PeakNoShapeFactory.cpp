@@ -12,7 +12,7 @@ PeakNoShapeFactory::PeakNoShapeFactory() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakNoShapeFactory::~PeakNoShapeFactory() {}
+PeakNoShapeFactory::~PeakNoShapeFactory() = default;
 
 void PeakNoShapeFactory::setSuccessor(
     boost::shared_ptr<const PeakShapeFactory>) {}

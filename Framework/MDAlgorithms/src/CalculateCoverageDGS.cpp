@@ -42,7 +42,7 @@ CalculateCoverageDGS::CalculateCoverageDGS()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-CalculateCoverageDGS::~CalculateCoverageDGS() {}
+CalculateCoverageDGS::~CalculateCoverageDGS() = default;
 
 //----------------------------------------------------------------------------------------------
 

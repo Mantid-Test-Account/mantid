@@ -24,7 +24,7 @@ Polynomial::Polynomial() : m_n(0) {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-Polynomial::~Polynomial() {}
+Polynomial::~Polynomial() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Function to calcualte polynomial

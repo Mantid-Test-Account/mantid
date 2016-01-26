@@ -24,8 +24,7 @@ OrientedLattice::OrientedLattice(const DblMatrix &Umatrix) : UnitCell() {
 /** Copy constructor
 @param other :: The OrientedLattice from which to copy information
 */
-OrientedLattice::OrientedLattice(const OrientedLattice &other)
-    : UnitCell(other), U(other.U), UB(other.UB) {}
+OrientedLattice::OrientedLattice(const OrientedLattice &other) = default;
 
 /** Constructor
 @param _a :: lattice parameter \f$ a \f$ with \f$\alpha = \beta = \gamma =
@@ -91,7 +90,7 @@ OrientedLattice::OrientedLattice(const UnitCell *uc, const DblMatrix &Umatrix)
 }
 
 /// Destructor
-OrientedLattice::~OrientedLattice() {}
+OrientedLattice::~OrientedLattice() = default;
 
 /// Get the U matrix
 /// @return U :: U orientation matrix

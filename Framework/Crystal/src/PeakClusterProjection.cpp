@@ -129,7 +129,7 @@ PeakClusterProjection::signalAtPeakCenter(const IPeak &peak,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakClusterProjection::~PeakClusterProjection() {}
+PeakClusterProjection::~PeakClusterProjection() = default;
 
 } // namespace Crystal
 } // namespace Mantid

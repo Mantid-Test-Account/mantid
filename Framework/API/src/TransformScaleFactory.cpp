@@ -14,7 +14,7 @@ Kernel::Logger g_log("TransformScaleFactory");
 TransformScaleFactoryImpl::TransformScaleFactoryImpl()
     : Kernel::DynamicFactory<ITransformScale>() {}
 
-TransformScaleFactoryImpl::~TransformScaleFactoryImpl() {}
+TransformScaleFactoryImpl::~TransformScaleFactoryImpl() = default;
 
 /** Creates an instance of the appropriate scaling transform
  *  @param type The name of the scaling transform

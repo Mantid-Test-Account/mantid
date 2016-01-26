@@ -15,8 +15,8 @@ PeakTransformQSample::PeakTransformQSample(const std::string &xPlotLabel,
     : PeakTransform(xPlotLabel, yPlotLabel, regex("^Q_sample_x.*$"),
                     regex("^Q_sample_y.*$"), regex("^Q_sample_z.*$")) {}
 
-PeakTransformQSample::PeakTransformQSample(const PeakTransformQSample &other)
-    : PeakTransform(other) {}
+PeakTransformQSample::PeakTransformQSample(const PeakTransformQSample &other) =
+    default;
 
 PeakTransformQSample &PeakTransformQSample::
 operator=(const PeakTransformQSample &other) {
@@ -33,7 +33,7 @@ operator=(const PeakTransformQSample &other) {
   return *this;
 }
 
-PeakTransformQSample::~PeakTransformQSample() {}
+PeakTransformQSample::~PeakTransformQSample() = default;
 
 /**
 Clone the PeakTransformQSample.

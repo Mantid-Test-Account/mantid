@@ -37,7 +37,7 @@ ConvolutionFitSequential::ConvolutionFitSequential() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ConvolutionFitSequential::~ConvolutionFitSequential() {}
+ConvolutionFitSequential::~ConvolutionFitSequential() = default;
 
 //----------------------------------------------------------------------------------------------
 

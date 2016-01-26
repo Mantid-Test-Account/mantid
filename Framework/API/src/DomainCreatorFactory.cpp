@@ -37,7 +37,7 @@ DomainCreatorFactoryImpl::DomainCreatorFactoryImpl()
 /**
  * Destructor
  */
-DomainCreatorFactoryImpl::~DomainCreatorFactoryImpl() {}
+DomainCreatorFactoryImpl::~DomainCreatorFactoryImpl() = default;
 
 } // namespace API
 } // namespace Mantid

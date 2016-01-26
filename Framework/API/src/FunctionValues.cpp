@@ -17,12 +17,10 @@ FunctionValues::FunctionValues(const FunctionDomain &domain) { reset(domain); }
 /** Copy constructor.
  *  @param values :: Values to copy from.
  */
-FunctionValues::FunctionValues(const FunctionValues &values)
-    : m_calculated(values.m_calculated), m_data(values.m_data),
-      m_weights(values.m_weights) {}
+FunctionValues::FunctionValues(const FunctionValues &values) = default;
 
 /// Destructor
-FunctionValues::~FunctionValues() {}
+FunctionValues::~FunctionValues() = default;
 
 /// Reset the values to match a new domain.
 void FunctionValues::reset(const FunctionDomain &domain) {

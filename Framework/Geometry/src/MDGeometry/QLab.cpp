@@ -12,7 +12,7 @@ QLab::QLab() : m_unit(new Mantid::Kernel::InverseAngstromsUnit) {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-QLab::~QLab() {}
+QLab::~QLab() = default;
 
 const std::string QLab::QLabName = "QLab";
 

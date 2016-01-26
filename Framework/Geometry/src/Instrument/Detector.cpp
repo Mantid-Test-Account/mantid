@@ -39,7 +39,7 @@ Detector::Detector(const std::string &name, int id,
       m_isMonitor(false) {}
 
 /// Destructor
-Detector::~Detector() {}
+Detector::~Detector() = default;
 
 /** Gets the detector id
  *  @returns the detector id

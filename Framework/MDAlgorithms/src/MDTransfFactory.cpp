@@ -6,7 +6,7 @@ namespace MDAlgorithms {
 MDTransfFactoryImpl::MDTransfFactoryImpl()
     : Kernel::DynamicFactory<MDTransfInterface>(), m_createdTransf() {}
 
-MDTransfFactoryImpl::~MDTransfFactoryImpl() {}
+MDTransfFactoryImpl::~MDTransfFactoryImpl() = default;
 
 /** Returns an instance of the class with the given name. Overrides the base
 * class method.

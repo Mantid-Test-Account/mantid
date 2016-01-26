@@ -8,7 +8,7 @@ namespace API {
 ColumnFactoryImpl::ColumnFactoryImpl()
     : Kernel::DynamicFactory<API::Column>() {}
 
-ColumnFactoryImpl::~ColumnFactoryImpl() {}
+ColumnFactoryImpl::~ColumnFactoryImpl() = default;
 
 boost::shared_ptr<Column>
 ColumnFactoryImpl::create(const std::string &type) const {

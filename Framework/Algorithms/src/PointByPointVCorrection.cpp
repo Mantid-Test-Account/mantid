@@ -20,7 +20,7 @@ using namespace API;
 PointByPointVCorrection::PointByPointVCorrection() : Algorithm() {}
 
 // Destructor
-PointByPointVCorrection::~PointByPointVCorrection() {}
+PointByPointVCorrection::~PointByPointVCorrection() = default;
 
 void PointByPointVCorrection::init() {
   declareProperty(new WorkspaceProperty<>("InputW1", "", Direction::Input),

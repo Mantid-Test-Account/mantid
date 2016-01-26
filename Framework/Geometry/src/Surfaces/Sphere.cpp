@@ -47,13 +47,7 @@ make sphere at the origin radius zero
   setBaseEqn();
 }
 
-Sphere::Sphere(const Sphere &A)
-    : Quadratic(A), Centre(A.Centre), Radius(A.Radius)
-/**
-Default Copy constructor
-@param A :: Sphere to copy
-*/
-{}
+Sphere::Sphere(const Sphere &A) = default;
 
 Sphere *Sphere::doClone() const
 /**

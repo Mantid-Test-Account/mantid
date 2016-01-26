@@ -26,7 +26,7 @@ LoadILLSANS::LoadILLSANS() : m_defaultBinning(2) {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-LoadILLSANS::~LoadILLSANS() {}
+LoadILLSANS::~LoadILLSANS() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

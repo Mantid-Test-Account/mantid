@@ -27,7 +27,7 @@ OffsetsWorkspace::OffsetsWorkspace(Geometry::Instrument_const_sptr inst)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-OffsetsWorkspace::~OffsetsWorkspace() {}
+OffsetsWorkspace::~OffsetsWorkspace() = default;
 
 } // namespace Mantid
 } // namespace DataObjects

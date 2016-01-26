@@ -46,7 +46,7 @@ EventWorkspaceCollection::EventWorkspaceCollection()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-EventWorkspaceCollection::~EventWorkspaceCollection() {}
+EventWorkspaceCollection::~EventWorkspaceCollection() = default;
 
 //-----------------------------------------------------------------------------
 /**

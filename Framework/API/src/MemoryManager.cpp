@@ -26,7 +26,7 @@ MemoryManagerImpl::MemoryManagerImpl() : memoryCleared(0) {
  *  Prevents client from calling 'delete' on the pointer handed
  *  out by Instance
  */
-MemoryManagerImpl::~MemoryManagerImpl() {}
+MemoryManagerImpl::~MemoryManagerImpl() = default;
 
 MemoryInfo MemoryManagerImpl::getMemoryInfo() {
   Kernel::MemoryStats mem_stats;

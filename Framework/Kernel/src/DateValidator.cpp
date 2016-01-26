@@ -90,7 +90,7 @@ struct tm getTimeValue(const std::string &sDate, std::string &error) {
 DateValidator::DateValidator() {}
 
 /// destructor
-DateValidator::~DateValidator() {}
+DateValidator::~DateValidator() = default;
 
 /// create a copy of the the validator
 IValidator_sptr DateValidator::clone() const {

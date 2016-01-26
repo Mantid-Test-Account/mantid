@@ -21,7 +21,7 @@ SumEventsByLogValue::SumEventsByLogValue() {}
 
 /** Destructor
  */
-SumEventsByLogValue::~SumEventsByLogValue() {}
+SumEventsByLogValue::~SumEventsByLogValue() = default;
 
 void SumEventsByLogValue::init() {
   declareProperty(

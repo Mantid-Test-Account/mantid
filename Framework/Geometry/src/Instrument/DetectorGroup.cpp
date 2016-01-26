@@ -42,7 +42,7 @@ DetectorGroup::DetectorGroup(const std::vector<IDetector_const_sptr> &dets,
 }
 
 /// Destructor
-DetectorGroup::~DetectorGroup() {}
+DetectorGroup::~DetectorGroup() = default;
 
 /** Add a detector to the collection
 *  @param det ::  A pointer to the detector to add

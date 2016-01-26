@@ -15,9 +15,9 @@ OptionalBool::OptionalBool(bool arg) { m_arg = arg ? True : False; }
 
 OptionalBool::OptionalBool(Value arg) : m_arg(arg) {}
 
-OptionalBool::~OptionalBool() {}
+OptionalBool::~OptionalBool() = default;
 
-OptionalBool::OptionalBool(const OptionalBool &other) : m_arg(other.m_arg) {}
+OptionalBool::OptionalBool(const OptionalBool &other) = default;
 
 OptionalBool &OptionalBool::operator=(const OptionalBool &other) {
   if (this != &other) {

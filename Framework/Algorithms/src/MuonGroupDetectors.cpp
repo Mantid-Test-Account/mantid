@@ -20,7 +20,7 @@ MuonGroupDetectors::MuonGroupDetectors() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-MuonGroupDetectors::~MuonGroupDetectors() {}
+MuonGroupDetectors::~MuonGroupDetectors() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

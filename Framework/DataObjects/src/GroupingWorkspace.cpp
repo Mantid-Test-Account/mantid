@@ -39,7 +39,7 @@ GroupingWorkspace::GroupingWorkspace(Geometry::Instrument_const_sptr inst)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-GroupingWorkspace::~GroupingWorkspace() {}
+GroupingWorkspace::~GroupingWorkspace() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Fill a map with key = detector ID, value = group number

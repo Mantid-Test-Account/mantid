@@ -48,7 +48,7 @@ Integrate3DEvents::Integrate3DEvents(
 /**
  *  Destructor.
  */
-Integrate3DEvents::~Integrate3DEvents() {}
+Integrate3DEvents::~Integrate3DEvents() = default;
 
 /**
  * Add the specified event Q's to lists of events near peaks.  An event is

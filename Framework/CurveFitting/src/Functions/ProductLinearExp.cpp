@@ -29,7 +29,7 @@ ProductLinearExp::ProductLinearExp() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ProductLinearExp::~ProductLinearExp() {}
+ProductLinearExp::~ProductLinearExp() = default;
 
 /**
 Calculate the 1D function derivatives.

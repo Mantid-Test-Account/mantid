@@ -88,11 +88,11 @@ down level deletion of the Comp vector
 }
 
 Acomp::~Acomp()
-/**
-Destructor deletes each Comp Unit and
-down the chain.
-*/
-{}
+    /**
+    Destructor deletes each Comp Unit and
+    down the chain.
+    */
+    = default;
 
 bool Acomp::operator!=(const Acomp &A) const
 /**

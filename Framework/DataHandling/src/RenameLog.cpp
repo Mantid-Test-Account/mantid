@@ -18,7 +18,7 @@ RenameLog::RenameLog() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-RenameLog::~RenameLog() {}
+RenameLog::~RenameLog() = default;
 
 void RenameLog::init() {
 

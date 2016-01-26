@@ -24,7 +24,7 @@ ProcessIndirectFitParameters::ProcessIndirectFitParameters() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ProcessIndirectFitParameters::~ProcessIndirectFitParameters() {}
+ProcessIndirectFitParameters::~ProcessIndirectFitParameters() = default;
 
 //----------------------------------------------------------------------------------------------
 

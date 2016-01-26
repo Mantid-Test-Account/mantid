@@ -84,8 +84,7 @@ NiggliCell::NiggliCell(const DblMatrix &Umatrix) : UnitCell() {
 /** Copy constructor
 @param other :: The NiggliCell from which to copy information
 */
-NiggliCell::NiggliCell(const NiggliCell &other)
-    : UnitCell(other), U(other.U), UB(other.UB) {}
+NiggliCell::NiggliCell(const NiggliCell &other) = default;
 
 /** Constructor
 @param _a :: lattice parameter \f$ a \f$ with \f$\alpha = \beta = \gamma =
@@ -151,7 +150,7 @@ NiggliCell::NiggliCell(const UnitCell *uc, const DblMatrix &Umatrix)
 }
 
 /// Destructor
-NiggliCell::~NiggliCell() {}
+NiggliCell::~NiggliCell() = default;
 
 /**
     Check if a,b,c cell has angles satifying Niggli condition within epsilon.

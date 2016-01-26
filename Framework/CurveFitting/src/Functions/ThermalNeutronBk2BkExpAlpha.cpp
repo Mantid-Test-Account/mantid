@@ -29,7 +29,7 @@ ThermalNeutronBk2BkExpAlpha::ThermalNeutronBk2BkExpAlpha() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ThermalNeutronBk2BkExpAlpha::~ThermalNeutronBk2BkExpAlpha() {}
+ThermalNeutronBk2BkExpAlpha::~ThermalNeutronBk2BkExpAlpha() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Defintion of parameter

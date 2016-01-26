@@ -14,7 +14,7 @@ QSample::QSample() : m_unit(new Mantid::Kernel::InverseAngstromsUnit) {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-QSample::~QSample() {}
+QSample::~QSample() = default;
 
 Kernel::UnitLabel QSample::getUnitLabel() const {
   return m_unit->getUnitLabel();

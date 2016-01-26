@@ -17,7 +17,7 @@ PeakShapeSphericalFactory::PeakShapeSphericalFactory() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakShapeSphericalFactory::~PeakShapeSphericalFactory() {}
+PeakShapeSphericalFactory::~PeakShapeSphericalFactory() = default;
 
 /**
  * @brief PeakShapeSphericalFactory::create : Creational method

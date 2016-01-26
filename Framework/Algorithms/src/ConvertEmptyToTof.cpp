@@ -33,7 +33,7 @@ ConvertEmptyToTof::ConvertEmptyToTof() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ConvertEmptyToTof::~ConvertEmptyToTof() {}
+ConvertEmptyToTof::~ConvertEmptyToTof() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

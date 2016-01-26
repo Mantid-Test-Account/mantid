@@ -8,7 +8,7 @@ namespace Mantid {
 namespace Geometry {
 
 /// Default constructor
-SymmetryOperationSymbolParser::SymmetryOperationSymbolParser() {}
+SymmetryOperationSymbolParser::SymmetryOperationSymbolParser() = default;
 
 /**
  * Tries to parse the given symbol

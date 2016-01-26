@@ -64,7 +64,7 @@ LoadSpiceAscii::LoadSpiceAscii() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-LoadSpiceAscii::~LoadSpiceAscii() {}
+LoadSpiceAscii::~LoadSpiceAscii() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Name

@@ -20,7 +20,7 @@ Timer::Timer() {
 }
 
 /// Destructor
-Timer::~Timer() {}
+Timer::~Timer() = default;
 
 /** Returns the wall-clock time elapsed in seconds since the Timer object's
  *creation, or the last call to elapsed

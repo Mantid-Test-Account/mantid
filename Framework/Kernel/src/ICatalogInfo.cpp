@@ -26,7 +26,7 @@ std::string ICatalogInfo::transformArchivePath(const std::string &path) const {
   return ret;
 }
 
-ICatalogInfo::~ICatalogInfo() {}
+ICatalogInfo::~ICatalogInfo() = default;
 
 /**
  * Replace the content of a string using regex.

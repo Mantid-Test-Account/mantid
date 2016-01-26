@@ -48,13 +48,7 @@ Plane::Plane()
   setBaseEqn();
 }
 
-Plane::Plane(const Plane &A)
-    : Quadratic(A), NormV(A.NormV), Dist(A.Dist)
-/**
-  Copy Constructor
-  @param A :: Plane to copy
-*/
-{}
+Plane::Plane(const Plane &A) = default;
 
 Plane *Plane::doClone() const
 /**

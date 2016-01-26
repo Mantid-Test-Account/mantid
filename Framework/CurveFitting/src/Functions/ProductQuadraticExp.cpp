@@ -26,7 +26,7 @@ ProductQuadraticExp::ProductQuadraticExp() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ProductQuadraticExp::~ProductQuadraticExp() {}
+ProductQuadraticExp::~ProductQuadraticExp() = default;
 
 /**
 Calculate the 1D function derivatives.

@@ -16,7 +16,7 @@ DirectoryValidator::DirectoryValidator(bool testDirectoryExists)
 }
 
 /// Destructor
-DirectoryValidator::~DirectoryValidator() {}
+DirectoryValidator::~DirectoryValidator() = default;
 
 /// Returns the set of valid values
 std::vector<std::string> DirectoryValidator::allowedValues() const {

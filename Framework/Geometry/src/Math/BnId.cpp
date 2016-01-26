@@ -76,10 +76,10 @@ BnId &BnId::operator=(const BnId &A)
 }
 
 BnId::~BnId()
-/**
-  Destructor
- */
-{}
+    /**
+      Destructor
+     */
+    = default;
 
 int BnId::operator==(const BnId &A) const
 /**

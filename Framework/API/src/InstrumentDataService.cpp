@@ -12,7 +12,7 @@ InstrumentDataServiceImpl::InstrumentDataServiceImpl()
 /*
 * Destructor
 */
-InstrumentDataServiceImpl::~InstrumentDataServiceImpl() {}
+InstrumentDataServiceImpl::~InstrumentDataServiceImpl() = default;
 
 } // Namespace API
 } // Namespace Mantid

@@ -18,7 +18,7 @@ GeneralFrame::GeneralFrame(const std::string &frameName,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-GeneralFrame::~GeneralFrame() {}
+GeneralFrame::~GeneralFrame() = default;
 
 Kernel::UnitLabel GeneralFrame::getUnitLabel() const {
   return m_unit->getUnitLabel();

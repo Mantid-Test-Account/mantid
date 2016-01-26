@@ -36,7 +36,7 @@ DgsConvertToEnergyTransfer::DgsConvertToEnergyTransfer() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DgsConvertToEnergyTransfer::~DgsConvertToEnergyTransfer() {}
+DgsConvertToEnergyTransfer::~DgsConvertToEnergyTransfer() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

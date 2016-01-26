@@ -27,7 +27,7 @@ ThreadPoolRunnable::ThreadPoolRunnable(size_t threadnum,
 //-----------------------------------------------------------------------------------
 /** Destructor
  */
-ThreadPoolRunnable::~ThreadPoolRunnable() {}
+ThreadPoolRunnable::~ThreadPoolRunnable() = default;
 
 //-----------------------------------------------------------------------------------
 /** Clear the wait time of the runnable so that it stops waiting for tasks. */

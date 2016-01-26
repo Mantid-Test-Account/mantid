@@ -25,19 +25,13 @@ V3R::V3R(const std::vector<int> &vector) {
 }
 
 /// Copy constructor
-V3R::V3R(const V3R &other) : m_x(other.m_x), m_y(other.m_y), m_z(other.m_z) {}
+V3R::V3R(const V3R &other) = default;
 
 /// Assigment operator
-V3R &V3R::operator=(const V3R &other) {
-  m_x = other.m_x;
-  m_y = other.m_y;
-  m_z = other.m_z;
-
-  return *this;
-}
+V3R &V3R::operator=(const V3R &other) = default;
 
 /// Destructor
-V3R::~V3R() {}
+V3R::~V3R() = default;
 
 /// Returns the x-component of the vector
 const RationalNumber &V3R::x() const { return m_x; }

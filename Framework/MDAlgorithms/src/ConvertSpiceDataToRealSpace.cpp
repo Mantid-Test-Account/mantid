@@ -39,7 +39,7 @@ ConvertSpiceDataToRealSpace::ConvertSpiceDataToRealSpace()
 //------------------------------------------------------------------------------------------------
 /** Destructor
  */
-ConvertSpiceDataToRealSpace::~ConvertSpiceDataToRealSpace() {}
+ConvertSpiceDataToRealSpace::~ConvertSpiceDataToRealSpace() = default;
 
 //------------------------------------------------------------------------------------------------
 /** Init

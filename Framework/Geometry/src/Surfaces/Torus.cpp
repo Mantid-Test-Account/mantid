@@ -58,14 +58,7 @@ Torus::Torus()
   throw Kernel::Exception::NotImplementedError("Torus is not implemented.");
 }
 
-Torus::Torus(const Torus &A)
-    : Surface(A), Centre(A.Centre), Normal(A.Normal), Iradius(A.Iradius),
-      Dradius(A.Dradius), Displacement(A.Displacement)
-/**
-  Standard Copy Constructor
-  @param A :: Torus to copy
-*/
-{}
+Torus::Torus(const Torus &A) = default;
 
 Torus *Torus::doClone() const
 /**

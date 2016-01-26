@@ -9,7 +9,7 @@ UnknownFrame::UnknownFrame(std::unique_ptr<Kernel::MDUnit> unit)
 UnknownFrame::UnknownFrame(const Kernel::UnitLabel &unit)
     : m_unit(new Mantid::Kernel::LabelUnit(unit)) {}
 
-UnknownFrame::~UnknownFrame() {}
+UnknownFrame::~UnknownFrame() = default;
 
 const std::string UnknownFrame::UnknownFrameName = "Unknown frame";
 

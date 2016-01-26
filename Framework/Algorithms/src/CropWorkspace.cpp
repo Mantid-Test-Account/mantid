@@ -19,7 +19,7 @@ using namespace API;
 CropWorkspace::CropWorkspace() : Algorithm() {}
 
 /// Destructor
-CropWorkspace::~CropWorkspace() {}
+CropWorkspace::~CropWorkspace() = default;
 
 void CropWorkspace::init() {
   declareProperty(

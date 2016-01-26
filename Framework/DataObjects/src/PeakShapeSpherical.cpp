@@ -48,7 +48,7 @@ PeakShapeSpherical::PeakShapeSpherical(const double &peakRadius,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakShapeSpherical::~PeakShapeSpherical() {}
+PeakShapeSpherical::~PeakShapeSpherical() = default;
 
 /**
  * @brief Copy constructor from other PeakShapeSpherical

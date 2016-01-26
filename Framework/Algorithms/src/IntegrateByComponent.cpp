@@ -19,7 +19,7 @@ IntegrateByComponent::IntegrateByComponent() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-IntegrateByComponent::~IntegrateByComponent() {}
+IntegrateByComponent::~IntegrateByComponent() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

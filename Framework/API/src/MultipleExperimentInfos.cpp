@@ -25,7 +25,7 @@ MultipleExperimentInfos::MultipleExperimentInfos(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-MultipleExperimentInfos::~MultipleExperimentInfos() {}
+MultipleExperimentInfos::~MultipleExperimentInfos() = default;
 
 //-----------------------------------------------------------------------------------------------
 /** Get the ExperimentInfo for the given run Index

@@ -105,7 +105,7 @@ Projection &Projection::operator=(const Projection &other) {
   return *this;
 }
 
-Projection::~Projection() {}
+Projection::~Projection() = default;
 
 double Projection::getOffset(size_t nd) {
   if (nd >= 3)

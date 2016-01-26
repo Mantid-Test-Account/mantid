@@ -14,8 +14,7 @@ Histogram1D::Histogram1D() {}
  Copy constructor
  @param A :: Histogram to copy
  */
-Histogram1D::Histogram1D(const Histogram1D &A)
-    : ISpectrum(A), refY(A.refY), refE(A.refE) {}
+Histogram1D::Histogram1D(const Histogram1D &A) = default;
 
 /**
  Assignment operator
@@ -33,7 +32,7 @@ Histogram1D &Histogram1D::operator=(const Histogram1D &A) {
 }
 
 /// Destructor. Nothing to do since refX, refY, and refE are managed ptr
-Histogram1D::~Histogram1D() {}
+Histogram1D::~Histogram1D() = default;
 
 void Histogram1D::clearData() {
   MantidVec &yValues = this->dataY();

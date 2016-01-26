@@ -25,7 +25,7 @@ ModeratorChopperResolution::ModeratorChopperResolution(
 }
 
 /// Destructor
-ModeratorChopperResolution::~ModeratorChopperResolution() {}
+ModeratorChopperResolution::~ModeratorChopperResolution() = default;
 
 /**
  * Returns the width, i.e the standard-deviation, in energy that the

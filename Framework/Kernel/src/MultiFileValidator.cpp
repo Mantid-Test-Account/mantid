@@ -28,7 +28,7 @@ MultiFileValidator::MultiFileValidator(
       m_fileValidator(extensions, true) {}
 
 /// Destructor
-MultiFileValidator::~MultiFileValidator() {}
+MultiFileValidator::~MultiFileValidator() = default;
 
 /// Returns the set of valid values
 std::vector<std::string> MultiFileValidator::allowedValues() const {

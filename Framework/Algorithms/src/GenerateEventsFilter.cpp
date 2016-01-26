@@ -36,7 +36,7 @@ GenerateEventsFilter::GenerateEventsFilter()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-GenerateEventsFilter::~GenerateEventsFilter() {}
+GenerateEventsFilter::~GenerateEventsFilter() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Declare input

@@ -41,7 +41,7 @@ public:
     }
   }
 
-  virtual ~Command() {}
+  virtual ~Command() = default;
 };
 
 /// Helper typedef
@@ -56,7 +56,7 @@ class NullCommand : public Command {
     throw std::runtime_error(
         "Should not be attempting ::execute on a NullCommand");
   }
-  virtual ~NullCommand() {}
+  virtual ~NullCommand() = default;
 };
 
 /**
@@ -87,7 +87,7 @@ public:
     return outWS;
   }
 
-  virtual ~AdditionCommand() {}
+  virtual ~AdditionCommand() = default;
 };
 
 /**
@@ -130,7 +130,7 @@ public:
     }
     return outWS;
   }
-  virtual ~CropCommand() {}
+  virtual ~CropCommand() = default;
 };
 
 /**
@@ -140,7 +140,7 @@ class CommandParser {
 public:
   virtual Command *interpret(const std::string &instruction) const = 0;
 
-  virtual ~CommandParser() {}
+  virtual ~CommandParser() = default;
 };
 
 /// Helper typedef for vector of command parsers
@@ -163,7 +163,7 @@ public:
     }
     return command;
   }
-  virtual ~CommandParserBase() {}
+  virtual ~CommandParserBase() = default;
 
 private:
   virtual std::string getSeparator() const = 0;
@@ -175,7 +175,7 @@ private:
  */
 class AdditionParserRange : public CommandParserBase<AdditionCommand> {
 public:
-  virtual ~AdditionParserRange() {}
+  virtual ~AdditionParserRange() = default;
 
 private:
   boost::regex getRegex() const {
@@ -189,7 +189,7 @@ private:
  */
 class AdditionParser : public CommandParser {
 public:
-  virtual ~AdditionParser() {}
+  virtual ~AdditionParser() = default;
 
   virtual Command *interpret(const std::string &instruction) const {
     Command *command = NULL;
@@ -217,7 +217,7 @@ public:
  */
 class CropParserRange : public CommandParserBase<CropCommand> {
 public:
-  virtual ~CropParserRange() {}
+  virtual ~CropParserRange() = default;
 
 private:
   boost::regex getRegex() const {
@@ -231,7 +231,7 @@ private:
  */
 class CropParserIndex : public CommandParser {
 public:
-  virtual ~CropParserIndex() {}
+  virtual ~CropParserIndex() = default;
 
   virtual Command *interpret(const std::string &instruction) const {
     Command *command = NULL;
@@ -265,7 +265,7 @@ PerformIndexOperations::PerformIndexOperations() {
 //------------------------------------------------------------------------------
 /** Destructor
  */
-PerformIndexOperations::~PerformIndexOperations() {}
+PerformIndexOperations::~PerformIndexOperations() = default;
 
 //------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

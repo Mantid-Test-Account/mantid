@@ -24,7 +24,7 @@ DgsAbsoluteUnitsReduction::DgsAbsoluteUnitsReduction() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DgsAbsoluteUnitsReduction::~DgsAbsoluteUnitsReduction() {}
+DgsAbsoluteUnitsReduction::~DgsAbsoluteUnitsReduction() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

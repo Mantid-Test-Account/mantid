@@ -5,7 +5,7 @@ namespace API {
 
 ILiveListener::ILiveListener() : m_dataReset(false) {}
 
-ILiveListener::~ILiveListener() {}
+ILiveListener::~ILiveListener() = default;
 
 bool ILiveListener::dataReset() {
   const bool retval = m_dataReset;

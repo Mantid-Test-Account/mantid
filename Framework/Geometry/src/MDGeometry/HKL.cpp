@@ -50,7 +50,7 @@ HKL &HKL::operator=(const HKL &other) {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-HKL::~HKL() {}
+HKL::~HKL() = default;
 
 Kernel::UnitLabel HKL::getUnitLabel() const { return m_unit->getUnitLabel(); }
 

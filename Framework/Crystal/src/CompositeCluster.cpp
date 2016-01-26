@@ -28,7 +28,7 @@ CompositeCluster::CompositeCluster() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-CompositeCluster::~CompositeCluster() {}
+CompositeCluster::~CompositeCluster() = default;
 
 /**
  * Integrate the composite cluster.

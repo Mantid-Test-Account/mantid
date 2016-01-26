@@ -50,13 +50,13 @@ using Kernel::Quat;
 /**
  * Constructor
  */
-OCGeometryRenderer::OCGeometryRenderer() {}
+OCGeometryRenderer::OCGeometryRenderer() = default;
 
 /**
  * Destructor
  * Deletes the display list
  */
-OCGeometryRenderer::~OCGeometryRenderer() {}
+OCGeometryRenderer::~OCGeometryRenderer() = default;
 
 /**
  * Renders Object surface given as OpenCascade topology shape

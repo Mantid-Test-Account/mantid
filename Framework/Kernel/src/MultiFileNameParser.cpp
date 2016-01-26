@@ -212,7 +212,7 @@ Parser::Parser()
 }
 
 /// Destructor.
-Parser::~Parser() {}
+Parser::~Parser() = default;
 
 /**
  * Takes the given multiFileName string, and calls other parts of the parser

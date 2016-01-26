@@ -14,7 +14,7 @@ namespace API {
 ModeratorModel::ModeratorModel() : m_tiltAngle(0.0) {}
 
 /// Virtual destructor
-ModeratorModel::~ModeratorModel() {}
+ModeratorModel::~ModeratorModel() = default;
 
 /**
  * Initialize the object from a string of parameters

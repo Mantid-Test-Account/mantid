@@ -977,13 +977,7 @@ CompObj::CompObj()
 */
 {}
 
-CompObj::CompObj(const CompObj &A)
-    : Rule(A), objN(A.objN), key(A.key)
-/**
-  Standard copy constructor
-  @param A :: CompObj to copy
- */
-{}
+CompObj::CompObj(const CompObj &A) = default;
 
 CompObj &CompObj::operator=(const CompObj &A)
 /**
@@ -1272,13 +1266,7 @@ BoolValue::BoolValue()
 */
 {}
 
-BoolValue::BoolValue(const BoolValue &A)
-    : Rule(A), status(A.status)
-/**
-  Copy Constructor
-  @param A :: BoolValue to copy
-*/
-{}
+BoolValue::BoolValue(const BoolValue &A) = default;
 
 BoolValue &BoolValue::operator=(const BoolValue &A)
 /**

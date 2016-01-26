@@ -16,7 +16,7 @@ CPUTimer::CPUTimer() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-CPUTimer::~CPUTimer() {}
+CPUTimer::~CPUTimer() = default;
 
 /// Explicitly reset the timer.
 void CPUTimer::reset() {

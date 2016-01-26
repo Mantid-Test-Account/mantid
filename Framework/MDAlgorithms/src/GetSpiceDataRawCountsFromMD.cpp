@@ -21,7 +21,7 @@ GetSpiceDataRawCountsFromMD::GetSpiceDataRawCountsFromMD() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
   */
-GetSpiceDataRawCountsFromMD::~GetSpiceDataRawCountsFromMD() {}
+GetSpiceDataRawCountsFromMD::~GetSpiceDataRawCountsFromMD() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Initialization

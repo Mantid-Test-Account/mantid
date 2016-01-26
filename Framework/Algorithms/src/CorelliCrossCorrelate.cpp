@@ -27,7 +27,7 @@ CorelliCrossCorrelate::CorelliCrossCorrelate() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-CorelliCrossCorrelate::~CorelliCrossCorrelate() {}
+CorelliCrossCorrelate::~CorelliCrossCorrelate() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Initialize the algorithm's properties.

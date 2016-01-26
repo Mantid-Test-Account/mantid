@@ -6,9 +6,11 @@
 namespace Mantid {
 namespace DataObjects {
 
-MDFramesToSpecialCoordinateSystem::MDFramesToSpecialCoordinateSystem() {}
+MDFramesToSpecialCoordinateSystem::MDFramesToSpecialCoordinateSystem() =
+    default;
 
-MDFramesToSpecialCoordinateSystem::~MDFramesToSpecialCoordinateSystem() {}
+MDFramesToSpecialCoordinateSystem::~MDFramesToSpecialCoordinateSystem() =
+    default;
 
 /**
  * Get the Special Coordinate System based on the MDFrame information.

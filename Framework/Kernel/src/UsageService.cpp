@@ -76,7 +76,7 @@ UsageServiceImpl::UsageServiceImpl()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-UsageServiceImpl::~UsageServiceImpl() {}
+UsageServiceImpl::~UsageServiceImpl() = default;
 
 void UsageServiceImpl::setApplication(const std::string &name) {
   m_application = name;

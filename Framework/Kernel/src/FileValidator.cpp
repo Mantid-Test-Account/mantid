@@ -31,7 +31,7 @@ FileValidator::FileValidator(const std::vector<std::string> &extensions,
 }
 
 /// Destructor
-FileValidator::~FileValidator() {}
+FileValidator::~FileValidator() = default;
 
 /// Returns the set of valid values
 std::vector<std::string> FileValidator::allowedValues() const {

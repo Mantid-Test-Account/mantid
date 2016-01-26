@@ -9,7 +9,7 @@ ImplicitFunctionParameterParserFactoryImpl::
     ImplicitFunctionParameterParserFactoryImpl() {}
 
 ImplicitFunctionParameterParserFactoryImpl::
-    ~ImplicitFunctionParameterParserFactoryImpl() {}
+    ~ImplicitFunctionParameterParserFactoryImpl() = default;
 
 boost::shared_ptr<ImplicitFunctionParameterParser>
 ImplicitFunctionParameterParserFactoryImpl::create(

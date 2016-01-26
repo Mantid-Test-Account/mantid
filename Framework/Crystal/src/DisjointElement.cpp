@@ -18,7 +18,7 @@ DisjointElement::DisjointElement(const int id)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DisjointElement::~DisjointElement() {}
+DisjointElement::~DisjointElement() = default;
 
 /**
  * Copy constructor

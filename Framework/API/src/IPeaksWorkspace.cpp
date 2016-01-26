@@ -10,7 +10,7 @@ namespace API {
 
 using namespace Kernel;
 
-IPeaksWorkspace::~IPeaksWorkspace() {}
+IPeaksWorkspace::~IPeaksWorkspace() = default;
 
 const std::string IPeaksWorkspace::toString() const {
   std::ostringstream os;

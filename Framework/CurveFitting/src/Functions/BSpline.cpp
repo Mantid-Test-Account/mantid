@@ -54,7 +54,7 @@ BSpline::BSpline() : m_bsplineWorkspace(), m_bsplineDerivWorkspace() {
 /**
  * Destructor
  */
-BSpline::~BSpline() {}
+BSpline::~BSpline() = default;
 
 /** Execute the function
  *

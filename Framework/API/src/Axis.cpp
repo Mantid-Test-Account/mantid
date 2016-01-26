@@ -16,10 +16,10 @@ Axis::Axis()
       m_unit(Mantid::Kernel::UnitFactory::Instance().create("Empty")) {}
 
 /// Protected copy constructor
-Axis::Axis(const Axis &right) : m_title(right.m_title), m_unit(right.m_unit) {}
+Axis::Axis(const Axis &right) = default;
 
 /// Virtual destructor
-Axis::~Axis() {}
+Axis::~Axis() = default;
 
 /// Returns the user-defined title for this axis
 const std::string &Axis::title() const { return m_title; }

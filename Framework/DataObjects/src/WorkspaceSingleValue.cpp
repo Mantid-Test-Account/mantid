@@ -27,7 +27,7 @@ WorkspaceSingleValue::WorkspaceSingleValue(const WorkspaceSingleValue &other)
 }
 
 /// Destructor
-WorkspaceSingleValue::~WorkspaceSingleValue() {}
+WorkspaceSingleValue::~WorkspaceSingleValue() = default;
 
 /** Does nothing in this case
 *  @param NVectors :: This value can only be equal to one, otherwise exception

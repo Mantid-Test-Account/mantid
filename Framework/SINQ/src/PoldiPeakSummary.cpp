@@ -23,7 +23,7 @@ PoldiPeakSummary::PoldiPeakSummary() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PoldiPeakSummary::~PoldiPeakSummary() {}
+PoldiPeakSummary::~PoldiPeakSummary() = default;
 
 //----------------------------------------------------------------------------------------------
 

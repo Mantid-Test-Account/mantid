@@ -39,7 +39,7 @@ NeutronBk2BkExpConvPVoigt::NeutronBk2BkExpConvPVoigt()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-NeutronBk2BkExpConvPVoigt::~NeutronBk2BkExpConvPVoigt() {}
+NeutronBk2BkExpConvPVoigt::~NeutronBk2BkExpConvPVoigt() = default;
 
 /// Default value for the peak radius
 int NeutronBk2BkExpConvPVoigt::s_peakRadius = 5;

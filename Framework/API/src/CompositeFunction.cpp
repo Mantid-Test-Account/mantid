@@ -32,7 +32,7 @@ CompositeFunction::CompositeFunction()
 }
 
 /// Destructor
-CompositeFunction::~CompositeFunction() {}
+CompositeFunction::~CompositeFunction() = default;
 
 /// Function initialization. Declare function parameters in this method.
 void CompositeFunction::init() {}

@@ -263,7 +263,7 @@ ScriptRepositoryImpl::ScriptRepositoryImpl(const std::string &local_rep,
   valid = true;
 }
 
-ScriptRepositoryImpl::~ScriptRepositoryImpl() throw() {}
+ScriptRepositoryImpl::~ScriptRepositoryImpl() throw() = default;
 
 /**
  Check the connection with the server through the ::doDownloadFile method.

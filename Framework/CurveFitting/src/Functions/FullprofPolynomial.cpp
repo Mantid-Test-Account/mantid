@@ -24,7 +24,7 @@ FullprofPolynomial::FullprofPolynomial() : m_n(6), m_bkpos(1.) {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-FullprofPolynomial::~FullprofPolynomial() {}
+FullprofPolynomial::~FullprofPolynomial() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Function to calcualteFullprofPolynomial

@@ -23,7 +23,7 @@ ShiftLogTime::ShiftLogTime() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ShiftLogTime::~ShiftLogTime() {}
+ShiftLogTime::~ShiftLogTime() = default;
 
 /// Algorithm's name for identification
 const string ShiftLogTime::name() const { return "ShiftLogTime"; }

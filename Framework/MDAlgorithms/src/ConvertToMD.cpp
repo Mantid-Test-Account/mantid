@@ -90,7 +90,7 @@ void ConvertToMD::init() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ConvertToMD::~ConvertToMD() {}
+ConvertToMD::~ConvertToMD() = default;
 
 const std::string ConvertToMD::name() const { return "ConvertToMD"; }
 

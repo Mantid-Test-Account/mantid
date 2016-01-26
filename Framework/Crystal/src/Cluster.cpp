@@ -20,7 +20,7 @@ Cluster::Cluster(const size_t &label)
 /**
  * Destructor
  */
-Cluster::~Cluster() {}
+Cluster::~Cluster() = default;
 
 /**
  * Get the label

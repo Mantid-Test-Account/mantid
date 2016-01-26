@@ -13,7 +13,7 @@ PeakShapeBase::PeakShapeBase(Kernel::SpecialCoordinateSystem frame,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakShapeBase::~PeakShapeBase() {}
+PeakShapeBase::~PeakShapeBase() = default;
 
 /**
  * @brief Copy constructor

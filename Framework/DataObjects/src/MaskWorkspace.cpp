@@ -32,8 +32,7 @@ const double ERROR_VALUE = 0.;
  */
 MaskWorkspace::MaskWorkspace() {}
 
-MaskWorkspace::MaskWorkspace(const MaskWorkspace &other)
-    : SpecialWorkspace2D(other), IMaskWorkspace(other) {}
+MaskWorkspace::MaskWorkspace(const MaskWorkspace &other) = default;
 
 /**
  * Constructor - with a given dimension.
@@ -74,7 +73,7 @@ MaskWorkspace::MaskWorkspace(const API::MatrixWorkspace_const_sptr parent)
 /**
  * Destructor
  */
-MaskWorkspace::~MaskWorkspace() {}
+MaskWorkspace::~MaskWorkspace() = default;
 
 //--------------------------------------------------------------------------
 

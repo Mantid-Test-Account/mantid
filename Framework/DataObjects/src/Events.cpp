@@ -35,24 +35,19 @@ TofEvent::TofEvent(const double tof, const DateAndTime pulsetime)
 /** Constructor, copy from another TofEvent object
  * @param rhs :: Other TofEvent to copy.
  */
-TofEvent::TofEvent(const TofEvent &rhs)
-    : m_tof(rhs.m_tof), m_pulsetime(rhs.m_pulsetime) {}
+TofEvent::TofEvent(const TofEvent &rhs) = default;
 
 /// Empty constructor
 TofEvent::TofEvent() : m_tof(0), m_pulsetime(0) {}
 
 /// Destructor
-TofEvent::~TofEvent() {}
+TofEvent::~TofEvent() = default;
 
 /** Copy from another TofEvent object
  * @param rhs :: Other TofEvent to copy.
  * @return reference to this.
  */
-TofEvent &TofEvent::operator=(const TofEvent &rhs) {
-  this->m_tof = rhs.m_tof;
-  this->m_pulsetime = rhs.m_pulsetime;
-  return *this;
-}
+TofEvent &TofEvent::operator=(const TofEvent &rhs) = default;
 
 /** Comparison operator.
  * @param rhs: the other TofEvent to compare.
@@ -184,7 +179,7 @@ WeightedEvent::WeightedEvent()
     : TofEvent(), m_weight(1.0), m_errorSquared(1.0) {}
 
 /// Destructor
-WeightedEvent::~WeightedEvent() {}
+WeightedEvent::~WeightedEvent() = default;
 
 /// Copy from another WeightedEvent object
 WeightedEvent &WeightedEvent::operator=(const WeightedEvent &rhs) {
@@ -321,9 +316,8 @@ WeightedEventNoTime::WeightedEventNoTime(const WeightedEvent &rhs)
 /** Constructor, copy from another WeightedEventNoTime object
  * @param rhs: source WeightedEventNoTime
  */
-WeightedEventNoTime::WeightedEventNoTime(const WeightedEventNoTime &rhs)
-    : m_tof(rhs.m_tof), m_weight(rhs.m_weight),
-      m_errorSquared(rhs.m_errorSquared) {}
+WeightedEventNoTime::WeightedEventNoTime(const WeightedEventNoTime &rhs) =
+    default;
 
 /** Constructor, copy from another TofEvent object
  * @param rhs: source TofEvent
@@ -336,16 +330,11 @@ WeightedEventNoTime::WeightedEventNoTime()
     : m_tof(0.0), m_weight(1.0), m_errorSquared(1.0) {}
 
 /// Destructor
-WeightedEventNoTime::~WeightedEventNoTime() {}
+WeightedEventNoTime::~WeightedEventNoTime() = default;
 
 /// Copy from another WeightedEventNoTime object
 WeightedEventNoTime &WeightedEventNoTime::
-operator=(const WeightedEventNoTime &rhs) {
-  this->m_tof = rhs.m_tof;
-  this->m_weight = rhs.m_weight;
-  this->m_errorSquared = rhs.m_errorSquared;
-  return *this;
-}
+operator=(const WeightedEventNoTime &rhs) = default;
 
 /** Comparison operator.
  * @param rhs :: event to which we are comparing.

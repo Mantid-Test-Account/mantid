@@ -64,14 +64,7 @@ Cone::Cone()
   setBaseEqn();
 }
 
-Cone::Cone(const Cone &A)
-    : Quadratic(A), Centre(A.Centre), Normal(A.Normal), alpha(A.alpha),
-      cangle(A.cangle)
-/**
- Standard Copy Constructor
- @param A :: Cone to copy
- */
-{}
+Cone::Cone(const Cone &A) = default;
 
 Cone *Cone::doClone() const
 /**

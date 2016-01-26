@@ -76,7 +76,7 @@ FitPowderDiffPeaks::FitPowderDiffPeaks()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-FitPowderDiffPeaks::~FitPowderDiffPeaks() {}
+FitPowderDiffPeaks::~FitPowderDiffPeaks() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Parameter declaration

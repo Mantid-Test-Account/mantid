@@ -29,7 +29,7 @@ DECLARE_FUNCTION(Bk2BkExpConvPV)
  */
 Bk2BkExpConvPV::Bk2BkExpConvPV() : mFWHM(0.0), mLowTOF(0.0), mUpperTOF(0.0) {}
 
-Bk2BkExpConvPV::~Bk2BkExpConvPV() {}
+Bk2BkExpConvPV::~Bk2BkExpConvPV() = default;
 
 /** Initialize:  declare paraemters
  */

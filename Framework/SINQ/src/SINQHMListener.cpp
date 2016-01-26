@@ -34,7 +34,7 @@ SINQHMListener::SINQHMListener()
   rank = 0;
 }
 
-SINQHMListener::~SINQHMListener() {}
+SINQHMListener::~SINQHMListener() = default;
 
 bool SINQHMListener::connect(const Poco::Net::SocketAddress &address) {
   std::string host = address.toString();

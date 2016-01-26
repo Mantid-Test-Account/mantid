@@ -13,13 +13,7 @@ General::General()
 */
 {}
 
-General::General(const General &A)
-    : Quadratic(A)
-/**
-  Standard Copy Constructor
-  @param A :: General Object to copy
-*/
-{}
+General::General(const General &A) = default;
 
 General *General::doClone() const
 /**

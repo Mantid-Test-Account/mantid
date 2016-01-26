@@ -110,6 +110,6 @@ bool PeakTransformSelector::hasFactoryForTransform(
 }
 
 /// Destructor
-PeakTransformSelector::~PeakTransformSelector() {}
+PeakTransformSelector::~PeakTransformSelector() = default;
 }
 }

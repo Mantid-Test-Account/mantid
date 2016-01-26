@@ -25,7 +25,7 @@ RebinByTimeAtSample::RebinByTimeAtSample() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-RebinByTimeAtSample::~RebinByTimeAtSample() {}
+RebinByTimeAtSample::~RebinByTimeAtSample() = default;
 
 //----------------------------------------------------------------------------------------------
 

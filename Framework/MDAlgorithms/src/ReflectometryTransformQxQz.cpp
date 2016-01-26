@@ -8,7 +8,7 @@ namespace MDAlgorithms {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ReflectometryTransformQxQz::~ReflectometryTransformQxQz() {}
+ReflectometryTransformQxQz::~ReflectometryTransformQxQz() = default;
 
 /*
  Constructor

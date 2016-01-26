@@ -47,7 +47,7 @@ Logger g_log("ShapeFactory");
 }
 
 /// Empty default constructor
-ShapeFactory::ShapeFactory() {}
+ShapeFactory::ShapeFactory() = default;
 
 /** Creates a geometric object directly from a XML shape string
  *

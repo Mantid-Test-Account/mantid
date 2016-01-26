@@ -361,7 +361,7 @@ void CubicSpline::reallocGSLObjects(const int n) {
 /** Destructor
  *
  */
-CubicSpline::~CubicSpline() {}
+CubicSpline::~CubicSpline() = default;
 } // namespace Functions
 } // namespace CurveFitting
 } // namespace Mantid

@@ -10,7 +10,7 @@ using namespace Mantid::API;
 
 ExtractMonitorWorkspace::ExtractMonitorWorkspace() {}
 
-ExtractMonitorWorkspace::~ExtractMonitorWorkspace() {}
+ExtractMonitorWorkspace::~ExtractMonitorWorkspace() = default;
 
 /// Algorithm's name for identification. @see Algorithm::name
 const std::string ExtractMonitorWorkspace::name() const {

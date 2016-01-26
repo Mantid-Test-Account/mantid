@@ -29,7 +29,7 @@ ReflectometryTransformP::ReflectometryTransformP(
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ReflectometryTransformP::~ReflectometryTransformP() {}
+ReflectometryTransformP::~ReflectometryTransformP() = default;
 
 } // namespace Mantid
 } // namespace MDAlgorithms

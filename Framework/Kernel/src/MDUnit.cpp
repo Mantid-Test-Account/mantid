@@ -8,7 +8,7 @@ namespace Kernel {
 //----------------------------------------------------------------------------------------------
 /** Constructor
  */
-MDUnit::MDUnit() {}
+MDUnit::MDUnit() = default;
 
 bool MDUnit::operator==(const MDUnit &other) const {
   return typeid(*this) == typeid(other) && this->canConvertTo(other);
@@ -17,12 +17,12 @@ bool MDUnit::operator==(const MDUnit &other) const {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-MDUnit::~MDUnit() {}
+MDUnit::~MDUnit() = default;
 
 //----------------------------------------------------------------------------------------------
 // QUnit
 //----------------------------------------------------------------------------------------------
-QUnit::~QUnit() {}
+QUnit::~QUnit() = default;
 
 bool QUnit::isQUnit() const { return true; }
 
@@ -38,7 +38,7 @@ ReciprocalLatticeUnit::ReciprocalLatticeUnit() : m_unitLabel(UnitLabel("")) {}
 ReciprocalLatticeUnit::ReciprocalLatticeUnit(const UnitLabel &unitLabel)
     : m_unitLabel(unitLabel) {}
 
-ReciprocalLatticeUnit::~ReciprocalLatticeUnit() {}
+ReciprocalLatticeUnit::~ReciprocalLatticeUnit() = default;
 
 UnitLabel ReciprocalLatticeUnit::getUnitLabel() const {
   if (isSpecialRLUUnitLabel()) {
@@ -81,7 +81,7 @@ bool InverseAngstromsUnit::canConvertTo(const MDUnit &other) const {
   return other.isQUnit();
 }
 
-InverseAngstromsUnit::~InverseAngstromsUnit() {}
+InverseAngstromsUnit::~InverseAngstromsUnit() = default;
 
 InverseAngstromsUnit *InverseAngstromsUnit::clone() const {
   return new InverseAngstromsUnit;
@@ -109,7 +109,7 @@ bool LabelUnit::isQUnit() const {
   return boost::regex_search(m_unitLabel.ascii(), match, pattern);
 }
 
-LabelUnit::~LabelUnit() {}
+LabelUnit::~LabelUnit() = default;
 
 LabelUnit *LabelUnit::clone() const { return new LabelUnit(m_unitLabel); }
 

@@ -82,6 +82,6 @@ Mantid::API::CoordTransform *CoordTransformDistanceParser::createTransform(
 }
 
 /// Destructor
-CoordTransformDistanceParser::~CoordTransformDistanceParser() {}
+CoordTransformDistanceParser::~CoordTransformDistanceParser() = default;
 }
 }

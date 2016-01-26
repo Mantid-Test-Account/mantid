@@ -22,7 +22,7 @@ FunctionFactoryImpl::FunctionFactoryImpl()
   Mantid::Kernel::LibraryManager::Instance();
 }
 
-FunctionFactoryImpl::~FunctionFactoryImpl() {}
+FunctionFactoryImpl::~FunctionFactoryImpl() = default;
 
 IFunction_sptr
 FunctionFactoryImpl::createFunction(const std::string &type) const {

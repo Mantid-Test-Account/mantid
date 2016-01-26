@@ -16,7 +16,7 @@ PoldiSpectrumConstantBackground::PoldiSpectrumConstantBackground()
 }
 
 /// Destructor
-PoldiSpectrumConstantBackground::~PoldiSpectrumConstantBackground() {}
+PoldiSpectrumConstantBackground::~PoldiSpectrumConstantBackground() = default;
 
 void PoldiSpectrumConstantBackground::function1D(double *out,
                                                  const double *xValues,

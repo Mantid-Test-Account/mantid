@@ -62,7 +62,8 @@ SpecularReflectionPositionCorrect::SpecularReflectionPositionCorrect() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-SpecularReflectionPositionCorrect::~SpecularReflectionPositionCorrect() {}
+SpecularReflectionPositionCorrect::~SpecularReflectionPositionCorrect() =
+    default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

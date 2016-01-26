@@ -41,24 +41,11 @@ SymmetryOperation::SymmetryOperation(const Kernel::IntMatrix &matrix,
 }
 
 /// Copy-constructor
-SymmetryOperation::SymmetryOperation(const SymmetryOperation &other)
-    : m_order(other.m_order), m_matrix(other.m_matrix),
-      m_inverseMatrix(other.m_inverseMatrix), m_vector(other.m_vector),
-      m_reducedVector(other.m_reducedVector), m_identifier(other.m_identifier) {
-}
+SymmetryOperation::SymmetryOperation(const SymmetryOperation &other) = default;
 
 /// Assignment operator
 SymmetryOperation &SymmetryOperation::
-operator=(const SymmetryOperation &other) {
-  m_order = other.m_order;
-  m_matrix = other.m_matrix;
-  m_inverseMatrix = other.m_inverseMatrix;
-  m_vector = other.m_vector;
-  m_reducedVector = other.m_reducedVector;
-  m_identifier = other.m_identifier;
-
-  return *this;
-}
+operator=(const SymmetryOperation &other) = default;
 
 /// Initialize from matrix and vector.
 void SymmetryOperation::init(const Kernel::IntMatrix &matrix,

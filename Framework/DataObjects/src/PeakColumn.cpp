@@ -92,7 +92,7 @@ PeakColumn::PeakColumn(std::vector<Peak> &peaks, const std::string &name)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakColumn::~PeakColumn() {}
+PeakColumn::~PeakColumn() = default;
 
 /// Returns typeid for the data in the column
 const std::type_info &PeakColumn::get_type_info() const {

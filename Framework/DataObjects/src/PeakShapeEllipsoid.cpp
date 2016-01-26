@@ -56,7 +56,7 @@ bool PeakShapeEllipsoid::operator==(const PeakShapeEllipsoid &other) const {
          other.abcRadiiBackgroundOuter() == this->abcRadiiBackgroundOuter();
 }
 
-PeakShapeEllipsoid::~PeakShapeEllipsoid() {}
+PeakShapeEllipsoid::~PeakShapeEllipsoid() = default;
 
 std::vector<double> PeakShapeEllipsoid::abcRadii() const { return m_abc_radii; }
 

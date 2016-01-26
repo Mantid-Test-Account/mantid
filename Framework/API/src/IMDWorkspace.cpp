@@ -24,7 +24,7 @@ IMDWorkspace::IMDWorkspace(const IMDWorkspace &other)
 }
 
 /// Destructor
-IMDWorkspace::~IMDWorkspace() {}
+IMDWorkspace::~IMDWorkspace() = default;
 
 /** Creates a single iterator and returns it.
  *

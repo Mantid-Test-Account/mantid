@@ -22,7 +22,7 @@ Unit::Unit()
 
 /**
  */
-Unit::~Unit() {}
+Unit::~Unit() = default;
 
 /**
  * @param other The unit that initializes this

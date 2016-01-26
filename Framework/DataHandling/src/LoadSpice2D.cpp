@@ -119,7 +119,7 @@ LoadSpice2D::LoadSpice2D()
       m_numberYPixels(0), m_wavelength(0), m_dwavelength(0) {}
 
 /// Destructor
-LoadSpice2D::~LoadSpice2D() {}
+LoadSpice2D::~LoadSpice2D() = default;
 
 /// Overwrites Algorithm Init method.
 void LoadSpice2D::init() {

@@ -44,7 +44,7 @@ GenerateGroupingPowder::GenerateGroupingPowder() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-GenerateGroupingPowder::~GenerateGroupingPowder() {}
+GenerateGroupingPowder::~GenerateGroupingPowder() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

@@ -15,12 +15,12 @@ using Kernel::Quat;
 /**
  * Constructor
  */
-GluGeometryRenderer::GluGeometryRenderer() {}
+GluGeometryRenderer::GluGeometryRenderer() = default;
 
 /**
  * Destructor
  */
-GluGeometryRenderer::~GluGeometryRenderer() {}
+GluGeometryRenderer::~GluGeometryRenderer() = default;
 
 void GluGeometryRenderer::RenderSphere(const V3D &center, double radius) {
   while (glGetError() != GL_NO_ERROR)

@@ -60,7 +60,7 @@ StringContainsValidator::checkValidity(const std::string &value) const {
 
 /** Destructor
  */
-StringContainsValidator::~StringContainsValidator() {}
+StringContainsValidator::~StringContainsValidator() = default;
 
 } // namespace Kernel
 } // namespace Mantid

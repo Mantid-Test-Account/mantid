@@ -5,7 +5,7 @@ namespace Geometry {
 
 NullImplicitFunction::NullImplicitFunction() {}
 
-NullImplicitFunction::~NullImplicitFunction() {}
+NullImplicitFunction::~NullImplicitFunction() = default;
 
 std::string NullImplicitFunction::getName() const {
   return NullImplicitFunction::functionName();

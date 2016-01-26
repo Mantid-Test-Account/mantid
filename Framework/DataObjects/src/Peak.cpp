@@ -229,7 +229,7 @@ Peak::Peak(const Geometry::IPeak &ipeak)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-Peak::~Peak() {}
+Peak::~Peak() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Set the incident wavelength of the neutron. Calculates the energy from this.

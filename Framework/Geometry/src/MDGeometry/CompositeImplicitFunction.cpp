@@ -16,7 +16,7 @@ namespace Geometry {
 
 CompositeImplicitFunction::CompositeImplicitFunction() {}
 
-CompositeImplicitFunction::~CompositeImplicitFunction() {}
+CompositeImplicitFunction::~CompositeImplicitFunction() = default;
 
 bool CompositeImplicitFunction::addFunction(
     Mantid::Geometry::MDImplicitFunction_sptr constituentFunction) {

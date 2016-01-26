@@ -38,7 +38,7 @@ IPowderDiffPeakFunction::IPowderDiffPeakFunction()
 //----------------------------------------------------------------------------------------------
 /** Desctructor
   */
-IPowderDiffPeakFunction::~IPowderDiffPeakFunction() {}
+IPowderDiffPeakFunction::~IPowderDiffPeakFunction() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Override setting parameter by parameter index

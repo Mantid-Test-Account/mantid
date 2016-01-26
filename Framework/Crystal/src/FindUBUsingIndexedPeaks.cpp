@@ -25,7 +25,7 @@ FindUBUsingIndexedPeaks::FindUBUsingIndexedPeaks() {}
 //--------------------------------------------------------------------------
 /** Destructor
  */
-FindUBUsingIndexedPeaks::~FindUBUsingIndexedPeaks() {}
+FindUBUsingIndexedPeaks::~FindUBUsingIndexedPeaks() = default;
 
 //--------------------------------------------------------------------------
 /** Initialize the algorithm's properties.

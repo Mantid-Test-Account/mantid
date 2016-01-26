@@ -5,7 +5,7 @@ namespace Kernel {
 
 UnitFactoryImpl::UnitFactoryImpl() : DynamicFactory<Unit>() {}
 
-UnitFactoryImpl::~UnitFactoryImpl() {}
+UnitFactoryImpl::~UnitFactoryImpl() = default;
 
 } // namespace Kernel
 } // namespace Mantid

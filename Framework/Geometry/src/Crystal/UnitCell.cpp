@@ -28,9 +28,7 @@ UnitCell::UnitCell() : da(6), ra(6), errorda(6), G(3, 3), Gstar(3, 3), B(3, 3) {
 /** Copy constructor
 @param other :: The UnitCell from which to copy lattice parameters
 */
-UnitCell::UnitCell(const UnitCell &other)
-    : da(other.da), ra(other.ra), errorda(other.errorda), G(other.G),
-      Gstar(other.Gstar), B(other.B), Binv(other.Binv) {}
+UnitCell::UnitCell(const UnitCell &other) = default;
 
 /** Copy constructor
  *@param other :: The UnitCell from which to copy lattice parameters
@@ -80,7 +78,7 @@ UnitCell::UnitCell(double _a, double _b, double _c, double _alpha, double _beta,
 }
 
 /// Destructor
-UnitCell::~UnitCell() {}
+UnitCell::~UnitCell() = default;
 
 /** Get lattice parameter
 @return a1 :: lattice parameter \f$ a \f$ (in \f$ \mbox{\AA} \f$ )

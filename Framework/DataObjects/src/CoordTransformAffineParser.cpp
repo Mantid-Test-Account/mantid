@@ -82,6 +82,6 @@ void CoordTransformAffineParser::setSuccessor(
 }
 
 /// Destructor
-CoordTransformAffineParser::~CoordTransformAffineParser() {}
+CoordTransformAffineParser::~CoordTransformAffineParser() = default;
 }
 }

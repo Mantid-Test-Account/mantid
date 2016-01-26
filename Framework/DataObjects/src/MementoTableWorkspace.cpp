@@ -68,6 +68,6 @@ MementoTableWorkspace::MementoTableWorkspace(int nRows)
 }
 
 /// Destructor
-MementoTableWorkspace::~MementoTableWorkspace() {}
+MementoTableWorkspace::~MementoTableWorkspace() = default;
 }
 }

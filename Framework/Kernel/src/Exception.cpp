@@ -51,8 +51,8 @@ NotImplementedError::NotImplementedError(const std::string &Desc)
     : std::logic_error(Desc) {}
 
 /// Copy constructor
-NotImplementedError::NotImplementedError(const NotImplementedError &A)
-    : std::logic_error(A) {}
+NotImplementedError::NotImplementedError(const NotImplementedError &A) =
+    default;
 
 /** Writes out the range and limits
         @returns a char array of foramtted error information
@@ -323,8 +323,8 @@ NullPointerException::NullPointerException(const std::string &place,
 /** Copy Constructor
  *  @param rhs :: The NullPointerException to copy
  */
-NullPointerException::NullPointerException(const NullPointerException &rhs)
-    : std::runtime_error(rhs), outMessage(rhs.outMessage) {}
+NullPointerException::NullPointerException(const NullPointerException &rhs) =
+    default;
 
 const char *NullPointerException::what() const throw() {
   return outMessage.c_str();
@@ -355,9 +355,7 @@ InternetError::InternetError(const std::string &message, const int &errorCode)
   Copy Constructor
   @param A :: IndexError to copy
 */
-InternetError::InternetError(const InternetError &A)
-    : std::runtime_error(A), outMessage(A.outMessage),
-      m_errorCode(A.m_errorCode) {}
+InternetError::InternetError(const InternetError &A) = default;
 
 /**
   Writes out the range and limits

@@ -11,7 +11,7 @@ namespace Mantid {
 namespace API {
 CatalogManagerImpl::CatalogManagerImpl() : m_activeCatalogs() {}
 
-CatalogManagerImpl::~CatalogManagerImpl() {}
+CatalogManagerImpl::~CatalogManagerImpl() = default;
 
 /**
  * Logs the user into the catalog if session details are valid.

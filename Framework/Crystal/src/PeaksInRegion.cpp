@@ -21,7 +21,7 @@ PeaksInRegion::PeaksInRegion() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeaksInRegion::~PeaksInRegion() {}
+PeaksInRegion::~PeaksInRegion() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

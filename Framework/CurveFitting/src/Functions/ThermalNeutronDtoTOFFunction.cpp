@@ -26,7 +26,7 @@ ThermalNeutronDtoTOFFunction::ThermalNeutronDtoTOFFunction() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ThermalNeutronDtoTOFFunction::~ThermalNeutronDtoTOFFunction() {}
+ThermalNeutronDtoTOFFunction::~ThermalNeutronDtoTOFFunction() = default;
 
 /**
 * Define the fittable parameters

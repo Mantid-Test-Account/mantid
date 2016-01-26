@@ -468,10 +468,10 @@ Rule &Rule::operator=(const Rule &)
 }
 
 Rule::~Rule()
-/**
-  Destructor
-*/
-{}
+    /**
+      Destructor
+    */
+    = default;
 
 void Rule::setParent(Rule *A)
 /**

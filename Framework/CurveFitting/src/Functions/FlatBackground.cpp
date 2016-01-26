@@ -21,7 +21,7 @@ FlatBackground::FlatBackground() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-FlatBackground::~FlatBackground() {}
+FlatBackground::~FlatBackground() = default;
 
 /// Name of the function
 std::string FlatBackground::name() const { return "FlatBackground"; }

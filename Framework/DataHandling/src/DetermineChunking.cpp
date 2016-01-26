@@ -62,7 +62,7 @@ DetermineChunking::DetermineChunking() {}
 
 //----------------------------------------------------------------------------------------------
 /// Destructor
-DetermineChunking::~DetermineChunking() {}
+DetermineChunking::~DetermineChunking() = default;
 
 //----------------------------------------------------------------------------------------------
 /// @copydoc Mantid::API::IAlgorithm::name()

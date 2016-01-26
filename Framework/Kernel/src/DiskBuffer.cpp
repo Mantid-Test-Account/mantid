@@ -32,7 +32,7 @@ DiskBuffer::DiskBuffer(uint64_t m_writeBufferSize)
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DiskBuffer::~DiskBuffer() {}
+DiskBuffer::~DiskBuffer() = default;
 
 //---------------------------------------------------------------------------------------------
 /** Call this method when an object is ready to be written

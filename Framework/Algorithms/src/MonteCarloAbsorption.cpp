@@ -52,7 +52,7 @@ MonteCarloAbsorption::MonteCarloAbsorption()
 /**
  * Destructor
  */
-MonteCarloAbsorption::~MonteCarloAbsorption() {}
+MonteCarloAbsorption::~MonteCarloAbsorption() = default;
 
 //------------------------------------------------------------------------------
 // Private methods

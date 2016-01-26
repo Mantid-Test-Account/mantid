@@ -73,7 +73,7 @@ void RectangularDetector::init() {
 
 /** Destructor
  */
-RectangularDetector::~RectangularDetector() {}
+RectangularDetector::~RectangularDetector() = default;
 
 /** Clone method
  *  Make a copy of the component assembly

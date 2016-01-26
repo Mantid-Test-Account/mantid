@@ -278,7 +278,7 @@ AnalysisDataServiceImpl::AnalysisDataServiceImpl()
 /**
  * Destructor
  */
-AnalysisDataServiceImpl::~AnalysisDataServiceImpl() {}
+AnalysisDataServiceImpl::~AnalysisDataServiceImpl() = default;
 
 // The following is commented using /// rather than /** to stop the compiler
 // complaining

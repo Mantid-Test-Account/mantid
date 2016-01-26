@@ -56,7 +56,7 @@ PoldiInstrumentAdapter::PoldiInstrumentAdapter(
   initializeFromInstrumentAndRun(mantidInstrument, runInformation);
 }
 
-PoldiInstrumentAdapter::~PoldiInstrumentAdapter() {}
+PoldiInstrumentAdapter::~PoldiInstrumentAdapter() = default;
 
 /** Returns the chopper stored in the adapter
   *

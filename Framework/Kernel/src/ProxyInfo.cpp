@@ -7,7 +7,7 @@ namespace Kernel {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ProxyInfo::~ProxyInfo() {}
+ProxyInfo::~ProxyInfo() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Constructor
@@ -68,11 +68,7 @@ bool ProxyInfo::emptyProxy() const { return m_isEmptyProxy; }
  * Copy constructor
  * @param other : to copy from
  */
-ProxyInfo::ProxyInfo(const ProxyInfo &other)
-    : m_host(other.m_host), m_port(other.m_port),
-      m_isHttpProxy(other.m_isHttpProxy), m_isEmptyProxy(other.m_isEmptyProxy) {
-
-}
+ProxyInfo::ProxyInfo(const ProxyInfo &other) = default;
 
 /**
  * Assignment operator

@@ -32,13 +32,7 @@ RotaryCounter::RotaryCounter(const int S, const int N)
     RC[i] = i;
 }
 
-RotaryCounter::RotaryCounter(const RotaryCounter &A)
-    : Rmax(A.Rmax), RC(A.RC)
-/**
-  Standard copy constructor
-  @param A :: Object to copy
-*/
-{}
+RotaryCounter::RotaryCounter(const RotaryCounter &A) = default;
 
 RotaryCounter &RotaryCounter::operator=(const RotaryCounter &A)
 /**
@@ -55,10 +49,10 @@ RotaryCounter &RotaryCounter::operator=(const RotaryCounter &A)
 }
 
 RotaryCounter::~RotaryCounter()
-/**
-  Standard Destructor
-*/
-{}
+    /**
+      Standard Destructor
+    */
+    = default;
 
 int RotaryCounter::operator==(const RotaryCounter &A) const
 /**

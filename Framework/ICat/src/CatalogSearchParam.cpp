@@ -10,7 +10,7 @@ CatalogSearchParam::CatalogSearchParam()
       m_myData(false) {}
 
 /// Destructor
-CatalogSearchParam::~CatalogSearchParam() {}
+CatalogSearchParam::~CatalogSearchParam() = default;
 
 /**
  * This method sets start date

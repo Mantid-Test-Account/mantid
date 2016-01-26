@@ -37,14 +37,13 @@ LogManager::LogManager() : m_manager(), m_singleValueCache() {}
 /**
  * Destructor
  */
-LogManager::~LogManager() {}
+LogManager::~LogManager() = default;
 
 /**
  * Copy constructor
  * @param copy :: The object to initialize the copy from
  */
-LogManager::LogManager(const LogManager &copy)
-    : m_manager(copy.m_manager), m_singleValueCache(copy.m_singleValueCache) {}
+LogManager::LogManager(const LogManager &copy) = default;
 
 //-----------------------------------------------------------------------------------------------
 /**

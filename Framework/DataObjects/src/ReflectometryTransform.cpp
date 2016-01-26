@@ -109,7 +109,7 @@ ReflectometryTransform::ReflectometryTransform(
 /**
  * Destructor
  */
-ReflectometryTransform::~ReflectometryTransform() {}
+ReflectometryTransform::~ReflectometryTransform() = default;
 
 /**
  * Creates an MD workspace

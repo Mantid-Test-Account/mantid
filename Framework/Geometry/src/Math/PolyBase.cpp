@@ -42,13 +42,7 @@ PolyBase::PolyBase(const int iD, const double E)
 */
 {}
 
-PolyBase::PolyBase(const PolyBase &A)
-    : iDegree(A.iDegree), afCoeff(A.afCoeff), Eaccuracy(A.Eaccuracy)
-/**
-  Copy Constructor
-  @param A :: PolyBase to copy
- */
-{}
+PolyBase::PolyBase(const PolyBase &A) = default;
 
 PolyBase &PolyBase::operator=(const PolyBase &A)
 /**
@@ -66,8 +60,8 @@ PolyBase &PolyBase::operator=(const PolyBase &A)
 }
 
 PolyBase::~PolyBase()
-/// Destructor
-{}
+    /// Destructor
+    = default;
 
 void PolyBase::setDegree(const int iD)
 /**

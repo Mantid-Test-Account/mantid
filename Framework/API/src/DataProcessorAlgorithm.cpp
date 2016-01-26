@@ -35,7 +35,7 @@ DataProcessorAlgorithm::DataProcessorAlgorithm()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DataProcessorAlgorithm::~DataProcessorAlgorithm() {}
+DataProcessorAlgorithm::~DataProcessorAlgorithm() = default;
 
 //---------------------------------------------------------------------------------------------
 /** Create a Child Algorithm.  A call to this method creates a child algorithm

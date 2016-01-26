@@ -77,7 +77,7 @@ void ReferenceFrame::init() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ReferenceFrame::~ReferenceFrame() {}
+ReferenceFrame::~ReferenceFrame() = default;
 
 /**
 Gets the pointing up direction

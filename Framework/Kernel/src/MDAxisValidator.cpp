@@ -21,7 +21,7 @@ MDAxisValidator::MDAxisValidator(const std::vector<int> &axes,
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-MDAxisValidator::~MDAxisValidator() {}
+MDAxisValidator::~MDAxisValidator() = default;
 
 /**
  * @brief Checks the MD axes given against the given number of dimensions of the

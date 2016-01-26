@@ -37,7 +37,7 @@ TimeAtSampleStrategyDirect::TimeAtSampleStrategyDirect(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-TimeAtSampleStrategyDirect::~TimeAtSampleStrategyDirect() {}
+TimeAtSampleStrategyDirect::~TimeAtSampleStrategyDirect() = default;
 
 /**
  * @brief Calculate corrections to get a Time at Sample for a DG instrument.

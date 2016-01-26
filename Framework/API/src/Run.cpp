@@ -49,7 +49,7 @@ Run::Run() : m_goniometer(), m_histoBins() {}
 /**
  * Destructor
  */
-Run::~Run() {}
+Run::~Run() = default;
 
 /**
  * Copy constructor

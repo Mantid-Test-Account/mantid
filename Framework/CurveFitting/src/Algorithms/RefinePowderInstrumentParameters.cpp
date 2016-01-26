@@ -55,7 +55,7 @@ RefinePowderInstrumentParameters::RefinePowderInstrumentParameters()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-RefinePowderInstrumentParameters::~RefinePowderInstrumentParameters() {}
+RefinePowderInstrumentParameters::~RefinePowderInstrumentParameters() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Parameter declaration

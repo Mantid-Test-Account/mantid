@@ -25,7 +25,7 @@ DetectorEfficiencyCorUser::DetectorEfficiencyCorUser()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DetectorEfficiencyCorUser::~DetectorEfficiencyCorUser() {}
+DetectorEfficiencyCorUser::~DetectorEfficiencyCorUser() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

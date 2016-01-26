@@ -6,6 +6,6 @@ namespace API {
 CatalogFactoryImpl::CatalogFactoryImpl()
     : Kernel::DynamicFactory<ICatalog>(), m_createdCatalogs() {}
 /// Destructor
-CatalogFactoryImpl::~CatalogFactoryImpl() {}
+CatalogFactoryImpl::~CatalogFactoryImpl() = default;
 }
 }

@@ -15,7 +15,7 @@ ScriptRepositoryFactoryImpl::ScriptRepositoryFactoryImpl()
   Mantid::Kernel::LibraryManager::Instance();
 }
 
-ScriptRepositoryFactoryImpl::~ScriptRepositoryFactoryImpl() {}
+ScriptRepositoryFactoryImpl::~ScriptRepositoryFactoryImpl() = default;
 
 } // namespace API
 } // namespace Mantid

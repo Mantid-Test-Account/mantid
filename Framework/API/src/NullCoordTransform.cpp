@@ -15,7 +15,7 @@ CoordTransform *NullCoordTransform::clone() const {
 }
 
 /// Destructor
-NullCoordTransform::~NullCoordTransform() {}
+NullCoordTransform::~NullCoordTransform() = default;
 
 /** Serialize to a string.
 @throw runtime_error if used.

@@ -72,13 +72,13 @@ SpecialWorkspace2D::SpecialWorkspace2D(API::MatrixWorkspace_const_sptr parent) {
   }
 }
 
-SpecialWorkspace2D::SpecialWorkspace2D(const SpecialWorkspace2D &other)
-    : Workspace2D(other), detID_to_WI(other.detID_to_WI) {}
+SpecialWorkspace2D::SpecialWorkspace2D(const SpecialWorkspace2D &other) =
+    default;
 
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-SpecialWorkspace2D::~SpecialWorkspace2D() {}
+SpecialWorkspace2D::~SpecialWorkspace2D() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Sets the size of the workspace and initializes arrays to zero

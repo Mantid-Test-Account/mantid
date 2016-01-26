@@ -37,7 +37,7 @@ DECLARE_FILELOADER_ALGORITHM(LoadCanSAS1D2)
 LoadCanSAS1D2::LoadCanSAS1D2() : LoadCanSAS1D() {}
 
 /// destructor
-LoadCanSAS1D2::~LoadCanSAS1D2() {}
+LoadCanSAS1D2::~LoadCanSAS1D2() = default;
 
 /// Overwrites Algorithm Init method.
 void LoadCanSAS1D2::init() {

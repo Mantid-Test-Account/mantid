@@ -75,6 +75,6 @@ void AffineMatrixParameterParser::setSuccessorParser(
       "Cannot set a successor parser on a AffineMatrixParameterParser");
 }
 
-AffineMatrixParameterParser::~AffineMatrixParameterParser() {}
+AffineMatrixParameterParser::~AffineMatrixParameterParser() = default;
 }
 }

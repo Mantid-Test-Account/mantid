@@ -14,12 +14,10 @@ Workspace::Workspace()
 /** Copy constructor
  * @param other :: workspace to copy
  */
-Workspace::Workspace(const Workspace &other)
-    : DataItem(other), m_title(other.m_title), m_comment(other.m_comment),
-      m_name(other.m_name), m_history(other.m_history) {}
+Workspace::Workspace(const Workspace &other) = default;
 
 /// Workspace destructor
-Workspace::~Workspace() {}
+Workspace::~Workspace() = default;
 
 /** Set the title of the workspace
  *

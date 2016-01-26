@@ -41,7 +41,7 @@ ObjComponent::ObjComponent(const std::string &name, Object_const_sptr shape,
       m_material(material) {}
 
 /// Destructor
-ObjComponent::~ObjComponent() {}
+ObjComponent::~ObjComponent() = default;
 
 /** Return the shape of the component
  */

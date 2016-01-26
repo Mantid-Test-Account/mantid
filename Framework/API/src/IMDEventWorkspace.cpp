@@ -15,9 +15,7 @@ IMDEventWorkspace::IMDEventWorkspace()
 
 //-----------------------------------------------------------------------------------------------
 /** Copy constructor */
-IMDEventWorkspace::IMDEventWorkspace(const IMDEventWorkspace &other)
-    : IMDWorkspace(other), MultipleExperimentInfos(other),
-      m_fileNeedsUpdating(other.m_fileNeedsUpdating) {}
+IMDEventWorkspace::IMDEventWorkspace(const IMDEventWorkspace &other) = default;
 
 //-----------------------------------------------------------------------------------------------
 /** @return the marker set to true when a file-backed workspace needs its

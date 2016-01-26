@@ -65,7 +65,7 @@ DECLARE_ALGORITHM(CalculateTransmission)
 CalculateTransmission::CalculateTransmission()
     : API::Algorithm(), m_done(0.0) {}
 
-CalculateTransmission::~CalculateTransmission() {}
+CalculateTransmission::~CalculateTransmission() = default;
 
 void CalculateTransmission::init() {
   auto wsValidator = boost::make_shared<CompositeValidator>();

@@ -24,7 +24,7 @@ SplittersWorkspace::SplittersWorkspace() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-SplittersWorkspace::~SplittersWorkspace() {}
+SplittersWorkspace::~SplittersWorkspace() = default;
 
 /*
  * Add a Splitter to

@@ -43,7 +43,7 @@ EstimateResolutionDiffraction::EstimateResolutionDiffraction()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-EstimateResolutionDiffraction::~EstimateResolutionDiffraction() {}
+EstimateResolutionDiffraction::~EstimateResolutionDiffraction() = default;
 
 const std::string EstimateResolutionDiffraction::name() const {
   return "EstimateResolutionDiffraction";

@@ -37,7 +37,7 @@ AnnularRingAbsorption::AnnularRingAbsorption() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-AnnularRingAbsorption::~AnnularRingAbsorption() {}
+AnnularRingAbsorption::~AnnularRingAbsorption() = default;
 
 //----------------------------------------------------------------------------------------------
 

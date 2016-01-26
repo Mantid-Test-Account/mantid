@@ -34,7 +34,7 @@ LoadSINQFocus::LoadSINQFocus()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-LoadSINQFocus::~LoadSINQFocus() {}
+LoadSINQFocus::~LoadSINQFocus() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

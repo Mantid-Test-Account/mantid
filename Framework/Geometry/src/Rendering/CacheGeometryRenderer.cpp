@@ -13,13 +13,13 @@ using Kernel::Quat;
  * Constructor
  * Generated the display list
  */
-CacheGeometryRenderer::CacheGeometryRenderer() {}
+CacheGeometryRenderer::CacheGeometryRenderer() = default;
 
 /**
  * Destructor
  * Deletes the display list
  */
-CacheGeometryRenderer::~CacheGeometryRenderer() {}
+CacheGeometryRenderer::~CacheGeometryRenderer() = default;
 
 /**
  * Render ObjComponent

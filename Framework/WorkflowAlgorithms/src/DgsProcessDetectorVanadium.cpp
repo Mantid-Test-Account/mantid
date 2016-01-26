@@ -24,7 +24,7 @@ DgsProcessDetectorVanadium::DgsProcessDetectorVanadium() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-DgsProcessDetectorVanadium::~DgsProcessDetectorVanadium() {}
+DgsProcessDetectorVanadium::~DgsProcessDetectorVanadium() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

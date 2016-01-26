@@ -56,7 +56,7 @@ MatrixWorkspaceMDIterator::MatrixWorkspaceMDIterator(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-MatrixWorkspaceMDIterator::~MatrixWorkspaceMDIterator() {}
+MatrixWorkspaceMDIterator::~MatrixWorkspaceMDIterator() = default;
 
 //----------------------------------------------------------------------------------------------
 /** @return the number of points to be iterated on */

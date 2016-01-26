@@ -12,7 +12,7 @@ PropertyManagerDataServiceImpl::PropertyManagerDataServiceImpl()
 /*
 * Destructor
 */
-PropertyManagerDataServiceImpl::~PropertyManagerDataServiceImpl() {}
+PropertyManagerDataServiceImpl::~PropertyManagerDataServiceImpl() = default;
 
 } // Namespace API
 } // Namespace Mantid

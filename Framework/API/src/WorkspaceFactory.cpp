@@ -31,7 +31,7 @@ WorkspaceFactoryImpl::WorkspaceFactoryImpl()
  *  Prevents client from calling 'delete' on the pointer handed
  *  out by Instance
  */
-WorkspaceFactoryImpl::~WorkspaceFactoryImpl() {}
+WorkspaceFactoryImpl::~WorkspaceFactoryImpl() = default;
 
 /** Create a new instance of the same type of workspace as that given as
  * argument.

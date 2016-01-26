@@ -61,7 +61,7 @@ Component::Component(const std::string &name, const V3D &position,
       m_pos(position), m_rot(rotation) {}
 
 /// Destructor
-Component::~Component() {}
+Component::~Component() = default;
 
 //------------------------------------------------------------------------------------------------
 /** Return true if the Component is, in fact, parametrized

@@ -31,7 +31,7 @@ ReflectometryWorkflowBase::ReflectometryWorkflowBase() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ReflectometryWorkflowBase::~ReflectometryWorkflowBase() {}
+ReflectometryWorkflowBase::~ReflectometryWorkflowBase() = default;
 
 /**
  * Init index properties.

@@ -44,7 +44,7 @@ TableWorkspace::TableWorkspace(const TableWorkspace &other)
 }
 
 /// Destructor
-TableWorkspace::~TableWorkspace() {}
+TableWorkspace::~TableWorkspace() = default;
 
 size_t TableWorkspace::getMemorySize() const {
   size_t data_size = 0;

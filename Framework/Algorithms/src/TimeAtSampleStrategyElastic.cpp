@@ -53,7 +53,7 @@ TimeAtSampleStrategyElastic::TimeAtSampleStrategyElastic(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-TimeAtSampleStrategyElastic::~TimeAtSampleStrategyElastic() {}
+TimeAtSampleStrategyElastic::~TimeAtSampleStrategyElastic() = default;
 
 /**
  * @brief Calculate correction

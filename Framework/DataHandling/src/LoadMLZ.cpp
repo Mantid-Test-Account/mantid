@@ -51,7 +51,7 @@ LoadMLZ::LoadMLZ() : API::IFileLoader<Kernel::NexusDescriptor>() {
 //---------------------------------------------------------------------------
 /** Destructor
  */
-LoadMLZ::~LoadMLZ() {}
+LoadMLZ::~LoadMLZ() = default;
 
 //---------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

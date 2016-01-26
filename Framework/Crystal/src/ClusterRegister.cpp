@@ -122,7 +122,7 @@ ClusterRegister::ClusterRegister() : m_Impl(new ImplClusterRegister) {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-ClusterRegister::~ClusterRegister() {}
+ClusterRegister::~ClusterRegister() = default;
 
 /**
  * Add/register a cluster.

@@ -19,9 +19,7 @@ ISpectrum::ISpectrum(const specid_t specNo)
 //----------------------------------------------------------------------------------------------
 /** Copy constructor
  */
-ISpectrum::ISpectrum(const ISpectrum &other)
-    : m_specNo(other.m_specNo), detectorIDs(other.detectorIDs),
-      refX(other.refX), refDx(other.refDx), m_hasDx(other.m_hasDx) {}
+ISpectrum::ISpectrum(const ISpectrum &other) = default;
 
 //----------------------------------------------------------------------------------------------
 /** Copy spectrum number and detector IDs, but not X vector, from another
@@ -37,7 +35,7 @@ void ISpectrum::copyInfoFrom(const ISpectrum &other) {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ISpectrum::~ISpectrum() {}
+ISpectrum::~ISpectrum() = default;
 /**
  * Return the min/max X values for this spectrum.
  * @returns A pair where the first is the minimum X value

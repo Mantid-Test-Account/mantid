@@ -8,7 +8,7 @@ namespace API {
 
 using namespace Kernel;
 
-ISplittersWorkspace::~ISplittersWorkspace() {}
+ISplittersWorkspace::~ISplittersWorkspace() = default;
 
 } // API namespace
 

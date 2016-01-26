@@ -41,7 +41,7 @@ RectangularDetectorPixel::RectangularDetectorPixel(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-RectangularDetectorPixel::~RectangularDetectorPixel() {}
+RectangularDetectorPixel::~RectangularDetectorPixel() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Get the position relative to the parent IComponent (absolute if no parent)

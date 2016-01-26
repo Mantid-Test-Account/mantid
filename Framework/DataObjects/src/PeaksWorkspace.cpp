@@ -520,7 +520,7 @@ API::ITableWorkspace_sptr PeaksWorkspace::createDetectorTable() const {
 
 //---------------------------------------------------------------------------------------------
 /** Destructor */
-PeaksWorkspace::~PeaksWorkspace() {}
+PeaksWorkspace::~PeaksWorkspace() = default;
 
 //---------------------------------------------------------------------------------------------
 /** Initialize all columns */

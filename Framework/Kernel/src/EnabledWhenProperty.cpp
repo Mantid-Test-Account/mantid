@@ -10,7 +10,7 @@ EnabledWhenProperty::EnabledWhenProperty(std::string otherPropName,
     : IPropertySettings(), m_otherPropName(otherPropName), m_when(when),
       m_value(value) {}
 
-EnabledWhenProperty::~EnabledWhenProperty() {}
+EnabledWhenProperty::~EnabledWhenProperty() = default;
 
 bool EnabledWhenProperty::fulfillsCriterion(
     const IPropertyManager *algo) const {

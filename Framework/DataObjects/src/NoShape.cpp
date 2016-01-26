@@ -13,7 +13,7 @@ NoShape::NoShape() {}
 /**
  * @brief Destructor
  */
-NoShape::~NoShape() {}
+NoShape::~NoShape() = default;
 
 /**
  * @brief Serialize to JSON object

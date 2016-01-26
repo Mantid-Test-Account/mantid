@@ -259,7 +259,7 @@ void Quat::operator()(const V3D &rX, const V3D &rY, const V3D &rZ) {
 }
 
 //! Destructor
-Quat::~Quat() {}
+Quat::~Quat() = default;
 
 /** Re-initialise a quaternion to identity.
  */

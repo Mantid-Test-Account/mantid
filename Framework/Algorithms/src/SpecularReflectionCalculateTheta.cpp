@@ -29,7 +29,7 @@ SpecularReflectionCalculateTheta::SpecularReflectionCalculateTheta() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-SpecularReflectionCalculateTheta::~SpecularReflectionCalculateTheta() {}
+SpecularReflectionCalculateTheta::~SpecularReflectionCalculateTheta() = default;
 
 //----------------------------------------------------------------------------------------------
 /// Algorithm's name for identification. @see Algorithm::name

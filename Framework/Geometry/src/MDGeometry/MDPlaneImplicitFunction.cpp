@@ -52,7 +52,7 @@ MDPlaneImplicitFunction::MDPlaneImplicitFunction(const size_t nd,
   this->addPlane(MDPlane(nd, normal, point));
 }
 
-MDPlaneImplicitFunction::~MDPlaneImplicitFunction() {}
+MDPlaneImplicitFunction::~MDPlaneImplicitFunction() = default;
 
 /**
  * This function overrides the inherited one in order to make sure that

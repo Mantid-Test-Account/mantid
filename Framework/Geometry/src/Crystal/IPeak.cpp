@@ -8,7 +8,7 @@ namespace Geometry {
 
 using namespace Kernel;
 
-IPeak::~IPeak() {}
+IPeak::~IPeak() = default;
 
 } // API namespace
 

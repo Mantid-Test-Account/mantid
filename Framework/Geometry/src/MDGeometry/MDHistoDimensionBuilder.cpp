@@ -12,7 +12,7 @@ MDHistoDimensionBuilder::MDHistoDimensionBuilder()
       m_nbins(0), m_minSet(false), m_maxSet(false), m_frameName("") {}
 
 /// Destructor
-MDHistoDimensionBuilder::~MDHistoDimensionBuilder() {}
+MDHistoDimensionBuilder::~MDHistoDimensionBuilder() = default;
 
 /*
 Copy constructor

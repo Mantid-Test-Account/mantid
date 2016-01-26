@@ -30,7 +30,7 @@ ReflectometryTransformKiKf::ReflectometryTransformKiKf(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ReflectometryTransformKiKf::~ReflectometryTransformKiKf() {}
+ReflectometryTransformKiKf::~ReflectometryTransformKiKf() = default;
 
 } // namespace Mantid
 } // namespace MDAlgorithms

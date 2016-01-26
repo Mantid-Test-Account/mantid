@@ -22,18 +22,10 @@ SpaceGroup::SpaceGroup(size_t itNumber, const std::string &hmSymbol,
     : Group(group), m_number(itNumber), m_hmSymbol(hmSymbol) {}
 
 /// Copy constructor
-SpaceGroup::SpaceGroup(const SpaceGroup &other)
-    : Group(other), m_number(other.m_number), m_hmSymbol(other.m_hmSymbol) {}
+SpaceGroup::SpaceGroup(const SpaceGroup &other) = default;
 
 /// Assignment operator, utilizes Group's assignment operator
-SpaceGroup &SpaceGroup::operator=(const SpaceGroup &other) {
-  Group::operator=(other);
-
-  m_number = other.m_number;
-  m_hmSymbol = other.m_hmSymbol;
-
-  return *this;
-}
+SpaceGroup &SpaceGroup::operator=(const SpaceGroup &other) = default;
 
 /// Returns the stored space group number
 size_t SpaceGroup::number() const { return m_number; }

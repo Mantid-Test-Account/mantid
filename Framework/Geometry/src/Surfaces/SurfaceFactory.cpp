@@ -64,7 +64,7 @@ SurfaceFactory::SurfaceFactory(const SurfaceFactory &A)
     SGrid.push_back(MapType::value_type(vc->first, vc->second->clone()));
 }
 
-SurfaceFactory::~SurfaceFactory() {}
+SurfaceFactory::~SurfaceFactory() = default;
 
 void SurfaceFactory::registerSurface()
 /**

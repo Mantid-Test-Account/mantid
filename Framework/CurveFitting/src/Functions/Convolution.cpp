@@ -37,7 +37,7 @@ Convolution::Convolution() {
 }
 
 /// Destructor
-Convolution::~Convolution() {}
+Convolution::~Convolution() = default;
 
 void Convolution::init() {}
 

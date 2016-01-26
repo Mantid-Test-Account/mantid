@@ -32,7 +32,7 @@ StatisticsOfPeaksWorkspace::StatisticsOfPeaksWorkspace() {
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-StatisticsOfPeaksWorkspace::~StatisticsOfPeaksWorkspace() {}
+StatisticsOfPeaksWorkspace::~StatisticsOfPeaksWorkspace() = default;
 
 //----------------------------------------------------------------------------------------------
 

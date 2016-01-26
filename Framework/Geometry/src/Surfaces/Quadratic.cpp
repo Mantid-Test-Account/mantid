@@ -38,13 +38,7 @@ Quadratic::Quadratic()
 */
 {}
 
-Quadratic::Quadratic(const Quadratic &A)
-    : Surface(A), BaseEqn(A.BaseEqn)
-/**
-  Copy constructor
-  @param A :: Quadratic to copy
-*/
-{}
+Quadratic::Quadratic(const Quadratic &A) = default;
 
 Quadratic &Quadratic::operator=(const Quadratic &A)
 /**

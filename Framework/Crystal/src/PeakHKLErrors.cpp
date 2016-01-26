@@ -36,7 +36,7 @@ PeakHKLErrors::PeakHKLErrors() : ParamFunction(), IFunction1D() {
   initMode = 0;
 }
 
-PeakHKLErrors::~PeakHKLErrors() {}
+PeakHKLErrors::~PeakHKLErrors() = default;
 
 void PeakHKLErrors::init() {
   declareParameter("SampleXOffset", 0.0, "Sample x offset");

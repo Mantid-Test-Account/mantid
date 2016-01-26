@@ -7,7 +7,7 @@ VisibleWhenProperty::VisibleWhenProperty(std::string otherPropName,
                                          std::string value)
     : EnabledWhenProperty(otherPropName, when, value) {}
 
-VisibleWhenProperty::~VisibleWhenProperty() {}
+VisibleWhenProperty::~VisibleWhenProperty() = default;
 
 bool VisibleWhenProperty::isEnabled(const IPropertyManager *) const {
   return true;

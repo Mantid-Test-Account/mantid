@@ -18,13 +18,12 @@ IMDHistoWorkspace::IMDHistoWorkspace()
 //----------------------------------------------------------------------------------------------
 /** Copy Constructor
  */
-IMDHistoWorkspace::IMDHistoWorkspace(const IMDHistoWorkspace &other)
-    : IMDWorkspace(other), MultipleExperimentInfos(other) {}
+IMDHistoWorkspace::IMDHistoWorkspace(const IMDHistoWorkspace &other) = default;
 
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-IMDHistoWorkspace::~IMDHistoWorkspace() {}
+IMDHistoWorkspace::~IMDHistoWorkspace() = default;
 
 const std::string IMDHistoWorkspace::toString() const {
   std::ostringstream os;

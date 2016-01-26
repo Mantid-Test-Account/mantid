@@ -35,7 +35,7 @@ LoadPDFgetNFile::LoadPDFgetNFile() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-LoadPDFgetNFile::~LoadPDFgetNFile() {}
+LoadPDFgetNFile::~LoadPDFgetNFile() = default;
 
 //----------------------------------------------------------------------------------------------
 /**

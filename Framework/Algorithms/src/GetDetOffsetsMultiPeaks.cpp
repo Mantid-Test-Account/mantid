@@ -133,7 +133,7 @@ GetDetOffsetsMultiPeaks::GetDetOffsetsMultiPeaks()
 //----------------------------------------------------------------------------------------------
 /** Destructor
   */
-GetDetOffsetsMultiPeaks::~GetDetOffsetsMultiPeaks() {}
+GetDetOffsetsMultiPeaks::~GetDetOffsetsMultiPeaks() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Initialisation method. Declares properties to be used in algorithm.

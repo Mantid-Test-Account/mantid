@@ -14,7 +14,7 @@ NearestNeighboursFactory::NearestNeighboursFactory() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-NearestNeighboursFactory::~NearestNeighboursFactory() {}
+NearestNeighboursFactory::~NearestNeighboursFactory() = default;
 
 /*
 Factory Method

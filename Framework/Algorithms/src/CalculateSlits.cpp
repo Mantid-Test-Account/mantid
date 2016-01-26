@@ -21,7 +21,7 @@ CalculateSlits::CalculateSlits() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
 */
-CalculateSlits::~CalculateSlits() {}
+CalculateSlits::~CalculateSlits() = default;
 
 //----------------------------------------------------------------------------------------------
 

@@ -34,7 +34,7 @@ TimeAtSampleStrategyIndirect::TimeAtSampleStrategyIndirect(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-TimeAtSampleStrategyIndirect::~TimeAtSampleStrategyIndirect() {}
+TimeAtSampleStrategyIndirect::~TimeAtSampleStrategyIndirect() = default;
 
 Correction
 TimeAtSampleStrategyIndirect::calculate(const size_t &workspace_index) const {

@@ -29,9 +29,7 @@ Track::Track(const V3D &startPt, const V3D &unitVector)
  * Copy Constructor
  * @param other :: Track to initialise this copy with.
  */
-Track::Track(const Track &other)
-    : m_startPoint(other.m_startPoint), m_unitVector(other.m_unitVector),
-      m_links(other.m_links), m_surfPoints(other.m_surfPoints) {}
+Track::Track(const Track &other) = default;
 
 /**
 * Assignment operator
@@ -51,7 +49,7 @@ Track &Track::operator=(const Track &other) {
 /**
  * Destructor
  */
-Track::~Track() {}
+Track::~Track() = default;
 
 /**
  * Resets the track starting point and direction.

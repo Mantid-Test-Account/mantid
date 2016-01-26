@@ -28,7 +28,7 @@ BitmapGeometryHandler::BitmapGeometryHandler()
     : GeometryHandler((Object *)NULL), m_rectDet(NULL) {}
 
 /// Destructor
-BitmapGeometryHandler::~BitmapGeometryHandler() {}
+BitmapGeometryHandler::~BitmapGeometryHandler() = default;
 
 ///< Create an instance of concrete geometry handler for ObjComponent
 BitmapGeometryHandler *

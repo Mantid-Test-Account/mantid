@@ -26,7 +26,7 @@ ApplyDetailedBalance::ApplyDetailedBalance() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-ApplyDetailedBalance::~ApplyDetailedBalance() {}
+ApplyDetailedBalance::~ApplyDetailedBalance() = default;
 
 //----------------------------------------------------------------------------------------------
 

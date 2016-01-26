@@ -65,7 +65,7 @@ MultipleFileProperty::MultipleFileProperty(const std::string &name,
 /**
  * Destructor
  */
-MultipleFileProperty::~MultipleFileProperty() {}
+MultipleFileProperty::~MultipleFileProperty() = default;
 
 /**
  * Convert the given propValue into a comma and plus separated list of full

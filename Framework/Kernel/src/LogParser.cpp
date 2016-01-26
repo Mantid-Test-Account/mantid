@@ -121,7 +121,7 @@ Kernel::Property *LogParser::createLogProperty(const std::string &logFName,
 /**
  * Destructor
  */
-LogParser::~LogParser() {}
+LogParser::~LogParser() = default;
 
 /**
 Common creational method for generating a command map.

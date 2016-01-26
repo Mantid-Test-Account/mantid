@@ -72,7 +72,7 @@ LeBailFit::LeBailFit()
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-LeBailFit::~LeBailFit() {}
+LeBailFit::~LeBailFit() = default;
 
 //----------------------------------------------------------------------------------------------
 /** Declare the input properties for this algorithm

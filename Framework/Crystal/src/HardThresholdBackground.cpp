@@ -15,7 +15,7 @@ HardThresholdBackground::HardThresholdBackground(
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-HardThresholdBackground::~HardThresholdBackground() {}
+HardThresholdBackground::~HardThresholdBackground() = default;
 
 HardThresholdBackground::HardThresholdBackground(
     const HardThresholdBackground &other)

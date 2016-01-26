@@ -52,14 +52,7 @@ Cylinder::Cylinder()
   Cylinder::setBaseEqn();
 }
 
-Cylinder::Cylinder(const Cylinder &A)
-    : Quadratic(A), Centre(A.Centre), Normal(A.Normal), Nvec(A.Nvec),
-      Radius(A.Radius)
-/**
- Standard Copy Constructor
- @param A :: Cyclinder to copy
- */
-{}
+Cylinder::Cylinder(const Cylinder &A) = default;
 
 Cylinder *Cylinder::doClone() const
 /**

@@ -18,7 +18,7 @@ PeakShapeEllipsoidFactory::PeakShapeEllipsoidFactory() {}
 //----------------------------------------------------------------------------------------------
 /** Destructor
  */
-PeakShapeEllipsoidFactory::~PeakShapeEllipsoidFactory() {}
+PeakShapeEllipsoidFactory::~PeakShapeEllipsoidFactory() = default;
 
 /**
  * @brief Create the PeakShape

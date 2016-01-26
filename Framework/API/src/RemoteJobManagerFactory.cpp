@@ -19,7 +19,7 @@ RemoteJobManagerFactoryImpl::RemoteJobManagerFactoryImpl()
 /**
  * Private destructor, prevent client code from using this.
  */
-RemoteJobManagerFactoryImpl::~RemoteJobManagerFactoryImpl() {}
+RemoteJobManagerFactoryImpl::~RemoteJobManagerFactoryImpl() = default;
 
 /**
  * Create a remote algorithm with the underlying mechanism that suits

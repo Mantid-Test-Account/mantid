@@ -7,9 +7,9 @@
 namespace Mantid {
 namespace Kernel {
 /// constructor
-UserStringParser::UserStringParser() {}
+UserStringParser::UserStringParser() = default;
 /// Destructor
-UserStringParser::~UserStringParser() {}
+UserStringParser::~UserStringParser() = default;
 
 /**This method parses a given string of numbers and returns a vector of vector
   *of numbers.

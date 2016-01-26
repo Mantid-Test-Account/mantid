@@ -25,7 +25,7 @@ namespace Crystal {
 DECLARE_ALGORITHM(ShowPeakHKLOffsets)
 
 ShowPeakHKLOffsets::ShowPeakHKLOffsets() : Algorithm() {}
-ShowPeakHKLOffsets::~ShowPeakHKLOffsets() {}
+ShowPeakHKLOffsets::~ShowPeakHKLOffsets() = default;
 
 void ShowPeakHKLOffsets::init() {
   declareProperty(new WorkspaceProperty<PeaksWorkspace>("PeaksWorkspace", "",
