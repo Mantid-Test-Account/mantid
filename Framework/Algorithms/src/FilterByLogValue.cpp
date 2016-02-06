@@ -205,9 +205,8 @@ void FilterByLogValue::exec() {
 
     // To split/filter the runs, first you make a vector with just the one
     // output run
-    std::vector<LogManager *> output_runs;
-    LogManager *output_run = new Run(inputWS->mutableRun());
-    output_runs.push_back(output_run);
+
+    std::vector<LogManager *> output_runs{new Run(inputWS->mutableRun())};
     inputWS->run().splitByTime(splitter, output_runs);
     // Set the output back in the input
     inputWS->mutableRun() = *(dynamic_cast<Run *>(output_runs[0]));

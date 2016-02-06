@@ -213,8 +213,10 @@ void ReadGroupsFromFile::readXMLGroupingFile(const std::string &filename) {
     // Get the "detids" element from the grouping file
     Poco::XML::Element *elem =
         dynamic_cast<Poco::XML::Element *>(groups->item(i));
-    Poco::XML::Element *group = elem->getChildElement("detids");
-
+    Poco::XML::Element *group = nullptr;
+    if (elem) {
+      group = elem->getChildElement("detids");
+    }
     if (!group) {
       throw Mantid::Kernel::Exception::FileError(
           "XML Group File, group contains no <detids> element:", filename);
